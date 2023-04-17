@@ -1,0 +1,24 @@
+/* it should always be at the bottom om the page */
+
+.container {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+
+  background-color: #5a5c8a;
+  padding: 1rem 0;
+}
+
+.container ul {
+  width: 100%;
+  padding: 1rem 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+.container li {
+  display: inline-block;
+  text-align: center;
+  list-style: none;
+  color: #ffff;
+}

@@ -16,7 +16,9 @@ export default function SupabaseProvider({
   children: React.ReactNode;
 }) {
   const [supabase] = useState(() => createClient());
-
+  supabase.auth
+    .getSession()
+    .then((session) => console.log("browser session", session));
   return (
     <Context.Provider value={{ supabase }}>
       <>{children}</>
@@ -32,5 +34,3 @@ export const useSupabase = () => {
     return context;
   }
 };
-
-console.trace();

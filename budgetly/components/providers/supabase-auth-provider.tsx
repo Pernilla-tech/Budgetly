@@ -14,7 +14,6 @@ interface ContextI {
   mutate: any;
   signOut: () => Promise<void>;
   signInWithGoogle: () => Promise<void>;
-  signInWithEmail: (email: string, password: string) => Promise<string | null>;
 }
 
 const Context = createContext<ContextI>({
@@ -24,7 +23,6 @@ const Context = createContext<ContextI>({
   mutate: null,
   signOut: async () => {},
   signInWithGoogle: async () => {},
-  signInWithEmail: async (email: string, password: string) => null,
 });
 
 export default function SupabaseAuthProvider({
@@ -39,18 +37,31 @@ export default function SupabaseAuthProvider({
   console.log("hello");
   const router = useRouter();
 
+  console.log("router provider", router);
+
   // Get USER
   const getUser = async () => {
-    return null;
+    const { data: user, error } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", serverSession?.user?.id)
+      .single();
+    if (error) {
+      console.log(error);
+      return null;
+    } else {
+      return user;
+    }
   };
 
-  //en hook som cachar datan så man inte behöver
   const {
     data: user,
     error,
     isLoading,
     mutate,
   } = useSWR(serverSession ? "profile-context" : null, getUser);
+
+  console.log("serverSession", serverSession);
 
   // Sign Out
   const signOut = async () => {
@@ -59,29 +70,20 @@ export default function SupabaseAuthProvider({
   };
 
   // Sign-In with Google
-  const signInWithGoogle = async () => {
-    await supabase.auth.signInWithOAuth({ provider: "google" });
-  };
-
-  // Sign-In with Email
-  const signInWithEmail = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
+  async function signInWithGoogle() {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
     });
-
     if (error) {
-      return error.message;
+      console.error(error);
     }
-
-    return null;
-  };
+  }
 
   // Refresh the Page to Sync Server and Client
   useEffect(() => {
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    } = supabase.auth.onAuthStateChange((event, session) => {
       if (session?.access_token !== serverSession?.access_token) {
         router.refresh();
       }
@@ -99,11 +101,12 @@ export default function SupabaseAuthProvider({
     mutate,
     signOut,
     signInWithGoogle,
-    signInWithEmail,
   };
 
   return <Context.Provider value={exposed}>{children}</Context.Provider>;
 }
+
+console.log("context", Context);
 
 export const useAuth = () => {
   let context = useContext(Context);

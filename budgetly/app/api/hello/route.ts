@@ -1,5 +1,6 @@
-// import { createClient } from "@/components/utils/supabase-server";
 // import { NextResponse } from "next/server";
+
+// import { createClient } from "@/components/utils/supabase-server";
 
 // export async function GET(request: Request) {
 //   const supabase = createClient();
@@ -13,16 +14,17 @@
 //   if (!session) {
 //     return new Response("Unauthorized", { status: 401 });
 //   }
+// }
 
-//   // Fetch expenses for the current user
-//   const { data: posts, error } = await supabase
-//     .from("expenses")
-//     .select("*")
-//     .eq("id", session?.user.id);
+//   //   // Fetch Posts for the current user
+//   //   // const { data: posts, error } = await supabase
+//   //   //   .from("posts")
+//   //   //   .select("*")
+//   //   //   .eq("author", session?.user.id);
 
-//   if (error) {
-//     return new Response(error.message, { status: 500 });
-//   }
+//   //   // if (error) {
+//   //   //   return new Response(error.message, { status: 500 });
+//   //   // }
 
-//   return NextResponse.json(posts);
+//   //   // return NextResponse.json(posts);
 // }

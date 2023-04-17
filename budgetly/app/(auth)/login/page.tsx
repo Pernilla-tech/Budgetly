@@ -9,9 +9,10 @@ export const metadata: Metadata = {
 
 const LoginPage = () => {
   return (
-    <div className="grid w-full h-screen grid-cols-2">
+    <div>
       <LoginForm />
-      <div className="border-l-2 bg-gradient-to-r from-emerald-300 to-emerald-700 border-emerald-500" />
+
+      <div />
     </div>
   );
 };
