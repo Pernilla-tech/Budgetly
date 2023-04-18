@@ -6,7 +6,6 @@ import { Expense } from "@/components/types/collection";
 import { useRouter } from "next/navigation";
 
 import { FormEventHandler, useEffect, useState } from "react";
-import Edit from "./edit/page";
 
 //page where you can add food items to the database
 const AddProducts = () => {
@@ -16,15 +15,9 @@ const AddProducts = () => {
   const [quantity, setQuantity] = useState(1);
   const [items, setItems] = useState<Expense[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [edit, setEdit] = useState(false);
 
   const { user } = useAuth();
   const route = useRouter();
-
-  const handleEdit = () => {
-    setEdit(true);
-    route.push("/shopping/products/addproducts/edit");
-  };
 
   useEffect(() => {
     if (user) {
@@ -136,7 +129,13 @@ const AddProducts = () => {
             <p>{item.category}</p>
             <p>{item.quantity}</p>
 
-            <button onClick={handleEdit}>Edit</button>
+            <button
+              onClick={() =>
+                route.push(`/shopping/products/addproducts/${item.id}`)
+              }
+            >
+              Edit {item.item}
+            </button>
           </div>
         ))}
       </div>
