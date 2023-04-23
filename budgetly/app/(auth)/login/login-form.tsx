@@ -1,9 +1,10 @@
 "use client";
 
 import { useAuth } from "@/components/components/providers/supabase-auth-provider";
-
+import styles from "./page.module.css";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import MuiButton from "@/components/components/ui/muibutton";
 
 const LoginForm = () => {
   const { signInWithGoogle, user } = useAuth();
@@ -23,20 +24,21 @@ const LoginForm = () => {
   console.log({ user });
 
   return (
-    <div>
-      <div>
-        <div>
-          <h1>Login</h1>
-          <br />
-          <p>
-            Welcome to <span>Budgetly</span>
-          </p>
+    <main className={styles.main}>
+      <div className={styles.wrapper}>
+        <p className={styles.description}>
+          Welcome to <span>Budgetly</span>
+        </p>
+        <div className={styles.loginbutton}>
+          <MuiButton
+            text="Login with Google"
+            onClick={() => signInWithGoogle()}
+            variant="contained"
+            size="large"
+          />
         </div>
-        <br />
-
-        <button onClick={signInWithGoogle}>Login with Google</button>
       </div>
-    </div>
+    </main>
   );
 };
 

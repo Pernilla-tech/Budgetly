@@ -1,4 +1,5 @@
 import LoginForm from "./login-form";
+import styles from "./page.module.css";
 
 import { Metadata } from "next";
 
@@ -11,8 +12,6 @@ const LoginPage = () => {
   return (
     <div>
       <LoginForm />
-
-      <div />
     </div>
   );
 };
