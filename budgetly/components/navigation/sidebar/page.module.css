@@ -1,0 +1,15 @@
+.menuicon {
+  color: #ffff;
+  display: flex;
+  align-self: self-start;
+}
+
+.sidebar {
+  background: #4a4d78;
+  height: 100%;
+  color: #ffff;
+}
+
+.iconbutton {
+  color: #ffff;
+}
