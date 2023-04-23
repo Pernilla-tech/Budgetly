@@ -17,13 +17,13 @@ import { useRouter } from "next/navigation";
 
 ChartJS.register(ArcElement, Tooltip, Legend); // register the chart.js plugins
 
-type Data = {
-  color: string;
-  value: number | string;
-  key?: string | number;
-  title?: string | number;
-  [key: string]: any;
-}[];
+// type Data = {
+//   color: string;
+//   value: number | string;
+//   key?: string | number;
+//   title?: string | number;
+//   [key: string]: any;
+// }[];
 
 type Params = {
   params: {

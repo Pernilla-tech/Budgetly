@@ -3,7 +3,7 @@
 import { useAuth } from "@/components/components/providers/supabase-auth-provider";
 import supabase from "@/components/lib/supabase-client";
 import React, { FormEventHandler, useState } from "react";
-import MuiButton from "../../components/ui/muibutton";
+import MuiButton from "../../../../components/ui/muibutton";
 import { useRouter } from "next/navigation";
 
 const AddBudget = () => {
