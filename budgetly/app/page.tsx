@@ -13,7 +13,7 @@ import supabase from "../lib/supabase-client";
 import MuiButton from "../components/ui/muibutton";
 import NextLink from "next/link";
 import { useRouter } from "next/navigation";
-import { GroupExpense } from "../types/collection";
+import { Budgets, GroupExpense } from "../types/collection";
 
 export const metadata: Metadata = {
   title: "Budgetly",
@@ -21,16 +21,11 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  const [month, setMonth] = useState(
-    new Date().toLocaleString("default", { month: "long" })
-  );
-  const [year, setYear] = useState(new Date().getFullYear());
-  const [budget, setBudget] = useState(0);
-  const [budgetSpent, setBudgetSpent] = useState(0);
-  const [budgetLeft, setBudgetLeft] = useState(0);
-  const [totalExpenses, setTotalExpenses] = useState<{
-    [x: string]: any;
-  }>([]); //är en arrray av objekt o varje objekt kan ha vilken egenskap som helst som key
+  const [month] = useState(new Date().getMonth() + 1);
+  const [year] = useState(new Date().getFullYear());
+  const [budget, setBudget] = useState<Budgets | null>(null);
+
+  const [totalExpenses, setTotalExpenses] = useState<GroupExpense[]>([]);
 
   const { user } = useAuth();
   const router = useRouter();
@@ -45,7 +40,7 @@ export default function Home() {
       .single();
     if (error) throw error;
     if (data != null) {
-      setBudget(data.budget);
+      setBudget(data);
     }
   }, [month, user?.id, year]);
 
@@ -58,7 +53,7 @@ export default function Home() {
         .order("sum_price", { ascending: false });
       if (error) throw error;
       if (data != null) {
-        setTotalExpenses(data);
+        setTotalExpenses(data as GroupExpense[]);
         console.log({ data });
       }
     } catch (error: any) {
@@ -74,11 +69,11 @@ export default function Home() {
   }, [getBudget, getExpenses, user?.id]);
 
   const sum = totalExpenses.reduce(
-    (total: number, expense: GroupExpense) => total + expense.sum_price,
+    (total: number, expense: GroupExpense) => total + (expense.sum_price ?? 0),
     0
   );
 
-  const left = budget - sum;
+  const left = (budget?.budget ?? 0) - sum;
 
   return (
     <main className={styles.main}>
@@ -87,13 +82,17 @@ export default function Home() {
       <div>Overview</div>
 
       <div style={{ background: "pink" }}>
-        <p>budget: {budget}</p>
+        <p>budget: {budget?.budget}</p>
       </div>
 
       <div>
         <div
           style={{ background: "#2B2C4B" }}
-          onClick={() => router.push("/expenses")}
+          onClick={() =>
+            router.push(
+              `/expenses/${budget?.year ?? year}/${budget?.month ?? month}`
+            )
+          }
           role="button"
           className="button"
         >

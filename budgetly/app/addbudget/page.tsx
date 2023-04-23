@@ -4,18 +4,17 @@ import { useAuth } from "@/components/components/providers/supabase-auth-provide
 import supabase from "@/components/lib/supabase-client";
 import React, { FormEventHandler, useState } from "react";
 import MuiButton from "../../components/ui/muibutton";
+import { useRouter } from "next/navigation";
 
 const AddBudget = () => {
-  const [month, setMonth] = useState(
-    new Date().toLocaleString("default", { month: "long" })
-  );
-  const [year, setYear] = useState(new Date().getFullYear());
+  const [month, setMonth] = useState(new Date().getMonth() + 1);
 
-  console.log("month", month);
+  const [year, setYear] = useState(new Date().getFullYear());
 
   const [budget, setBudget] = useState(0);
 
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
+  const route = useRouter();
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -36,9 +35,7 @@ const AddBudget = () => {
       alert(error.message);
     }
 
-    setBudget(0);
-    setMonth("");
-    setYear(0);
+    route.push(`/expenses/${year}/${month}`);
   };
 
   return (
@@ -54,21 +51,20 @@ const AddBudget = () => {
           />
           <select
             value={month}
-            onChange={(e) => setMonth(e.target.value)}
-            // defaultValue={month}
+            onChange={(e) => setMonth(Number(e.target.value))}
           >
-            <option value="januari">Januari</option>
-            <option value="februari">Februari </option>
-            <option value="mars">Mars</option>
-            <option value="april">April</option>
-            <option value="maj">Maj</option>
-            <option value="juni">Juni</option>
-            <option value="juli">Juli</option>
-            <option value="augusti">augusti</option>
-            <option value="september">September</option>
-            <option value="oktober">Oktober</option>
-            <option value="november">November</option>
-            <option value="december">December</option>
+            <option value="1">Januari</option>
+            <option value="2">Februari </option>
+            <option value="3">Mars</option>
+            <option value="4">April</option>
+            <option value="5">Maj</option>
+            <option value="6">Juni</option>
+            <option value="7">Juli</option>
+            <option value="8">augusti</option>
+            <option value="9">September</option>
+            <option value="10">Oktober</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
           </select>
           <select
             value={year}
@@ -86,7 +82,6 @@ const AddBudget = () => {
           </select>
           <MuiButton
             type="submit"
-            href="/"
             text="Add"
             variant="contained"
             size="medium"

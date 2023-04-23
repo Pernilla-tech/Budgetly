@@ -14,6 +14,8 @@ const AddProducts = () => {
   const [category, setCategory] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [items, setItems] = useState<Expense[]>([]);
+  const [month, setMonth] = useState(new Date().getMonth() + 1);
+  const [year, setYear] = useState(new Date().getFullYear());
   const [isLoading, setIsLoading] = useState(true);
 
   const { user } = useAuth();
@@ -54,6 +56,8 @@ const AddProducts = () => {
         .from("expenses")
         .insert({
           item: item,
+          month: month,
+          year: year,
           price: price as unknown as number,
           category: category,
           quantity: quantity,
@@ -79,6 +83,28 @@ const AddProducts = () => {
   return (
     <>
       <form onSubmit={onSubmit}>
+        <select
+          value={month}
+          onChange={(e) => setMonth(Number(e.target.value))}
+        >
+          <option value="1">Januari</option>
+          <option value="2">Februari </option>
+          <option value="3">Mars</option>
+          <option value="4">April</option>
+          <option value="5">Maj</option>
+          <option value="6">Juni</option>
+          <option value="7">Juli</option>
+          <option value="8">augusti</option>
+          <option value="9">September</option>
+          <option value="10">Oktober</option>
+          <option value="11">November</option>
+          <option value="12">December</option>
+        </select>
+        <select value={year} onChange={(e) => setYear(Number(e.target.value))}>
+          <option value="2023">2023</option>
+          <option value="2022">2022</option>
+          <option value="2021">2021</option>
+        </select>
         Add Products
         <button type="button" onClick={() => setQuantity(quantity - 1)}>
           -

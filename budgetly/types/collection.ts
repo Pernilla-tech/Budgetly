@@ -1,11 +1,10 @@
-import { Database } from "../lib/database.types";
+import { Database } from "./supabase";
 
 export type Profile = Database["public"]["Tables"]["profiles"]["Row"];
 export type Expense = Database["public"]["Tables"]["expenses"]["Row"];
+export type Budgets = Database["public"]["Tables"]["budgets"]["Row"];
 
-//groupexpense is a view
-export type GroupExpense = {
-  group_category: string;
-  sum_quantity: number;
-  sum_price: number;
-};
+export type GroupExpense =
+  Database["public"]["Views"]["grouped_expenses_view"]["Row"];
+export type GroupExpenseFood =
+  Database["public"]["Views"]["grouped_food_expenses_view"]["Row"];

@@ -27,6 +27,8 @@ type SidebarProps = {
 };
 
 const Sidebar: React.FC<SidebarProps> = ({ anchor }) => {
+  const month = new Date().getMonth() + 1;
+  const year = new Date().getFullYear();
   const [state, setState] = React.useState({
     [anchor]: false,
   });
@@ -69,7 +71,7 @@ const Sidebar: React.FC<SidebarProps> = ({ anchor }) => {
                 ) : (
                   <IconButton
                     className={styles.iconbutton}
-                    onClick={() => router.push("/expenses")}
+                    onClick={() => router.push(`/expenses/${year}/${month}`)}
                   >
                     <CategoryIcon />
                   </IconButton>

@@ -13,6 +13,7 @@ import supabase from "@/components/lib/supabase-client";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import { GroupExpense } from "@/components/types/collection";
+import { useRouter } from "next/navigation";
 
 ChartJS.register(ArcElement, Tooltip, Legend); // register the chart.js plugins
 
@@ -24,14 +25,19 @@ type Data = {
   [key: string]: any;
 }[];
 
-const Expenses = () => {
+type Params = {
+  params: {
+    month: string;
+    year: string;
+  };
+};
+
+const Expenses = ({ params: { month, year } }: Params) => {
   const [category, setCategory] = useState("");
   const [item, setItem] = useState("");
   const [price, setPrice] = useState(0);
-  const [color, setColor] = useState("");
-  const [groupedExpenses, setGroupedExpenses] = useState<{
-    [x: string]: any;
-  }>([]); //är en arrray av objekt o varje objekt kan ha vilken egenskap som helst som key
+
+  const [groupedExpenses, setGroupedExpenses] = useState<GroupExpense[]>([]);
   const [budget, setBudget] = useState(0);
 
   const { user } = useAuth();
@@ -41,27 +47,29 @@ const Expenses = () => {
       const { data, error } = await supabase
         .from("grouped_expenses_view")
         .select("*")
-        .eq("profile_id", user?.id) // TODO hämta från user (auth?)
+        .eq("profile_id", user?.id)
+        .eq("month", month)
+        .eq("year", year)
         .order("sum_price", { ascending: false });
       if (error) throw error;
       if (data != null) {
-        setGroupedExpenses(data);
+        setGroupedExpenses(data as GroupExpense[]);
         console.log(data);
       }
     } catch (error: any) {
       alert(error.message);
     }
-  }, [user?.id, setGroupedExpenses]);
+  }, [user?.id, setGroupedExpenses, year, month]);
 
-  const data: Data = groupedExpenses.map((expense: GroupExpense) => {
-    // mappar över categoryTotalsArray och returnerar ett objekt med nycklarna title, value och color
-    // [{title: "Food", value: 100, color: "#1e262f"}, {title: "Food", value: 100, color: "#1e262f"}]
-    return {
-      title: expense.group_category,
-      value: expense.sum_price,
-      color: color, // här kan vi lägga till en random color generator
-    };
-  });
+  // const data = groupedExpenses.map((expense: GroupExpense) => {
+  //   // mappar över categoryTotalsArray och returnerar ett objekt med nycklarna title, value och color
+  //   // [{title: "Food", value: 100, color: "#1e262f"}, {title: "Food", value: 100, color: "#1e262f"}]
+  //   return {
+  //     title: expense.group_category,
+  //     value: expense.sum_price,
+  //     color: color, // här kan vi lägga till en random color generator
+  //   };
+  // });
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -71,6 +79,8 @@ const Expenses = () => {
         .from("expenses")
         .insert({
           category,
+          month: parseInt(month, 10),
+          year: parseInt(year, 10),
           item,
           price,
           quantity: 1,
@@ -78,11 +88,8 @@ const Expenses = () => {
         })
         .single();
 
-      if (data !== null) {
-        getExpenses();
-      }
-
       if (error) throw error;
+      getExpenses();
     } catch (error: any) {
       alert(error.message);
     }
@@ -91,27 +98,30 @@ const Expenses = () => {
     setPrice(0);
   };
 
-  const getBudget = async () => {
+  const getBudget = useCallback(async () => {
     const { data, error } = await supabase
       .from("budgets")
       .select("*")
       .eq("profile_id", user?.id ?? "")
-
+      .eq("year", year)
+      .eq("month", month)
       .single();
     if (error) throw error;
     if (data != null) {
       setBudget(data.budget);
     }
-  };
+  }, [user?.id, setBudget, month, year]);
 
   useEffect(() => {
-    getExpenses();
-    getBudget();
-  }, [getBudget, getExpenses]);
+    if (user?.id != null && month != null && year != null) {
+      getExpenses();
+      getBudget();
+    }
+  }, [getBudget, getExpenses, user?.id, month, year]);
 
   const totalExpenses = groupedExpenses.reduce(
     (total: number, expense: GroupExpense) => {
-      return total + expense.sum_price;
+      return total + (expense.sum_price ?? 0);
     },
     0
   );
@@ -153,11 +163,29 @@ const Expenses = () => {
     ],
   };
 
+  const route = useRouter();
   console.log({ datas: expenseData });
 
   return (
     <main className={styles.main}>
       <div className={styles.description}>Expenses</div>
+      <select
+        value={`${year}/${month}`}
+        onChange={(evt) => route.replace(`expenses/${evt.target.value}`)}
+      >
+        <option value="2023/1">Januari 2023</option>
+        <option value="2023/2">Februari 2023</option>
+        <option value="2023/3">Mars 2023</option>
+        <option value="2023/4">April 2023</option>
+        <option value="2023/5">Maj 2023</option>
+        <option value="2023/6">Juni 2023</option>
+        <option value="2023/7">Juli 2023</option>
+        <option value="2023/8">Augusti 2023</option>
+        <option value="2023/9">September 2023</option>
+        <option value="2023/10">Oktober 2023</option>
+        <option value="2023/11">November 2023</option>
+        <option value="2023/12">December 2023</option>
+      </select>
 
       <div className={styles.cointainer}>
         <div className={styles.description}>
@@ -222,7 +250,7 @@ const Expenses = () => {
             return (
               <div key={expense.group_category}>
                 <div>
-                  {expenseData.labels.map((label: string) => {
+                  {expenseData.labels.map((label) => {
                     if (label === expense.group_category) {
                       return (
                         <div
