@@ -8,7 +8,12 @@ const inter = Inter({ subsets: ["latin"] });
 
 import { Metadata } from "next";
 
-import Link from "next/link";
+import { useEffect, useState } from "react";
+import supabase from "../lib/supabase-client";
+import MuiButton from "../components/ui/muibutton";
+import NextLink from "next/link";
+import { useRouter } from "next/navigation";
+import { GroupExpense } from "../types/collection";
 
 export const metadata: Metadata = {
   title: "Budgetly",
@@ -16,22 +21,96 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  const { user, signOut } = useAuth();
+  const [month, setMonth] = useState(
+    new Date().toLocaleString("default", { month: "long" })
+  );
+  const [year, setYear] = useState(new Date().getFullYear());
+  const [budget, setBudget] = useState(0);
+  const [budgetSpent, setBudgetSpent] = useState(0);
+  const [budgetLeft, setBudgetLeft] = useState(0);
+  const [totalExpenses, setTotalExpenses] = useState<{
+    [x: string]: any;
+  }>([]); //är en arrray av objekt o varje objekt kan ha vilken egenskap som helst som key
 
-  console.log("user homepage", user?.name);
+  const { user, signOut } = useAuth();
+  const router = useRouter();
+
+  const getBudget = async () => {
+    const { data, error } = await supabase
+      .from("budgets")
+      .select("*")
+      .eq("profile_id", user?.id ?? "")
+      .eq("month", month)
+      .eq("year", year)
+      .single();
+    if (error) throw error;
+    if (data != null) {
+      setBudget(data.budget);
+    }
+  };
+
+  useEffect(() => {
+    getBudget();
+    getExpenses();
+  }, []);
+
+  const getExpenses = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("grouped_expenses_view")
+        .select("*")
+        .eq("profile_id", user?.id)
+        .order("sum_price", { ascending: false });
+      if (error) throw error;
+      if (data != null) {
+        setTotalExpenses(data);
+        console.log({ data });
+      }
+    } catch (error: any) {
+      alert(error.message);
+    }
+  };
+
+  const sum = totalExpenses.reduce(
+    (total: number, expense: GroupExpense) => total + expense.sum_price,
+    0
+  );
+
+  const left = budget - sum;
+
   return (
     <main className={styles.main}>
       <div>Välkommen {user?.name}</div>
 
       <div>Overview</div>
 
-      <Link href="/expenses">Expenses</Link>
-
-      <div>
-        <p>This month you have spend 2300kr</p>
+      <div style={{ background: "pink" }}>
+        <p>budget: {budget}</p>
       </div>
 
-      <button onClick={signOut}>Log out</button>
+      <div>
+        <div
+          style={{ background: "#2B2C4B" }}
+          onClick={() => router.push("/expenses")}
+          role="button"
+          className="button"
+        >
+          <h2>Expenses</h2>
+
+          <div>
+            <p>This month you have spend {sum}kr</p>
+          </div>
+          <p>Left {left} kr</p>
+        </div>
+      </div>
+
+      <MuiButton
+        as={NextLink}
+        href="/addbudget"
+        size="small"
+        variant="contained"
+        text="Add Budget"
+      />
     </main>
   );
 }
