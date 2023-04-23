@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 import { Metadata } from "next";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import supabase from "../lib/supabase-client";
 import MuiButton from "../components/ui/muibutton";
 import NextLink from "next/link";
@@ -32,10 +32,10 @@ export default function Home() {
     [x: string]: any;
   }>([]); //är en arrray av objekt o varje objekt kan ha vilken egenskap som helst som key
 
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
   const router = useRouter();
 
-  const getBudget = async () => {
+  const getBudget = useCallback(async () => {
     const { data, error } = await supabase
       .from("budgets")
       .select("*")
@@ -47,14 +47,9 @@ export default function Home() {
     if (data != null) {
       setBudget(data.budget);
     }
-  };
+  }, [month, user?.id, year]);
 
-  useEffect(() => {
-    getBudget();
-    getExpenses();
-  }, []);
-
-  const getExpenses = async () => {
+  const getExpenses = useCallback(async () => {
     try {
       const { data, error } = await supabase
         .from("grouped_expenses_view")
@@ -69,7 +64,14 @@ export default function Home() {
     } catch (error: any) {
       alert(error.message);
     }
-  };
+  }, [user?.id]);
+
+  useEffect(() => {
+    if (user?.id != null) {
+      getBudget();
+      getExpenses();
+    }
+  }, [getBudget, getExpenses, user?.id]);
 
   const sum = totalExpenses.reduce(
     (total: number, expense: GroupExpense) => total + expense.sum_price,

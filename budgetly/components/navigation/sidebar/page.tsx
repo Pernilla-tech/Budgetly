@@ -18,6 +18,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import styles from "./page.module.css";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import { useAuth } from "../../providers/supabase-auth-provider";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 
 type Anchor = "left";
 
@@ -81,13 +82,22 @@ const Sidebar: React.FC<SidebarProps> = ({ anchor }) => {
       </List>
       <Divider />
       <List>
-        {["Log out"].map((text, index) => (
+        {["Home", "Log out"].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                <IconButton className={styles.iconbutton} onClick={signOut}>
-                  <LogoutOutlinedIcon />
-                </IconButton>
+                {index % 2 === 0 ? (
+                  <IconButton
+                    className={styles.iconbutton}
+                    onClick={() => router.push("/")}
+                  >
+                    <HomeOutlinedIcon />
+                  </IconButton>
+                ) : (
+                  <IconButton className={styles.iconbutton} onClick={signOut}>
+                    <LogoutOutlinedIcon />
+                  </IconButton>
+                )}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>

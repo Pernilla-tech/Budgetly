@@ -1,6 +1,11 @@
 "use client";
 
-import React, { FormEventHandler, useEffect, useState } from "react";
+import React, {
+  FormEventHandler,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import styles from "./page.module.css";
 import { useAuth } from "@/components/components/providers/supabase-auth-provider";
 import supabase from "@/components/lib/supabase-client";
@@ -31,12 +36,7 @@ const Expenses = () => {
 
   const { user } = useAuth();
 
-  useEffect(() => {
-    getExpenses();
-    getBudget();
-  }, []);
-
-  const getExpenses = async () => {
+  const getExpenses = useCallback(async () => {
     try {
       const { data, error } = await supabase
         .from("grouped_expenses_view")
@@ -51,7 +51,7 @@ const Expenses = () => {
     } catch (error: any) {
       alert(error.message);
     }
-  };
+  }, [user?.id, setGroupedExpenses]);
 
   const data: Data = groupedExpenses.map((expense: GroupExpense) => {
     // mappar över categoryTotalsArray och returnerar ett objekt med nycklarna title, value och color
@@ -103,6 +103,11 @@ const Expenses = () => {
       setBudget(data.budget);
     }
   };
+
+  useEffect(() => {
+    getExpenses();
+    getBudget();
+  }, [getBudget, getExpenses]);
 
   const totalExpenses = groupedExpenses.reduce(
     (total: number, expense: GroupExpense) => {

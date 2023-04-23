@@ -79,7 +79,7 @@ const EditItem = ({ params: { itemId } }: Params) => {
 
       if (error) throw error;
 
-      router.push("/shopping/products/addproducts");
+      router.push("/shopping/addproducts");
     } catch (error: any) {
       alert(error.message);
     }
