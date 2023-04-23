@@ -8,7 +8,7 @@
   padding-bottom: 6rem;
   padding-left: 1rem;
   padding-right: 1rem;
-  min-height: 95vh;
+  min-height: 85vh;
 }
 
 .cointainer {
@@ -19,7 +19,7 @@
   padding: 1rem;
   margin: 0 auto;
   background-color: #2b2c4b;
-  height: 600px;
+  /* height: 600px; */
   width: 100%;
   border-radius: 5px;
 }
