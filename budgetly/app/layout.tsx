@@ -12,8 +12,9 @@ import { Inter } from "next/font/google";
 import { createClient } from "../utils/supabase-server";
 import SupabaseProvider from "../components/providers/supabase-provider";
 import SupabaseAuthProvider from "../components/providers/supabase-auth-provider";
-import Navbar from "../components/navigation/sidebar/navbar";
+
 import Tabbar from "../components/navigation/tabbar/tabbar";
+import Sidebar from "../components/navigation/sidebar/page";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -33,8 +34,7 @@ export default async function RootLayout({
       <body className={inter.className}>
         <SupabaseProvider>
           <SupabaseAuthProvider serverSession={session}>
-            <Navbar />
-
+            <Sidebar anchor="left" />
             {children}
             <Tabbar />
           </SupabaseAuthProvider>
