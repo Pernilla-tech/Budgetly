@@ -33,7 +33,6 @@ export default async function RootLayout({
       <body className={inter.className}>
         <SupabaseProvider>
           <SupabaseAuthProvider serverSession={session}>
-            <Sidebar anchor="left" />
             {children}
           </SupabaseAuthProvider>
         </SupabaseProvider>

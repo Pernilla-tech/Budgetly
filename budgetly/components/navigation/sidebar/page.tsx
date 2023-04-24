@@ -20,6 +20,8 @@ import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import { useAuth } from "../../providers/supabase-auth-provider";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 
+import { ServerCogIcon } from "lucide-react";
+
 type Anchor = "left";
 
 type SidebarProps = {
@@ -34,7 +36,7 @@ const Sidebar: React.FC<SidebarProps> = ({ anchor }) => {
   });
 
   const router = useRouter();
-  const { signOut } = useAuth();
+  const { signOut, user } = useAuth();
 
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -56,6 +58,16 @@ const Sidebar: React.FC<SidebarProps> = ({ anchor }) => {
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
+      <div className={styles.profileInfo}>
+        {/* <img
+          className={styles.avatarImg}
+          src={user?.avatar_url ?? ""}
+          alt="avatar profile image"
+        /> */}
+        <p className={styles.description}>{user?.name}</p>
+      </div>
+
+      <Divider />
       <List>
         {["Edit monthly budget", "Edit categories"].map((text, index) => (
           <ListItem key={text} disablePadding style={{ color: "inherit" }}>
@@ -64,14 +76,14 @@ const Sidebar: React.FC<SidebarProps> = ({ anchor }) => {
                 {index % 2 === 0 ? (
                   <IconButton
                     className={styles.iconbutton}
-                    onClick={() => router.push("/editbudget")}
+                    onClick={() => router.push(`/${year}/${month}/editbudget`)}
                   >
                     <ModeEditIcon />
                   </IconButton>
                 ) : (
                   <IconButton
                     className={styles.iconbutton}
-                    onClick={() => router.push(`/expenses/${year}/${month}`)}
+                    onClick={() => router.push(`/${year}/${month}/expenses`)}
                   >
                     <CategoryIcon />
                   </IconButton>

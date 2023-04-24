@@ -9,7 +9,7 @@ type Params = {
   };
 };
 
-const Tabbar = ({ params: { year, month } }: Params) => {
+const TabBar = ({ params: { year, month } }: Params) => {
   return (
     <div className={styles.container}>
       <ul>
@@ -24,4 +24,4 @@ const Tabbar = ({ params: { year, month } }: Params) => {
   );
 };
 
-export default Tabbar;
+export default TabBar;

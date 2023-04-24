@@ -35,7 +35,7 @@ const AddBudget = () => {
       alert(error.message);
     }
 
-    route.push(`/expenses/${year}/${month}`);
+    route.push(`/${year}/${month}/expenses`);
   };
 
   return (

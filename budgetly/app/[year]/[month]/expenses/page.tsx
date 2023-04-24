@@ -171,7 +171,7 @@ const Expenses = ({ params: { month, year } }: Params) => {
       <div className={styles.description}>Expenses</div>
       <select
         value={`${year}/${month}`}
-        onChange={(evt) => route.replace(`expenses/${evt.target.value}`)}
+        onChange={(evt) => route.replace(`/${evt.target.value}/expenses`)}
       >
         <option value="2023/1">Januari 2023</option>
         <option value="2023/2">Februari 2023</option>

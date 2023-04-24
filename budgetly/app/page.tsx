@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 
 const Home = () => {
   const router = useRouter();
@@ -11,7 +11,8 @@ const Home = () => {
     const year = new Date().getFullYear();
     router.replace(`/${year}/${month}/overview`);
   }, [router]);
-  return <div>page</div>;
+
+  return <>{/* <Suspense fallback={<h1>Loading...</h1>} /> */}</>;
 };
 
 export default Home;

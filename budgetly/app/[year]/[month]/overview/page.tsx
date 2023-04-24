@@ -82,8 +82,6 @@ export default function Overview({ params: { year, month } }: Params) {
 
   return (
     <main className={styles.main}>
-      <div>Välkommen {user?.name}</div>
-
       <div>Overview</div>
 
       <div style={{ background: "pink" }}>
@@ -111,7 +109,7 @@ export default function Overview({ params: { year, month } }: Params) {
       </div>
 
       <MuiButton
-        href="/addbudget"
+        href={`/${year}/${month}/addbudget`}
         size="small"
         variant="contained"
         text="Add Budget"

@@ -2,16 +2,24 @@
 
 import { useAuth } from "@/components/components/providers/supabase-auth-provider";
 import supabase from "@/components/lib/supabase-client";
-import { GroupExpense } from "@/components/types/collection";
+import { GroupExpense, GroupExpenseFood } from "@/components/types/collection";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-const Categories = () => {
+type Params = {
+  params: {
+    year: string;
+    month: string;
+  };
+};
+
+const Categories = ({ params: { year, month } }: Params) => {
+  const [groupedExpenses, setGroupedExpenses] = useState<GroupExpenseFood[]>(
+    []
+  );
+
   const router = useRouter();
   const { user } = useAuth();
-  const [groupedExpenses, setGroupedExpenses] = useState<{
-    [x: string]: any;
-  }>([]); //är en arrray av objekt o varje objekt kan ha vilken egenskap som helst som key
 
   useEffect(() => {
     groupedExpensesData();
@@ -21,7 +29,10 @@ const Categories = () => {
     const { data: groupedExpensesData, error } = await supabase
       .from("grouped_food_expenses_view")
       .select("*")
+
       .eq("profile_id", user?.id);
+    // .eq("month", month)
+    // .eq("year", year);
     if (error) console.log("error", error);
     else {
       setGroupedExpenses(groupedExpensesData);
@@ -32,11 +43,12 @@ const Categories = () => {
     <>
       <div>
         <h1>Categories</h1>
-        <button onClick={() => router.push("/shopping")}>shopping</button>
-        <button onClick={() => router.push("/categories")}>categories</button>
+        <button onClick={() => router.push(`/${year}/${month}/shopping`)}>
+          shopping
+        </button>
       </div>
 
-      {groupedExpenses.map((categoryTotal: GroupExpense) => {
+      {groupedExpenses.map((categoryTotal) => {
         return (
           <div
             key={categoryTotal.group_category}

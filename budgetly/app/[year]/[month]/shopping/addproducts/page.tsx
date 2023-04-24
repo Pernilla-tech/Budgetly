@@ -156,7 +156,9 @@ const AddProducts = () => {
             <p>{item.quantity}</p>
 
             <button
-              onClick={() => route.push(`/shopping/addproducts/${item.id}`)}
+              onClick={() =>
+                route.push(`/${year}/${month}/shopping/addproducts/${item.id}`)
+              }
             >
               Edit {item.item}
             </button>

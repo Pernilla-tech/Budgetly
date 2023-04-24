@@ -4,15 +4,17 @@ import MuiButton from "@/components/components/ui/muibutton";
 import supabase from "@/components/lib/supabase-client";
 import { Expense } from "@/components/types/collection";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 type Params = {
   params: {
     itemId: string;
+    year: string;
+    month: string;
   };
 };
 
-const EditItem = ({ params: { itemId } }: Params) => {
+const EditItem = ({ params: { itemId, year, month } }: Params) => {
   const router = useRouter();
   const [item, setItem] = useState<Expense | null>(null);
   const [name, setName] = useState("");
@@ -26,12 +28,14 @@ const EditItem = ({ params: { itemId } }: Params) => {
     }
   }, [itemId]);
 
-  const getItem = async () => {
+  const getItem = useCallback(async () => {
     try {
       const { data: item, error } = await supabase
         .from("expenses")
         .select("*")
         .eq("id", itemId)
+        .eq("month", month)
+        .eq("year", year)
         .single();
       if (error) throw error;
       if (item != null) {
@@ -44,7 +48,7 @@ const EditItem = ({ params: { itemId } }: Params) => {
     } catch (error: any) {
       alert(error.message);
     }
-  };
+  }, [itemId, month, year]);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -60,7 +64,7 @@ const EditItem = ({ params: { itemId } }: Params) => {
 
       if (error) throw error;
 
-      router.push("/shopping/products/addproducts");
+      router.push(`/${year}/${month}/shopping/addproducts`);
     } catch (error: any) {
       alert(error.message);
     }
@@ -79,7 +83,7 @@ const EditItem = ({ params: { itemId } }: Params) => {
 
       if (error) throw error;
 
-      router.push("/shopping/addproducts");
+      router.push(`/${year}/${month}/shopping/addproducts`);
     } catch (error: any) {
       alert(error.message);
     }
