@@ -17,14 +17,6 @@ import { useRouter } from "next/navigation";
 
 ChartJS.register(ArcElement, Tooltip, Legend); // register the chart.js plugins
 
-// type Data = {
-//   color: string;
-//   value: number | string;
-//   key?: string | number;
-//   title?: string | number;
-//   [key: string]: any;
-// }[];
-
 type Params = {
   params: {
     month: string;
@@ -60,16 +52,6 @@ const Expenses = ({ params: { month, year } }: Params) => {
       alert(error.message);
     }
   }, [user?.id, setGroupedExpenses, year, month]);
-
-  // const data = groupedExpenses.map((expense: GroupExpense) => {
-  //   // mappar över categoryTotalsArray och returnerar ett objekt med nycklarna title, value och color
-  //   // [{title: "Food", value: 100, color: "#1e262f"}, {title: "Food", value: 100, color: "#1e262f"}]
-  //   return {
-  //     title: expense.group_category,
-  //     value: expense.sum_price,
-  //     color: color, // här kan vi lägga till en random color generator
-  //   };
-  // });
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
