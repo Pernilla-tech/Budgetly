@@ -14,6 +14,9 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import { GroupExpense } from "@/components/types/collection";
 import { useRouter } from "next/navigation";
+import CustomIconButton from "@/components/components/ui/CustomIconButton";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 ChartJS.register(ArcElement, Tooltip, Legend); // register the chart.js plugins
 
@@ -33,6 +36,7 @@ const Expenses = ({ params: { month, year } }: Params) => {
   const [budget, setBudget] = useState(0);
 
   const { user } = useAuth();
+  const route = useRouter();
 
   const getExpenses = useCallback(async () => {
     try {
@@ -145,31 +149,55 @@ const Expenses = ({ params: { month, year } }: Params) => {
     ],
   };
 
-  const route = useRouter();
   console.log({ datas: expenseData });
 
   return (
     <main className={styles.main}>
-      <div className={styles.description}>Expenses</div>
-      <select
-        value={`${year}/${month}`}
-        onChange={(evt) => route.replace(`/${evt.target.value}/expenses`)}
-      >
-        <option value="2023/1">Januari 2023</option>
-        <option value="2023/2">Februari 2023</option>
-        <option value="2023/3">Mars 2023</option>
-        <option value="2023/4">April 2023</option>
-        <option value="2023/5">Maj 2023</option>
-        <option value="2023/6">Juni 2023</option>
-        <option value="2023/7">Juli 2023</option>
-        <option value="2023/8">Augusti 2023</option>
-        <option value="2023/9">September 2023</option>
-        <option value="2023/10">Oktober 2023</option>
-        <option value="2023/11">November 2023</option>
-        <option value="2023/12">December 2023</option>
-      </select>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <div>
+          <CustomIconButton
+            value={`${year}/${month}`}
+            size="small"
+            sx={{ background: "#9747FF", color: "white" }}
+            onClick={() => console.log("swipe back")}
+          >
+            <KeyboardArrowLeftIcon />
+          </CustomIconButton>
+        </div>
+
+        <div>
+          <select
+            value={`${year}/${month}`}
+            onChange={(e) => route.replace(`/${e.target.value}/expenses`)}
+          >
+            <option value="2023/1">Januari 2023</option>
+            <option value="2023/2">Februari 2023</option>
+            <option value="2023/3">Mars 2023</option>
+            <option value="2023/4">April 2023</option>
+            <option value="2023/5">Maj 2023</option>
+            <option value="2023/6">Juni 2023</option>
+            <option value="2023/7">Juli 2023</option>
+            <option value="2023/8">Augusti 2023</option>
+            <option value="2023/9">September 2023</option>
+            <option value="2023/10">Oktober 2023</option>
+            <option value="2023/11">November 2023</option>
+            <option value="2023/12">December 2023</option>
+          </select>
+        </div>
+        <div>
+          <CustomIconButton
+            onClick={() => console.log("swipe forward")}
+            size="small"
+            value={`${year}/${month}`}
+            sx={{ background: "#9747FF", color: "white" }}
+          >
+            <KeyboardArrowRightIcon />
+          </CustomIconButton>
+        </div>
+      </div>
 
       <div className={styles.cointainer}>
+        <div className={styles.description}>Expenses</div>
         <div className={styles.description}>
           <p>Monthly budget</p>
           <p>{budget} kr</p>

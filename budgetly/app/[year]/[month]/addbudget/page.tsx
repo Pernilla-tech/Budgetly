@@ -19,7 +19,6 @@ const AddBudget = () => {
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
-    // här vill jag spara månadsbudgeten i databasen. Jag vill också spara månaden och året. Jag vill också spara hur mycket jag har spenderat och hur mycket jag har kvar av budgetet. *//
     try {
       const { error } = await supabase
         .from("budgets")
@@ -49,6 +48,7 @@ const AddBudget = () => {
             onChange={(e) => setBudget(Number(e.target.value))}
             defaultValue={budget}
           />
+
           <select
             value={month}
             onChange={(e) => setMonth(Number(e.target.value))}

@@ -50,7 +50,9 @@ type Params = {
 };
 export default function Overview({ params: { year, month } }: Params) {
   const [budget, setBudget] = useState<Budgets | null>(null);
-
+  const [expensesCurrentMonth, setExpensesCurrentMonth] = useState<
+    GroupExpense[]
+  >([]);
   const [totalExpenses, setTotalExpenses] = useState<GroupExpense[]>([]);
 
   const { user } = useAuth();
@@ -70,12 +72,32 @@ export default function Overview({ params: { year, month } }: Params) {
     }
   }, [month, user?.id, year]);
 
-  const getExpenses = useCallback(async () => {
+  const getExpensesCurrentMonth = useCallback(async () => {
+    try {
+      const { data: currentMonth, error } = await supabase
+        .from("grouped_expenses_view")
+        .select("*")
+        .eq("profile_id", user?.id)
+        .eq("month", month)
+        .eq("year", year)
+        .order("sum_price", { ascending: false });
+      if (error) throw error;
+      if (data != null) {
+        setExpensesCurrentMonth(currentMonth as GroupExpense[]);
+        console.log({ currentMonth });
+      }
+    } catch (error: any) {
+      alert(error.message);
+    }
+  }, [user?.id]);
+
+  const getExpensesAllMonth = useCallback(async () => {
     try {
       const { data, error } = await supabase
         .from("grouped_expenses_view")
         .select("*")
         .eq("profile_id", user?.id)
+
         .order("sum_price", { ascending: false });
       if (error) throw error;
       if (data != null) {
@@ -87,7 +109,7 @@ export default function Overview({ params: { year, month } }: Params) {
     }
   }, [user?.id]);
 
-  const sum = totalExpenses.reduce(
+  const sum = expensesCurrentMonth.reduce(
     (total: number, expense: GroupExpense) => total + (expense.sum_price ?? 0),
     0
   );
@@ -104,14 +126,25 @@ export default function Overview({ params: { year, month } }: Params) {
     0
   );
 
+  const diffFromLastMonth = sum - lastMonthSum;
+  console.log({ diffFromLastMonth });
+
+  const diffFromLastMonthPercentage = (diffFromLastMonth / lastMonthSum) * 100;
+
+  const diff = Number(diffFromLastMonthPercentage.toFixed(0));
+
+  console.log({ diffFromLastMonthPercentage });
+  console.log({ diff });
+
   console.log({ lastMonthSum });
 
   useEffect(() => {
     if (user?.id != null) {
       getBudget();
-      getExpenses();
+      getExpensesCurrentMonth();
+      getExpensesAllMonth();
     }
-  }, [getBudget, getExpenses, user?.id]);
+  }, [getBudget, getExpensesCurrentMonth, getExpensesAllMonth, user?.id]);
 
   const options = {
     responsive: true,
@@ -162,10 +195,6 @@ export default function Overview({ params: { year, month } }: Params) {
     ],
   };
 
-  const handleSelectedMonthYear = (month: number, year: number) => {
-    console.log({ month, year });
-  };
-
   return (
     <main className={styles.main}>
       <div>Overview</div>
@@ -194,15 +223,15 @@ export default function Overview({ params: { year, month } }: Params) {
         </div>
       </div>
 
-      <div>Förra månaden månaden hade du spenderat {lastMonthSum} kr</div>
+      <div>Förra månaden månaden spenderade du {lastMonthSum} kr</div>
 
-      <div>
-        <Bar
-          options={options}
-          data={data}
-          style={{ background: "#2B2C4B", color: "white" }}
-        />
-      </div>
+      {diff < 0 ? <div>{diff} %</div> : <div> + {diff} %</div>}
+
+      <Bar
+        options={options}
+        data={data}
+        style={{ background: "#2B2C4B", color: "white", borderRadius: "12px" }}
+      />
 
       <MuiButton
         href={`/${year}/${month}/addbudget`}
