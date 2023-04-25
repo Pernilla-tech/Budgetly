@@ -11,6 +11,27 @@ import { useCallback, useEffect, useState } from "react";
 
 import { useRouter } from "next/navigation";
 
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+import { Bar } from "react-chartjs-2";
+
 import { useAuth } from "@/components/components/providers/supabase-auth-provider";
 import MuiButton from "@/components/components/ui/muibutton";
 import supabase from "@/components/lib/supabase-client";
@@ -66,6 +87,25 @@ export default function Overview({ params: { year, month } }: Params) {
     }
   }, [user?.id]);
 
+  const sum = totalExpenses.reduce(
+    (total: number, expense: GroupExpense) => total + (expense.sum_price ?? 0),
+    0
+  );
+
+  const left = (budget?.budget ?? 0) - sum;
+
+  const lastMonthExpenses = totalExpenses.filter((expense) => {
+    return (
+      expense.month === parseInt(month) - 1 && expense.year === parseInt(year)
+    );
+  });
+  const lastMonthSum = lastMonthExpenses.reduce(
+    (total: number, expense: GroupExpense) => total + (expense.sum_price ?? 0),
+    0
+  );
+
+  console.log({ lastMonthSum });
+
   useEffect(() => {
     if (user?.id != null) {
       getBudget();
@@ -73,12 +113,58 @@ export default function Overview({ params: { year, month } }: Params) {
     }
   }, [getBudget, getExpenses, user?.id]);
 
-  const sum = totalExpenses.reduce(
-    (total: number, expense: GroupExpense) => total + (expense.sum_price ?? 0),
-    0
-  );
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top" as const,
+      },
+    },
+  };
 
-  const left = (budget?.budget ?? 0) - sum;
+  const labels = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: "Expenses",
+        backgroundColor: "#F8D379",
+        data: labels.map((label) => {
+          const expensesByMonth = totalExpenses.filter((expense) => {
+            return (
+              expense.month === labels.indexOf(label) + 1 &&
+              expense.year === parseInt(year)
+            );
+          });
+          const totalExpenseByMonth = expensesByMonth.reduce(
+            (total, expense) => {
+              return total + (expense.sum_price ?? 0);
+            },
+            0
+          );
+          return totalExpenseByMonth;
+        }),
+      },
+    ],
+  };
+
+  const handleSelectedMonthYear = (month: number, year: number) => {
+    console.log({ month, year });
+  };
 
   return (
     <main className={styles.main}>
@@ -106,6 +192,16 @@ export default function Overview({ params: { year, month } }: Params) {
           </div>
           <p>Left {left} kr</p>
         </div>
+      </div>
+
+      <div>Förra månaden månaden hade du spenderat {lastMonthSum} kr</div>
+
+      <div>
+        <Bar
+          options={options}
+          data={data}
+          style={{ background: "#2B2C4B", color: "white" }}
+        />
       </div>
 
       <MuiButton
