@@ -4,7 +4,9 @@ import { Inter } from "next/font/google";
 import styles from "./page.module.css";
 
 const inter = Inter({ subsets: ["latin"] });
-
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import CustomIconButton from "@/components/components/ui/CustomIconButton";
 import { Metadata } from "next";
 
 import { useCallback, useEffect, useState } from "react";
@@ -72,6 +74,8 @@ export default function Overview({ params: { year, month } }: Params) {
     }
   }, [month, user?.id, year]);
 
+  console.log({ budget });
+
   const getExpensesCurrentMonth = useCallback(async () => {
     try {
       const { data: currentMonth, error } = await supabase
@@ -129,12 +133,24 @@ export default function Overview({ params: { year, month } }: Params) {
   const diffFromLastMonth = sum - lastMonthSum;
   console.log({ diffFromLastMonth });
 
-  const diffFromLastMonthPercentage = (diffFromLastMonth / lastMonthSum) * 100;
+  let formattedDiff = "";
 
-  const diff = Number(diffFromLastMonthPercentage.toFixed(0));
+  if (diffFromLastMonth !== 0 && lastMonthSum !== 0) {
+    const diffFromLastMonthPercentage =
+      (diffFromLastMonth / lastMonthSum) * 100;
 
-  console.log({ diffFromLastMonthPercentage });
-  console.log({ diff });
+    let diff = Number(diffFromLastMonthPercentage.toFixed(0));
+
+    formattedDiff = diff.toString();
+    if (diffFromLastMonth === 0) {
+      formattedDiff = "";
+    } else {
+      formattedDiff = (diffFromLastMonth > 0 ? "+" : "") + diff + " %";
+    }
+
+    console.log({ diffFromLastMonthPercentage });
+    console.log({ diff });
+  }
 
   console.log({ lastMonthSum });
 
@@ -195,12 +211,69 @@ export default function Overview({ params: { year, month } }: Params) {
     ],
   };
 
+  const handleChangeMonth = (delta: number) => {
+    const date = new Date(parseInt(year), parseInt(month) - 1, 1);
+    date.setMonth(date.getMonth() + delta);
+    const newMonth = String(date.getMonth() + 1).padStart(2, "0");
+    const newYear = date.getFullYear();
+    router.replace(`/${newYear}/${newMonth}/overview`);
+  };
+
+  console.log({ month });
+
+  let monthName = new Date(
+    parseInt(year),
+    parseInt(month) - 1,
+    1
+  ).toLocaleString("default", { month: "long" });
+
+  const formattedMonthName =
+    monthName.charAt(0).toUpperCase() + monthName.slice(1);
+
+  console.log(formattedMonthName);
+
   return (
     <main className={styles.main}>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <div>
+          <CustomIconButton
+            value={`${year}/${month}`}
+            size="small"
+            sx={{ background: "#9747FF", color: "white" }}
+            onClick={() => handleChangeMonth(-1)}
+          >
+            <KeyboardArrowLeftIcon />
+          </CustomIconButton>
+        </div>
+        {formattedMonthName} {year}
+        <div>
+          <CustomIconButton
+            onClick={() => handleChangeMonth(1)}
+            size="small"
+            value={`${year}/${month}`}
+            sx={{ background: "#9747FF", color: "white" }}
+          >
+            <KeyboardArrowRightIcon />
+          </CustomIconButton>
+        </div>
+      </div>
+
       <div>Overview</div>
 
-      <div style={{ background: "pink" }}>
-        <p>budget: {budget?.budget}</p>
+      <div style={{ background: "pink", color: "white" }}>
+        <div style={{ background: "pink", color: "white" }}>
+          {budget !== null ? (
+            <p> {budget?.budget}</p>
+          ) : (
+            <>
+              <p>Set your budget</p>
+              <MuiButton
+                text="Add budget"
+                onClick={() => router.push(`/${year}/${month}/addbudget`)}
+              />
+            </>
+          )}
+        </div>
       </div>
 
       <div>
@@ -224,8 +297,7 @@ export default function Overview({ params: { year, month } }: Params) {
       </div>
 
       <div>Förra månaden månaden spenderade du {lastMonthSum} kr</div>
-
-      {diff < 0 ? <div>{diff} %</div> : <div> + {diff} %</div>}
+      <p> {formattedDiff} </p>
 
       <Bar
         options={options}
