@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import CustomIconButton from "@/components/components/ui/CustomIconButton";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import MuiButton from "@/components/components/ui/muibutton";
 
 ChartJS.register(ArcElement, Tooltip, Legend); // register the chart.js plugins
 
@@ -34,9 +35,10 @@ const Expenses = ({ params: { month, year } }: Params) => {
 
   const [groupedExpenses, setGroupedExpenses] = useState<GroupExpense[]>([]);
   const [budget, setBudget] = useState(0);
+  const [selectedDate, setSelectedDate] = useState(new Date().getMonth());
 
   const { user } = useAuth();
-  const route = useRouter();
+  const router = useRouter();
 
   const getExpenses = useCallback(async () => {
     try {
@@ -151,6 +153,13 @@ const Expenses = ({ params: { month, year } }: Params) => {
 
   console.log({ datas: expenseData });
 
+  const handleChangeMonth = (delta: number) => {
+    const date = new Date(parseInt(year), parseInt(month) - 1, 1);
+    date.setMonth(date.getMonth() + delta);
+    const newMonth = String(date.getMonth() + 1).padStart(2, "0");
+    const newYear = date.getFullYear();
+    router.replace(`/${newYear}/${newMonth}/expenses`);
+  };
   return (
     <main className={styles.main}>
       <div style={{ display: "flex", alignItems: "center" }}>
@@ -159,7 +168,7 @@ const Expenses = ({ params: { month, year } }: Params) => {
             value={`${year}/${month}`}
             size="small"
             sx={{ background: "#9747FF", color: "white" }}
-            onClick={() => console.log("swipe back")}
+            onClick={() => handleChangeMonth(-1)}
           >
             <KeyboardArrowLeftIcon />
           </CustomIconButton>
@@ -168,7 +177,8 @@ const Expenses = ({ params: { month, year } }: Params) => {
         <div>
           <select
             value={`${year}/${month}`}
-            onChange={(e) => route.replace(`/${e.target.value}/expenses`)}
+            defaultValue={`${year}/${month}`}
+            onChange={(e) => router.replace(`/${e.target.value}/expenses`)}
           >
             <option value="2023/1">Januari 2023</option>
             <option value="2023/2">Februari 2023</option>
@@ -186,7 +196,7 @@ const Expenses = ({ params: { month, year } }: Params) => {
         </div>
         <div>
           <CustomIconButton
-            onClick={() => console.log("swipe forward")}
+            onClick={() => handleChangeMonth(1)}
             size="small"
             value={`${year}/${month}`}
             sx={{ background: "#9747FF", color: "white" }}
@@ -200,7 +210,18 @@ const Expenses = ({ params: { month, year } }: Params) => {
         <div className={styles.description}>Expenses</div>
         <div className={styles.description}>
           <p>Monthly budget</p>
-          <p>{budget} kr</p>
+
+          {budget === 0 ? (
+            <>
+              <p>{budget} kr</p>
+              <MuiButton
+                text="Add budget"
+                onClick={() => router.push(`/${year}/${month}/addbudget`)}
+              />
+            </>
+          ) : (
+            <p>{budget} kr</p>
+          )}
         </div>
 
         <div className={styles.wrapper}>
