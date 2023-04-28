@@ -4,6 +4,7 @@ import { useAuth } from "@/components/components/providers/supabase-auth-provide
 import styles from "./page.module.css";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import CustomButton from "@/components/components/ui/CustomButton";
 
 const LoginForm = () => {
   const { signInWithGoogle, user } = useAuth();
