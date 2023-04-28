@@ -4,7 +4,6 @@ import { useAuth } from "@/components/components/providers/supabase-auth-provide
 import styles from "./page.module.css";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import MuiButton from "@/components/components/ui/muibutton";
 
 const LoginForm = () => {
   const { signInWithGoogle, user } = useAuth();
@@ -25,7 +24,7 @@ const LoginForm = () => {
           Welcome to <span>Budgetly</span>
         </p>
         <div className={styles.loginbutton}>
-          <MuiButton
+          <CustomButton
             text="Login with Google"
             onClick={() => signInWithGoogle()}
             variant="contained"

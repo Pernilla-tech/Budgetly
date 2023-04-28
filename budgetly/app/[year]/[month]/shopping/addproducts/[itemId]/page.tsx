@@ -1,6 +1,9 @@
 "use client";
 
-import MuiButton from "@/components/components/ui/muibutton";
+import CustomButton from "@/components/components/ui/CustomButton";
+
+import CustomSelect from "@/components/components/ui/CustomSelect";
+import CustomInput from "@/components/components/ui/CustomInput";
 import supabase from "@/components/lib/supabase-client";
 import { Expense } from "@/components/types/collection";
 import { useRouter } from "next/navigation";
@@ -89,61 +92,74 @@ const EditItem = ({ params: { itemId, year, month } }: Params) => {
     }
   };
 
+  const optionsCategory = [
+    { label: "Välj kategori", value: "" },
+    { label: "Bröd", value: "food/Bröd" },
+    { label: "Drycker", value: "food/Drycker" },
+    { label: "Fisk och skaldjur", value: "food/Fisk och skaldjur" },
+    { label: "Frukt/grönt/bär", value: "food/Frukt/grönt/bär" },
+    { label: "Kyckling", value: "food/Kyckling" },
+    { label: "Köksartiklar", value: "food/Köksartiklar" },
+    { label: "Kött", value: "food/Kött" },
+    { label: "Mejeriprodukter", value: "food/Mejeriprodukter" },
+    { label: "Rabatt", value: "food/Rabatt" },
+    { label: "Skafferi", value: "food/Skafferi" },
+    { label: "Snacks", value: "food/Snacks" },
+    { label: "Såser", value: "food/Såser" },
+    { label: "Toalettartiklar", value: "food/Toalettartiklar" },
+    { label: "Vegetariskt", value: "food/Vegetariskt" },
+    { label: "Övrigt", value: "food/Övrigt" },
+  ];
+
   return (
-    <div>
+    <>
       <h1>Edit {name}</h1>
       <form onSubmit={onSubmit}>
         <label htmlFor="name">{name}</label>
         <br />
-        <button type="button" onClick={() => setQuantity(quantity - 1)}>
-          -
-        </button>
+        <CustomButton
+          type="button"
+          onClick={() => setQuantity(quantity - 1)}
+          text="-"
+        />
+
         {quantity}
-        <button type="button" onClick={() => setQuantity(quantity + 1)}>
-          +
-        </button>
+        <CustomButton
+          type="button"
+          onClick={() => setQuantity(quantity + 1)}
+          text="+"
+        />
 
         <br />
 
-        <input
+        <CustomInput
           type="text"
           id="name"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
         <label htmlFor="price">Price</label>
-        <input
+        <CustomInput
           type="number"
           id="price"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
         />
         <label htmlFor="category">Category</label>
-        <select value={category} onChange={(e) => setCategory(e.target.value)}>
-          <option>Välj kategori</option>
-          <option value="food/Bröd">Bröd</option>
-          <option value="food/Drycker">Drycker</option>
-          <option value="food/Fisk och skaldjur">Fisk och skaldjur</option>
-          <option value="food/Frukt/grönt/bär">Frukt/grönt/bär</option>
-          <option value="food/Kyckling">Kyckling</option>
-          <option value="food/Köksartiklar">Köksartiklar</option>
-          <option value="food/Kött">Kött</option>
-          <option value="food/Mejeriprodukter">Mejeriprodukter</option>
-          <option value="food/Rabatt">Rabatt</option>
-          <option value="food/Skafferi">Skafferi</option>
-          <option value="food/Snacks">Snacks</option>
-          <option value="food/Såser">Såser</option>
-          <option value="food/Toalettartiklar">Toalettartiklar</option>
-          <option value="food/Vegetariskt">Vegetariskt</option>
-          <option value="food/Övrigt">Övrigt</option>
-        </select>
-        <MuiButton
+
+        <CustomSelect
+          value={category}
+          onChange={(e) => setCategory(e.target.value.toString())}
+          options={optionsCategory}
+        />
+
+        <CustomButton
           type="submit"
           text="Update"
           variant="contained"
           size="large"
         />
-        <MuiButton
+        <CustomButton
           text="Delete"
           onClick={handleDeleteItem}
           variant="contained"
@@ -151,7 +167,7 @@ const EditItem = ({ params: { itemId, year, month } }: Params) => {
           sx={{ backgroundColor: "#FF6161" }}
         />
       </form>
-    </div>
+    </>
   );
 };
 

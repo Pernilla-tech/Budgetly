@@ -1,10 +1,12 @@
 "use client";
 
 import { useAuth } from "@/components/components/providers/supabase-auth-provider";
-import MuiButton from "@/components/components/ui/muibutton";
+import CustomSelect from "@/components/components/ui/CustomSelect";
+import CustomButton from "@/components/components/ui/CustomButton";
 import supabase from "@/components/lib/supabase-client";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import CustomInput from "@/components/components/ui/CustomInput";
 
 const Editbudget = () => {
   const [month, setMonth] = useState(new Date().getDate() + 1);
@@ -35,57 +37,74 @@ const Editbudget = () => {
     route.push("/");
   };
 
+  const optionsMonth = [
+    { value: 1, label: "Januari" },
+    { value: 2, label: "Februari" },
+    { value: 3, label: "Mars" },
+    { value: 4, label: "April" },
+    { value: 5, label: "Maj" },
+    { value: 6, label: "Juni" },
+    { value: 7, label: "Juli" },
+    { value: 8, label: "Augusti" },
+    { value: 9, label: "September" },
+    { value: 10, label: "Oktober" },
+    { value: 11, label: "November" },
+    { value: 12, label: "December" },
+  ];
+
+  const optionsYear = [
+    {
+      value: new Date().getFullYear() - 1,
+      label: (new Date().getFullYear() - 1).toString(),
+    },
+    {
+      value: new Date().getFullYear(),
+      label: new Date().getFullYear().toString(),
+    },
+    {
+      value: new Date().getFullYear() + 1,
+      label: (new Date().getFullYear() + 1).toString(),
+    },
+    {
+      value: new Date().getFullYear() + 2,
+      label: (new Date().getFullYear() + 2).toString(),
+    },
+  ];
+
   return (
     <>
-      <div>
+      <>
         Edit Monthly budget
         <form onSubmit={handleSubmit}>
-          <input
+          <CustomInput
             placeholder="lägg till månadsbudget"
             value={budget}
             onChange={(e) => setBudget(Number(e.target.value))}
             defaultValue={budget}
           />
-          <select
+
+          <CustomSelect
             value={month}
-            onChange={(e) => setMonth(Number(e.target.value))}
-            // defaultValue={month}
-          >
-            <option value="1">Januari</option>
-            <option value="2">Februari </option>
-            <option value="3">Mars</option>
-            <option value="4">April</option>
-            <option value="5">Maj</option>
-            <option value="6">Juni</option>
-            <option value="7">Juli</option>
-            <option value="8">augusti</option>
-            <option value="9">September</option>
-            <option value="10">Oktober</option>
-            <option value="11">November</option>
-            <option value="12">December</option>
-          </select>
-          <select
+            label="Month"
+            onChange={(e) => setBudget(Number(e.target.value))}
+            options={optionsMonth}
+          />
+
+          <CustomSelect
+            label="Year"
             value={year}
             onChange={(e) => setYear(Number(e.target.value))}
-          >
-            <option value={new Date().getFullYear()}>
-              {new Date().getFullYear()}
-            </option>
-            <option value={new Date().getFullYear() + 1}>
-              {new Date().getFullYear() + 1}
-            </option>
-            <option value={new Date().getFullYear() + 2}>
-              {new Date().getFullYear() + 2}
-            </option>
-          </select>
-          <MuiButton
+            options={optionsYear}
+          />
+
+          <CustomButton
             type="submit"
             text="Add"
             variant="contained"
             size="medium"
           />
         </form>
-      </div>
+      </>
     </>
   );
 };

@@ -1,5 +1,9 @@
+import CustomButton from "@/components/components/ui/CustomButton";
+import CustomInput from "@/components/components/ui/CustomInput";
 import { ShoppingSvg } from "@/components/public/ShoppingSvg";
 import { Expense } from "@/components/types/collection";
+import InputAdornment from "@mui/material/InputAdornment";
+import { SearchIcon } from "lucide-react";
 import { useMemo, useState } from "react";
 
 // import { SearchIcon } from "./icons/SearchIcon";
@@ -15,13 +19,6 @@ export const SearchInput = ({ expenses }: Props) => {
   const handleSearchText = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
-
-  // The 'filteredExpenses' conditional could make the dependencies of useMemo Hook (at line 37) change on every render. To fix this, wrap the initialization of 'filteredExpenses' in its own useMemo() Hook.
-  // const filteredExpenses = expenses
-  //   ? expenses.filter((items) => {
-  //       return items.item.toLowerCase().includes(search.toLowerCase());
-  //     })
-  //   : []; //kollar om data finns och inte är null, annars returnerar en tom array om data inte finns
 
   const filteredExpenses = useMemo(() => {
     return expenses
@@ -67,18 +64,25 @@ export const SearchInput = ({ expenses }: Props) => {
 
   return (
     <div>
-      <input
+      <CustomInput
         type="text"
+        label="Search"
         value={search}
         onChange={handleSearchText}
         placeholder="Search products"
-      ></input>
-      <div>
-        <button onClick={sortByName}>Name</button>
-        <button onClick={sortByHighestPrice}>Price</button>
-        <button onClick={sortByCategory}>Category</button>
-      </div>
-      <div>
+        // endAdornment={
+        //   CustomInputAdornment position="end">
+        //     <SearchIcon />
+        //   </InputAdornment>
+
+        // } //TODO icon syns ej
+      />
+      <>
+        <CustomButton onClick={sortByName} text="Name" />
+        <CustomButton onClick={sortByHighestPrice} text="Price" />
+        <CustomButton onClick={sortByCategory} text="Category" />
+      </>
+      <>
         {expenses && expenses.length > 0 ? (
           <>
             {sortedItems.map((item) => (
@@ -96,7 +100,7 @@ export const SearchInput = ({ expenses }: Props) => {
             <ShoppingSvg />
           </>
         )}
-      </div>
+      </>
     </div>
   );
 };

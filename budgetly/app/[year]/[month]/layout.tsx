@@ -1,5 +1,5 @@
 import Sidebar from "@/components/components/navigation/sidebar/page";
-import TabBar from "@/components/components/navigation/tabbar/tabbar";
+import TabBar from "@/components/components/navigation/tabbar/TabBar";
 
 type Params = {
   params: {
@@ -13,10 +13,10 @@ export default async function RootLayout({
   params: { year, month },
 }: Params) {
   return (
-    <div>
+    <>
       <Sidebar anchor="left" />
       {children}
       <TabBar params={{ year, month }} />
-    </div>
+    </>
   );
 }

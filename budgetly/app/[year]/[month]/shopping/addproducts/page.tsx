@@ -1,13 +1,15 @@
 "use client";
 
 import { useAuth } from "@/components/components/providers/supabase-auth-provider";
+import CustomButton from "@/components/components/ui/CustomButton";
+import CustomSelect from "@/components/components/ui/CustomSelect";
+import CustomInput from "@/components/components/ui/CustomInput";
 import supabase from "@/components/lib/supabase-client";
 import { Expense } from "@/components/types/collection";
 import { useRouter } from "next/navigation";
 
 import { FormEventHandler, useEffect, useState } from "react";
 
-//page where you can add food items to the database
 const AddProducts = () => {
   const [item, setItem] = useState("");
   const [price, setPrice] = useState("");
@@ -80,73 +82,103 @@ const AddProducts = () => {
     getItems();
   };
 
+  const optionsMonth = [
+    { label: "Januari", value: 1 },
+    { label: "Februari", value: 2 },
+    { label: "Mars", value: 3 },
+    { label: "April", value: 4 },
+    { label: "Maj", value: 5 },
+    { label: "Juni", value: 6 },
+    { label: "Juli", value: 7 },
+    { label: "Augusti", value: 8 },
+    { label: "September", value: 9 },
+    { label: "Oktober", value: 10 },
+    { label: "November", value: 11 },
+    { label: "December", value: 12 },
+  ];
+
+  const optionsYear = [
+    {
+      value: new Date().getFullYear() - 1,
+      label: (new Date().getFullYear() - 1).toString(),
+    },
+    {
+      value: new Date().getFullYear(),
+      label: new Date().getFullYear().toString(),
+    },
+    {
+      value: new Date().getFullYear() + 1,
+      label: (new Date().getFullYear() + 1).toString(),
+    },
+    {
+      value: new Date().getFullYear() + 2,
+      label: (new Date().getFullYear() + 2).toString(),
+    },
+  ];
+
+  const optionsCategory = [
+    { label: "Välj kategori", value: "" },
+    { label: "Bröd", value: "food/Bröd" },
+    { label: "Drycker", value: "food/Drycker" },
+    { label: "Fisk och skaldjur", value: "food/Fisk och skaldjur" },
+    { label: "Frukt/grönt/bär", value: "food/Frukt/grönt/bär" },
+    { label: "Kyckling", value: "food/Kyckling" },
+    { label: "Köksartiklar", value: "food/Köksartiklar" },
+    { label: "Kött", value: "food/Kött" },
+    { label: "Mejeriprodukter", value: "food/Mejeriprodukter" },
+    { label: "Rabatt", value: "food/Rabatt" },
+    { label: "Skafferi", value: "food/Skafferi" },
+    { label: "Snacks", value: "food/Snacks" },
+    { label: "Sötsaker", value: "food/Sötsaker" },
+    { label: "Övrigt", value: "food/Övrigt" },
+  ];
+
   return (
     <>
       <form onSubmit={onSubmit}>
-        <select
+        <CustomSelect
           value={month}
           onChange={(e) => setMonth(Number(e.target.value))}
-        >
-          <option value="1">Januari</option>
-          <option value="2">Februari </option>
-          <option value="3">Mars</option>
-          <option value="4">April</option>
-          <option value="5">Maj</option>
-          <option value="6">Juni</option>
-          <option value="7">Juli</option>
-          <option value="8">augusti</option>
-          <option value="9">September</option>
-          <option value="10">Oktober</option>
-          <option value="11">November</option>
-          <option value="12">December</option>
-        </select>
-        <select value={year} onChange={(e) => setYear(Number(e.target.value))}>
-          <option value="2023">2023</option>
-          <option value="2022">2022</option>
-          <option value="2021">2021</option>
-        </select>
+          options={optionsMonth}
+        />
+        <CustomSelect
+          value={year}
+          onChange={(e) => setYear(Number(e.target.value))}
+          options={optionsYear}
+        />
         Add Products
-        <button type="button" onClick={() => setQuantity(quantity - 1)}>
-          -
-        </button>
-        {quantity}
-        <button type="button" onClick={() => setQuantity(quantity + 1)}>
-          +
-        </button>
-        <input
+        <CustomButton
+          type="button"
+          onClick={() => setQuantity(quantity - 1)}
+          text="-"
+        />
+        -{quantity}
+        <CustomButton
+          type="button"
+          onClick={() => setQuantity(quantity + 1)}
+          text="+"
+        />
+        <CustomInput
           value={item}
           placeholder="Add products"
           type="text"
           onChange={(e) => setItem(e.target.value)}
         />
-        <input
+        <CustomInput
           value={price}
           placeholder="price or discount"
           type="number"
           onChange={(e) => setPrice(e.target.value)}
         />
-        <select value={category} onChange={(e) => setCategory(e.target.value)}>
-          <option>Välj kategori</option>
-          <option value="food/Bröd">Bröd</option>
-          <option value="food/Drycker">Drycker</option>
-          <option value="food/Fisk och skaldjur">Fisk och skaldjur</option>
-          <option value="food/Frukt/grönt/bär">Frukt/grönt/bär</option>
-          <option value="food/Kyckling">Kyckling</option>
-          <option value="food/Köksartiklar">Köksartiklar</option>
-          <option value="food/Kött">Kött</option>
-          <option value="food/Mejeriprodukter">Mejeriprodukter</option>
-          <option value="food/Rabatt">Rabatt</option>
-          <option value="food/Skafferi">Skafferi</option>
-          <option value="food/Snacks">Snacks</option>
-          <option value="food/Såser">Såser</option>
-          <option value="food/Toalettartiklar">Toalettartiklar</option>
-          <option value="food/Vegetariskt">Vegetariskt</option>
-          <option value="food/Övrigt">Övrigt</option>
-        </select>
-        <button type="submit">Add</button>
+        <CustomSelect
+          value={category}
+          onChange={(e) => setCategory(e.target.value.toString())}
+          options={optionsCategory}
+        />
+        <CustomButton type="submit" text="Add" />
       </form>
 
-      <div>
+      <>
         <p>Added products</p>
         {items.map((item) => (
           <div key={item.id}>
@@ -155,16 +187,17 @@ const AddProducts = () => {
             <p>{item.category}</p>
             <p>{item.quantity}</p>
 
-            <button
+            <CustomButton
+              variant="outlined"
               onClick={() =>
                 route.push(`/${year}/${month}/shopping/addproducts/${item.id}`)
               }
             >
               Edit {item.item}
-            </button>
+            </CustomButton>
           </div>
         ))}
-      </div>
+      </>
     </>
   );
 };

@@ -7,6 +7,7 @@ import supabase from "@/components/lib/supabase-client";
 
 import { useAuth } from "@/components/components/providers/supabase-auth-provider";
 import { Expense } from "@/components/types/collection";
+import CustomButton from "@/components/components/ui/CustomButton";
 
 type Params = {
   params: {
@@ -16,8 +17,6 @@ type Params = {
 };
 
 const Shopping = ({ params: { month, year } }: Params) => {
-  //get expenses from supabase
-
   const [expenses, setExpenses] = useState<Expense[]>([]);
 
   const { user } = useAuth();
@@ -47,25 +46,25 @@ const Shopping = ({ params: { month, year } }: Params) => {
   return (
     <div className={styles.main}>
       <h1>Shopping</h1>
-      <div>
-        <button onClick={() => router.push(`/${year}/${month}/shopping`)}>
-          shopping
-        </button>
-        <button
+      <>
+        <CustomButton
+          onClick={() => router.push(`/${year}/${month}/shopping`)}
+          text="Shopping"
+        />
+        <CustomButton
           onClick={() => router.push(`/${year}/${month}/shopping/categories`)}
-        >
-          categories
-        </button>
-        <div>
-          <button
+          text="categories"
+        />
+
+        <>
+          <CustomButton
             onClick={() =>
               router.push(`/${year}/${month}/shopping/addproducts`)
             }
-          >
-            Add products
-          </button>
-        </div>
-      </div>
+            text="Add products"
+          />
+        </>
+      </>
       <SearchInput expenses={expenses} />
     </div>
   );

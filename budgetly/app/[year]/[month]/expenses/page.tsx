@@ -17,7 +17,9 @@ import { useRouter } from "next/navigation";
 import CustomIconButton from "@/components/components/ui/CustomIconButton";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import MuiButton from "@/components/components/ui/muibutton";
+import CustomButton from "@/components/components/ui/CustomButton";
+import CustomSelect from "@/components/components/ui/CustomSelect";
+import CustomInput from "@/components/components/ui/CustomInput";
 
 ChartJS.register(ArcElement, Tooltip, Legend); // register the chart.js plugins
 
@@ -35,7 +37,7 @@ const Expenses = ({ params: { month, year } }: Params) => {
 
   const [groupedExpenses, setGroupedExpenses] = useState<GroupExpense[]>([]);
   const [budget, setBudget] = useState(0);
-  const [selectedDate, setSelectedDate] = useState(new Date().getMonth());
+  // const [selectedDate, setSelectedDate] = useState(new Date().getMonth());
 
   const { user } = useAuth();
   const router = useRouter();
@@ -153,6 +155,32 @@ const Expenses = ({ params: { month, year } }: Params) => {
 
   console.log({ datas: expenseData });
 
+  const optionsYearMonth = [
+    { value: "2023/1", label: "Januari" },
+    { value: "2023/2", label: "Februari" },
+    { value: "2023/3", label: "March" },
+    { value: "2023/4", label: "April" },
+    { value: "2023/5", label: "May" },
+    { value: "2023/6", label: "Juni" },
+    { value: "2023/7", label: "July" },
+    { value: "2023/8", label: "August" },
+    { value: "2023/9", label: "September" },
+    { value: "2023/10", label: "October" },
+    { value: "2023/11", label: "November" },
+    { value: "2023/12", label: "December" },
+  ];
+
+  const optionsCategory = [
+    { value: "entertaintment", label: "Entertaintment" },
+    { value: "food", label: "Food" },
+    { value: "housing", label: "Housing" },
+    { value: "insurance", label: "Insurance" },
+    { value: "other", label: "Other" },
+    { value: "personal", label: "Personal" },
+    { value: "saving", label: "Saving" },
+    { value: "transportation", label: "Transportation" },
+  ];
+
   const handleChangeMonth = (delta: number) => {
     const date = new Date(parseInt(year), parseInt(month) - 1, 1);
     date.setMonth(date.getMonth() + delta);
@@ -163,7 +191,7 @@ const Expenses = ({ params: { month, year } }: Params) => {
   return (
     <main className={styles.main}>
       <div style={{ display: "flex", alignItems: "center" }}>
-        <div>
+        <>
           <CustomIconButton
             value={`${year}/${month}`}
             size="small"
@@ -172,29 +200,17 @@ const Expenses = ({ params: { month, year } }: Params) => {
           >
             <KeyboardArrowLeftIcon />
           </CustomIconButton>
-        </div>
+        </>
 
-        <div>
-          <select
+        <>
+          <CustomSelect
             value={`${year}/${month}`}
             defaultValue={`${year}/${month}`}
             onChange={(e) => router.replace(`/${e.target.value}/expenses`)}
-          >
-            <option value="2023/1">Januari 2023</option>
-            <option value="2023/2">Februari 2023</option>
-            <option value="2023/3">Mars 2023</option>
-            <option value="2023/4">April 2023</option>
-            <option value="2023/5">Maj 2023</option>
-            <option value="2023/6">Juni 2023</option>
-            <option value="2023/7">Juli 2023</option>
-            <option value="2023/8">Augusti 2023</option>
-            <option value="2023/9">September 2023</option>
-            <option value="2023/10">Oktober 2023</option>
-            <option value="2023/11">November 2023</option>
-            <option value="2023/12">December 2023</option>
-          </select>
-        </div>
-        <div>
+            options={optionsYearMonth}
+          />
+        </>
+        <>
           <CustomIconButton
             onClick={() => handleChangeMonth(1)}
             size="small"
@@ -203,7 +219,7 @@ const Expenses = ({ params: { month, year } }: Params) => {
           >
             <KeyboardArrowRightIcon />
           </CustomIconButton>
-        </div>
+        </>
       </div>
 
       <div className={styles.cointainer}>
@@ -214,7 +230,7 @@ const Expenses = ({ params: { month, year } }: Params) => {
           {budget === 0 ? (
             <>
               <p>{budget} kr</p>
-              <MuiButton
+              <CustomButton
                 text="Add budget"
                 onClick={() => router.push(`/${year}/${month}/addbudget`)}
               />
@@ -225,49 +241,41 @@ const Expenses = ({ params: { month, year } }: Params) => {
         </div>
 
         <div className={styles.wrapper}>
-          <div>
+          <>
             <p className={styles.spent}>Spent</p>
             <p className={styles.spent}>{totalExpenses} kr</p>
-          </div>
+          </>
 
-          <div>
+          <>
             <p className={styles.left}>Left</p>
             <p className={styles.left}>{left} kr</p>
-          </div>
+          </>
         </div>
 
-        <div>
+        <>
           <form onSubmit={onSubmit}>
-            <input
+            <CustomInput
               type="text"
               placeholder="Expense"
               value={item}
               onChange={(e) => setItem(e.target.value)}
             />
-            <input
+            <CustomInput
               placeholder="Price"
               type="number"
               value={price}
               onChange={(e) => setPrice(Number(e.target.value))}
             />
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-            >
-              <option value="clothing">Clothing</option>
-              <option value="entertainment ">Entertainment </option>
-              <option value="food">Food</option>
-              <option value="housing">Housing</option>
-              <option value="insurance">Insurance</option>
-              <option value="other">Other</option>
-              <option value="personal">Personal</option>
-              <option value="saving">Saving</option>
-              <option value="transportation">Transportation</option>
-            </select>
 
-            <button type="submit">Add</button>
+            <CustomSelect
+              value={category}
+              onChange={(e) => setCategory(e.target.value.toString())}
+              options={optionsCategory}
+            />
+
+            <CustomButton type="submit" text="Add" />
           </form>
-        </div>
+        </>
 
         <div style={{ width: "300px" }}>
           <Doughnut
@@ -280,7 +288,7 @@ const Expenses = ({ params: { month, year } }: Params) => {
           {groupedExpenses.map((expense: GroupExpense) => {
             return (
               <div key={expense.group_category}>
-                <div>
+                <>
                   {expenseData.labels.map((label) => {
                     if (label === expense.group_category) {
                       return (
@@ -301,13 +309,13 @@ const Expenses = ({ params: { month, year } }: Params) => {
                     }
                   })}
 
-                  <div>
+                  <>
                     <p>{expense.group_category}</p>
-                  </div>
-                  <div>
+                  </>
+                  <>
                     <p>{expense.sum_price} kr</p>
-                  </div>
-                </div>
+                  </>
+                </>
               </div>
             );
           })}

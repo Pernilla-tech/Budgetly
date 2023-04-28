@@ -35,7 +35,7 @@ ChartJS.register(
 import { Bar } from "react-chartjs-2";
 
 import { useAuth } from "@/components/components/providers/supabase-auth-provider";
-import MuiButton from "@/components/components/ui/muibutton";
+import CustomButton from "@/components/components/ui/CustomButton";
 import supabase from "@/components/lib/supabase-client";
 import { Budgets, GroupExpense } from "@/components/types/collection";
 
@@ -235,7 +235,7 @@ export default function Overview({ params: { year, month } }: Params) {
   return (
     <main className={styles.main}>
       <div style={{ display: "flex", alignItems: "center" }}>
-        <div>
+        <>
           <CustomIconButton
             value={`${year}/${month}`}
             size="small"
@@ -244,9 +244,9 @@ export default function Overview({ params: { year, month } }: Params) {
           >
             <KeyboardArrowLeftIcon />
           </CustomIconButton>
-        </div>
+        </>
         {formattedMonthName} {year}
-        <div>
+        <>
           <CustomIconButton
             onClick={() => handleChangeMonth(1)}
             size="small"
@@ -255,10 +255,10 @@ export default function Overview({ params: { year, month } }: Params) {
           >
             <KeyboardArrowRightIcon />
           </CustomIconButton>
-        </div>
+        </>
       </div>
 
-      <div>Overview</div>
+      <>Overview</>
 
       <div style={{ background: "pink", color: "white" }}>
         <div style={{ background: "pink", color: "white" }}>
@@ -267,7 +267,7 @@ export default function Overview({ params: { year, month } }: Params) {
           ) : (
             <>
               <p>Set your budget</p>
-              <MuiButton
+              <CustomButton
                 text="Add budget"
                 onClick={() => router.push(`/${year}/${month}/addbudget`)}
               />
@@ -276,7 +276,7 @@ export default function Overview({ params: { year, month } }: Params) {
         </div>
       </div>
 
-      <div>
+      <>
         <div
           style={{ background: "#2B2C4B" }}
           onClick={() =>
@@ -289,14 +289,14 @@ export default function Overview({ params: { year, month } }: Params) {
         >
           <h2>Expenses</h2>
 
-          <div>
+          <>
             <p>This month you have spend {sum}kr</p>
-          </div>
+          </>
           <p>Left {left} kr</p>
         </div>
-      </div>
+      </>
 
-      <div>Förra månaden månaden spenderade du {lastMonthSum} kr</div>
+      <>Förra månaden månaden spenderade du {lastMonthSum} kr</>
       <p> {formattedDiff} </p>
 
       <Bar
@@ -305,7 +305,7 @@ export default function Overview({ params: { year, month } }: Params) {
         style={{ background: "#2B2C4B", color: "white", borderRadius: "12px" }}
       />
 
-      <MuiButton
+      <CustomButton
         href={`/${year}/${month}/addbudget`}
         size="small"
         variant="contained"

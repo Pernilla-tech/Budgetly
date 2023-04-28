@@ -1,6 +1,7 @@
 "use client";
 
 import { useAuth } from "@/components/components/providers/supabase-auth-provider";
+import CustomButton from "@/components/components/ui/CustomButton";
 import supabase from "@/components/lib/supabase-client";
 import { GroupExpense, GroupExpenseFood } from "@/components/types/collection";
 import { useRouter } from "next/navigation";
@@ -41,12 +42,13 @@ const Categories = ({ params: { year, month } }: Params) => {
 
   return (
     <>
-      <div>
+      <>
         <h1>Categories</h1>
-        <button onClick={() => router.push(`/${year}/${month}/shopping`)}>
-          shopping
-        </button>
-      </div>
+        <CustomButton
+          onClick={() => router.push(`/${year}/${month}/shopping`)}
+          text="Shopping"
+        />
+      </>
 
       {groupedExpenses.map((categoryTotal) => {
         return (
@@ -59,10 +61,10 @@ const Categories = ({ params: { year, month } }: Params) => {
               padding: "10px",
             }}
           >
-            <div>
+            <>
               {categoryTotal.group_category} totalt: {categoryTotal.sum_price}
               kr
-            </div>
+            </>
           </div>
         );
       })}
