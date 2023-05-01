@@ -21,6 +21,8 @@ const CustomIconButton = ({ ...props }: CustomIconButtonProps) => {
       color={props.color}
       onClick={props.onClick}
       size={props.size}
+      type={props.type}
+      sx={{ ...props.sx }}
       value={props.value}
       disabled={props.disabled}
     >
