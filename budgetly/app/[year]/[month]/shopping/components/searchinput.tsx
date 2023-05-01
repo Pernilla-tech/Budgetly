@@ -3,10 +3,11 @@ import CustomInput from "@/components/components/ui/CustomInput";
 import { ShoppingSvg } from "@/components/public/ShoppingSvg";
 import { Expense } from "@/components/types/collection";
 import InputAdornment from "@mui/material/InputAdornment";
-import { SearchIcon } from "lucide-react";
+import SearchIcon from "@mui/icons-material/Search";
 import { useMemo, useState } from "react";
-
-// import { SearchIcon } from "./icons/SearchIcon";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import styles from "./styles.module.css";
 
 interface Props {
   expenses: Expense[];
@@ -15,6 +16,11 @@ interface Props {
 export const SearchInput = ({ expenses }: Props) => {
   const [search, setSearch] = useState<string>("");
   const [sortProperty, setSortProperty] = useState<string>("");
+  const [isNameSorted, setIsNameSorted] = useState<boolean>(false);
+  const [isPriceSorted, setIsPriceSorted] = useState<boolean>(false);
+  const [isPriceHighest, setIsPriceHighest] = useState<boolean>(false);
+
+  const [isCategorySorted, setIsCategorySorted] = useState<boolean>(false);
 
   const handleSearchText = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -28,68 +34,120 @@ export const SearchInput = ({ expenses }: Props) => {
       : [];
   }, [expenses, search]);
 
-  console.log("expenses", expenses);
-
-  console.log("filteredExpenses", filteredExpenses);
-
   const sortedItems = useMemo(() => {
     const sorted = [...filteredExpenses].sort((a, b) => {
       if (sortProperty === "category")
         return a.category.localeCompare(b.category);
       else if (sortProperty === "priceHighest") return b.price - a.price;
-      // else if (sortProperty === "priceLowest") return a.price - b.price;
+      else if (sortProperty === "priceLowest") return a.price - b.price;
       else if (sortProperty === "item") return a.item.localeCompare(b.item);
       else return 0;
     });
     return sorted;
   }, [filteredExpenses, sortProperty]);
 
-  console.log("sortedItems", sortedItems);
-
   const sortByCategory = () => {
     setSortProperty("category");
-    console.log("category");
+    setIsCategorySorted(true);
+    setIsNameSorted(false);
+    setIsPriceSorted(false);
   };
+
   const sortByHighestPrice = () => {
     setSortProperty("priceHighest");
-    console.log("highest price");
+    setIsPriceHighest(!isPriceHighest);
+    setIsPriceSorted(true);
+    setIsNameSorted(false);
+    setIsCategorySorted(false);
   };
-  // const sortByLowestPrice = () => {
-  //   setSortProperty("priceLowest");
-  // };
+
+  const sortByLowestPrice = () => {
+    setSortProperty("priceLowest");
+    setIsPriceHighest(!isPriceHighest);
+    setIsPriceSorted(true);
+    setIsNameSorted(false);
+    setIsCategorySorted(false);
+  };
+
   const sortByName = () => {
     setSortProperty("item");
-    console.log("name");
+    setIsNameSorted(true);
+    setIsPriceSorted(false);
+    setIsCategorySorted(false);
   };
 
   return (
-    <div>
+    <>
       <CustomInput
         type="text"
         label="Search"
         value={search}
         onChange={handleSearchText}
         placeholder="Search products"
-        // endAdornment={
-        //   CustomInputAdornment position="end">
-        //     <SearchIcon />
-        //   </InputAdornment>
+        sx={{
+          color: "white",
 
-        // } //TODO icon syns ej
+          "& .MuiInputLabel-root": {
+            color: "white",
+          },
+          "&  svg": {
+            color: "white",
+          },
+        }}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+        }}
       />
-      <>
-        <CustomButton onClick={sortByName} text="Name" />
-        <CustomButton onClick={sortByHighestPrice} text="Price" />
-        <CustomButton onClick={sortByCategory} text="Category" />
-      </>
+
+      <div className={styles.buttonWrapper}>
+        <CustomButton
+          color={isNameSorted ? "purple" : "darkpurple"}
+          onClick={sortByName}
+          text="Name"
+          endIcon={isNameSorted ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />}
+        />
+        <CustomButton
+          color={isPriceSorted ? "purple" : "darkpurple"}
+          onClick={isPriceHighest ? sortByLowestPrice : sortByHighestPrice}
+          text="Price"
+          endIcon={
+            isPriceSorted ? (
+              isPriceHighest ? (
+                <ArrowUpwardIcon />
+              ) : (
+                <ArrowDownwardIcon />
+              )
+            ) : null
+          }
+        />
+        <CustomButton
+          color={isCategorySorted ? "purple" : "darkpurple"}
+          onClick={sortByCategory}
+          text="Category"
+          endIcon={
+            isCategorySorted ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />
+          }
+        />
+      </div>
+
       <>
         {expenses && expenses.length > 0 ? (
           <>
             {sortedItems.map((item) => (
-              <div key={item.id}>
-                <p>{item.item}</p>
-                <p> {item.category}</p>
-                <p>{item.price} kr</p>
+              <div className={styles.card} key={item.id}>
+                <span>
+                  <p>{item.item}</p>
+                  <p> {item.category?.replace("food/", "")}</p>
+                </span>
+
+                <span>
+                  <p>{item.price} kr</p>
+                  <p>{item.quantity} st</p>
+                </span>
               </div>
             ))}
           </>
@@ -101,6 +159,6 @@ export const SearchInput = ({ expenses }: Props) => {
           </>
         )}
       </>
-    </div>
+    </>
   );
 };
