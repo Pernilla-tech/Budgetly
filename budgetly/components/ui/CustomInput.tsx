@@ -1,13 +1,11 @@
 import * as React from "react";
 
-import TextField from "@mui/material/TextField";
-import { InputProps } from "@mui/material";
+import TextField, { TextFieldProps } from "@mui/material/TextField";
+import { InputAdornment, InputProps } from "@mui/material";
 
-export type Props = InputProps & {
-  label?: string;
-  variant?: "standard" | "filled" | "outlined";
+export type Props = TextFieldProps & {
+  InputProps?: InputProps;
 };
-
 const CustomInput = ({ ...props }: Props) => {
   return (
     <TextField
@@ -22,7 +20,31 @@ const CustomInput = ({ ...props }: Props) => {
       placeholder={props.placeholder}
       defaultValue={props.defaultValue}
       type={props.type}
-      sx={{ background: "#0F102B", borderRadius: "30px" }}
+      sx={{
+        background: "#0F102B",
+        borderRadius: "30px",
+        color: "white",
+        ...props.sx,
+      }}
+      InputProps={{
+        ...props.InputProps,
+        endAdornment: props.InputProps?.endAdornment && (
+          <InputAdornment position="end">
+            {props.InputProps.endAdornment}
+          </InputAdornment>
+        ),
+        startAdornment: props.InputProps?.startAdornment && (
+          <InputAdornment position="start">
+            {props.InputProps.startAdornment}
+          </InputAdornment>
+        ),
+        sx: {
+          ...props.InputProps?.sx,
+          background: "#2B2C4B",
+          borderRadius: "30px",
+          color: "white",
+        },
+      }}
     />
   );
 };
