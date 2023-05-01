@@ -164,7 +164,7 @@ const EditItem = ({ params: { itemId, year, month } }: Params) => {
           onClick={handleDeleteItem}
           variant="contained"
           size="large"
-          sx={{ backgroundColor: "#FF6161" }}
+          color="red"
         />
       </form>
     </>

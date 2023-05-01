@@ -9,6 +9,8 @@ import { useAuth } from "@/components/components/providers/supabase-auth-provide
 import { Expense } from "@/components/types/collection";
 import CustomButton from "@/components/components/ui/CustomButton";
 
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+
 type Params = {
   params: {
     year: string;
@@ -46,24 +48,25 @@ const Shopping = ({ params: { month, year } }: Params) => {
   return (
     <div className={styles.main}>
       <h1>Shopping</h1>
-      <>
+      <div className={styles.buttonwWapper}>
         <CustomButton
           onClick={() => router.push(`/${year}/${month}/shopping`)}
-          text="Shopping"
+          text="Products"
         />
         <CustomButton
           onClick={() => router.push(`/${year}/${month}/shopping/categories`)}
           text="categories"
         />
+      </div>
 
-        <>
-          <CustomButton
-            onClick={() =>
-              router.push(`/${year}/${month}/shopping/addproducts`)
-            }
-            text="Add products"
-          />
-        </>
+      <>
+        <CustomButton
+          color="blue"
+          onClick={() => router.push(`/${year}/${month}/shopping/addproducts`)}
+          text="Add products"
+          endIcon={<KeyboardArrowRightIcon />}
+          fullWidth
+        />
       </>
       <SearchInput expenses={expenses} />
     </div>
