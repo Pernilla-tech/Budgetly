@@ -1,6 +1,6 @@
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
-import styles from "./page.module.css";
+import styles from "./shopping.module.css";
 import { useRouter } from "next/navigation";
 import { SearchInput } from "./components/searchinput";
 import supabase from "@/components/lib/supabase-client";
@@ -41,14 +41,11 @@ const Shopping = ({ params: { month, year } }: Params) => {
     }
   }, [user, month, year]);
 
-  console.log("expenses", expensesData);
-  console.log("expensesShopping", expenses);
-
   const router = useRouter();
   return (
     <div className={styles.main}>
-      <h1>Shopping</h1>
-      <div className={styles.buttonwWapper}>
+      <h1 className={styles.description}>Shopping</h1>
+      <div className={styles.buttonWrapper}>
         <CustomButton
           onClick={() => router.push(`/${year}/${month}/shopping`)}
           text="Products"
@@ -59,7 +56,7 @@ const Shopping = ({ params: { month, year } }: Params) => {
         />
       </div>
 
-      <>
+      <div className={styles.addproductsbutton}>
         <CustomButton
           color="blue"
           onClick={() => router.push(`/${year}/${month}/shopping/addproducts`)}
@@ -67,7 +64,7 @@ const Shopping = ({ params: { month, year } }: Params) => {
           endIcon={<KeyboardArrowRightIcon />}
           fullWidth
         />
-      </>
+      </div>
       <SearchInput expenses={expenses} />
     </div>
   );

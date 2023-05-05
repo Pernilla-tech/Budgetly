@@ -34,10 +34,7 @@ export default function SupabaseAuthProvider({
 }) {
   const { supabase } = useSupabase();
 
-  console.log("hello");
   const router = useRouter();
-
-  console.log("router provider", router);
 
   // Get USER
   const getUser = async () => {
@@ -60,8 +57,6 @@ export default function SupabaseAuthProvider({
     isLoading,
     mutate,
   } = useSWR(serverSession ? "profile-context" : null, getUser);
-
-  console.log("serverSession", serverSession);
 
   // Sign Out
   const signOut = async () => {
@@ -105,8 +100,6 @@ export default function SupabaseAuthProvider({
 
   return <Context.Provider value={exposed}>{children}</Context.Provider>;
 }
-
-console.log("context", Context);
 
 export const useAuth = () => {
   let context = useContext(Context);

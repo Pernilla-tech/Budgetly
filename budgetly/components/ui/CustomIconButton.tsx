@@ -12,6 +12,7 @@ type CustomIconButtonProps = Pick<
   | "disabled"
   | "children"
   | "value"
+  | "className"
 >;
 
 const CustomIconButton = ({ ...props }: CustomIconButtonProps) => {
@@ -25,6 +26,7 @@ const CustomIconButton = ({ ...props }: CustomIconButtonProps) => {
       sx={{ ...props.sx }}
       value={props.value}
       disabled={props.disabled}
+      className={props.className}
     >
       {props.children}
     </IconButton>

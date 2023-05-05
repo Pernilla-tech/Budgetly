@@ -8,6 +8,10 @@ import supabase from "@/components/lib/supabase-client";
 import { Expense } from "@/components/types/collection";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
+import styles from "./page.module.css";
+import CustomIconButton from "@/components/components/ui/CustomIconButton";
+import RemoveIcon from "@mui/icons-material/Remove";
+import AddIcon from "@mui/icons-material/Add";
 
 type Params = {
   params: {
@@ -62,6 +66,7 @@ const EditItem = ({ params: { itemId, year, month } }: Params) => {
           item: name,
           price: price as unknown as number,
           category: category,
+          quantity: quantity,
         })
         .eq("id", itemId);
 
@@ -112,62 +117,76 @@ const EditItem = ({ params: { itemId, year, month } }: Params) => {
   ];
 
   return (
-    <>
-      <h1>Edit {name}</h1>
+    <div className={styles.main}>
+      <p className={styles.description}>Edit {name}</p>
       <form onSubmit={onSubmit}>
-        <label htmlFor="name">{name}</label>
-        <br />
-        <CustomButton
-          type="button"
-          onClick={() => setQuantity(quantity - 1)}
-          text="-"
-        />
+        <div className={styles.card}>
+          <div className={styles.quantityWrapper}>
+            <p className={styles.despription}>Amount</p>
+            <div className={styles.quantityInnerWrapper}>
+              <CustomIconButton
+                className={styles.icon}
+                size="small"
+                onClick={() => setQuantity(quantity - 1)}
+              >
+                <RemoveIcon className={styles.icon} />
+              </CustomIconButton>
+              <p>{quantity}</p>
+              <CustomIconButton
+                className={styles.icon}
+                size="small"
+                onClick={() => setQuantity(quantity + 1)}
+              >
+                <AddIcon className={styles.icon} />
+              </CustomIconButton>
+            </div>
+          </div>
 
-        {quantity}
-        <CustomButton
-          type="button"
-          onClick={() => setQuantity(quantity + 1)}
-          text="+"
-        />
+          <div className={styles.wrapper}>
+            {/* <label htmlFor="price">Name</label> */}
+            <CustomInput
+              className={styles.addProducts}
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            {/* <label htmlFor="price">Price</label> */}
+            <CustomInput
+              className={styles.addProducts}
+              type="number"
+              id="price"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+            />
+            {/* <label htmlFor="category">Category</label> */}
 
-        <br />
+            <CustomSelect
+              className={styles.addProducts}
+              value={category}
+              onChange={(e) => setCategory(e.target.value.toString())}
+              options={optionsCategory}
+            />
+          </div>
+        </div>
 
-        <CustomInput
-          type="text"
-          id="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <label htmlFor="price">Price</label>
-        <CustomInput
-          type="number"
-          id="price"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-        />
-        <label htmlFor="category">Category</label>
-
-        <CustomSelect
-          value={category}
-          onChange={(e) => setCategory(e.target.value.toString())}
-          options={optionsCategory}
-        />
-
-        <CustomButton
-          type="submit"
-          text="Update"
-          variant="contained"
-          size="large"
-        />
-        <CustomButton
-          text="Delete"
-          onClick={handleDeleteItem}
-          variant="contained"
-          size="large"
-          color="red"
-        />
+        <div className={styles.buttonWrapper}>
+          <CustomButton
+            type="submit"
+            text="Update"
+            variant="contained"
+            size="large"
+          />
+          <CustomButton
+            text="Delete"
+            onClick={handleDeleteItem}
+            variant="contained"
+            size="large"
+            color="red"
+          />
+        </div>
       </form>
-    </>
+    </div>
   );
 };
 

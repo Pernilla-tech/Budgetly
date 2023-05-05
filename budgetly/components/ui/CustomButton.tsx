@@ -14,6 +14,7 @@ type CustomButtonProps = Pick<
   | "startIcon"
   | "endIcon"
   | "fullWidth"
+  | "className"
 > & {
   as?: React.ElementType;
   text?: string;
@@ -60,12 +61,14 @@ const CustomButton = ({
       disabled={props.disabled}
       startIcon={props.startIcon}
       endIcon={props.endIcon}
+      className={props.className}
       sx={{
         ...props.sx,
         backgroundColor,
         color: "white",
         borderRadius: "25px",
         padding: "10px 20px",
+        textTransform: "none",
       }}
     >
       {props.text}

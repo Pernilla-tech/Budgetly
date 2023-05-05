@@ -4,8 +4,30 @@
   justify-content: space-between;
   align-items: center;
   margin: 0 20px;
-  /* padding: 6rem; */
+  /* padding: 1rem; */
   /* min-height: 85vh; */
+}
+
+.buttonWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.buttonWrapper button {
+  margin: 10px;
+  width: 100%;
+}
+
+.addproductsbutton {
+  margin: 2rem;
+  width: 100%;
+}
+
+.addproductsbutton button {
+  width: 100%;
+  border-radius: 12px;
 }
 
 .description {
@@ -33,13 +55,6 @@
   background-color: rgba(var(--callout-rgb), 0.5);
   border: 1px solid rgba(var(--callout-border-rgb), 0.3);
   border-radius: var(--border-radius);
-}
-
-.buttonwWapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
 }
 
 .code {
@@ -207,31 +222,5 @@
       rgb(var(--background-end-rgb)) 40%
     );
     z-index: 1;
-  }
-}
-
-/* Tablet and Smaller Desktop */
-@media (min-width: 701px) and (max-width: 1120px) {
-  .grid {
-    grid-template-columns: repeat(2, 50%);
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .vercelLogo {
-    filter: invert(1);
-  }
-
-  .logo {
-    filter: invert(1) drop-shadow(0 0 0.3rem #ffffff70);
-  }
-}
-
-@keyframes rotate {
-  from {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0deg);
   }
 }

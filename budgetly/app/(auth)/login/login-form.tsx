@@ -16,8 +16,6 @@ const LoginForm = () => {
     }
   }, [router, user]);
 
-  console.log({ user });
-
   return (
     <main className={styles.main}>
       <div className={styles.wrapper}>

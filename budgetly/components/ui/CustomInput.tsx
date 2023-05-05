@@ -6,6 +6,7 @@ import { InputAdornment, InputProps } from "@mui/material";
 export type Props = TextFieldProps & {
   InputProps?: InputProps;
 };
+
 const CustomInput = ({ ...props }: Props) => {
   return (
     <TextField
@@ -20,6 +21,7 @@ const CustomInput = ({ ...props }: Props) => {
       placeholder={props.placeholder}
       defaultValue={props.defaultValue}
       type={props.type}
+      className={props.className}
       sx={{
         background: "#0F102B",
         borderRadius: "30px",
@@ -39,10 +41,10 @@ const CustomInput = ({ ...props }: Props) => {
           </InputAdornment>
         ),
         sx: {
-          ...props.InputProps?.sx,
-          background: "#2B2C4B",
+          // background: "#2B2C4B",
           borderRadius: "30px",
-          color: "white",
+          color: "#fff",
+          ...props.InputProps?.sx,
         },
       }}
     />

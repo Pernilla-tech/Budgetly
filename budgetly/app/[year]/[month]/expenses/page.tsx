@@ -54,7 +54,6 @@ const Expenses = ({ params: { month, year } }: Params) => {
       if (error) throw error;
       if (data != null) {
         setGroupedExpenses(data as GroupExpense[]);
-        console.log(data);
       }
     } catch (error: any) {
       alert(error.message);
@@ -152,8 +151,6 @@ const Expenses = ({ params: { month, year } }: Params) => {
       },
     ],
   };
-
-  console.log({ datas: expenseData });
 
   const optionsYearMonth = [
     { value: "2023/1", label: "Januari" },

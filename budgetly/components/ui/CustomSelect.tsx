@@ -15,6 +15,9 @@ type CustomSelectProps = {
   value: string | number;
   defaultValue?: string | number;
   options: Option[];
+  sx?: any;
+  className?: string;
+
   onChange: (
     event: SelectChangeEvent<string | number>,
     child: React.ReactNode
@@ -29,6 +32,8 @@ const CustomSelect = ({
   options,
   onChange,
   defaultValue,
+  className,
+  sx,
 }: CustomSelectProps) => {
   return (
     <>
@@ -40,6 +45,13 @@ const CustomSelect = ({
         label={label}
         onChange={onChange}
         defaultValue={defaultValue}
+        className={className}
+        sx={{
+          ...sx,
+          backgroundColor: "#0F102B",
+          color: "#fff",
+          borderRadius: "30px",
+        }}
       >
         {options.map((option) => (
           <MenuItem key={option.value} value={option.value}>
@@ -50,5 +62,4 @@ const CustomSelect = ({
     </>
   );
 };
-
 export default CustomSelect;

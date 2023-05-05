@@ -13,8 +13,6 @@ const Editbudget = () => {
   const [year, setYear] = useState(new Date().getFullYear());
   const [budget, setBudget] = useState(0);
 
-  console.log("month", month);
-
   const { user } = useAuth();
   const route = useRouter();
 

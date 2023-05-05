@@ -1,9 +1,27 @@
 .buttonWrapper {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  align-self: flex-start;
   margin-top: 1rem;
 }
+
+.description {
+  display: inherit;
+  justify-content: inherit;
+  align-items: inherit;
+  font-size: 1rem;
+  max-width: var(--max-width);
+  width: 100%;
+  /* font-family: var(--font-mono); */
+  margin-bottom: 20px;
+}
+
+.searchInputWrapper {
+  width: 100%;
+}
+
+/* .MuiFormControl-root-MuiTextField-root {
+  width: 100%;
+} */
 
 .card {
   padding: 1rem 1.2rem;
@@ -34,4 +52,22 @@
   line-height: 1.5;
   max-width: 30ch;
   text-transform: capitalize;
+}
+
+.searchInput {
+  width: 100%;
+  color: #fff;
+  background-color: #2b2c4b;
+}
+
+.searchInput input::placeholder {
+  color: #fff;
+}
+
+.searchInput svg {
+  color: #fff;
+}
+
+.searchInput label {
+  color: #fff;
 }

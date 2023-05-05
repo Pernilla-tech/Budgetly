@@ -1,0 +1,145 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  /* min-height: 85vh; */
+  width: 100%;
+}
+
+.wrapper {
+  background-color: #2b2c4b;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.selectDateWrapper {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+  width: 100%;
+}
+
+.quantityWrapper {
+  display: flex;
+  justify-content: start;
+  margin: 10px;
+  width: 100%;
+}
+
+.quantityWrapper p {
+  align-self: center;
+}
+
+.quantityInnerWrapper {
+  background-color: #0f102b;
+  border-radius: 16px;
+  display: flex;
+  margin: 0 12px;
+}
+
+.quantityInnerWrapper p {
+  padding: 0 10px;
+}
+
+.addProductsWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+/* .addProductsWrapper .MuiSvgIcon-root-MuiSelect-icon {
+  color: white;
+}
+
+.addProductsWrapper select svg {
+  color: white;
+} */
+
+.addProducts {
+  width: 100%;
+  background-color: #0f102b;
+  margin: 6px 0;
+  /* border-radius: 16px; */
+}
+
+.icon {
+  background-color: #7b61ff;
+  border-radius: 50%;
+}
+
+.icon svg {
+  color: #fff;
+}
+
+.select {
+  margin: 0 10px;
+}
+
+.description {
+  display: inherit;
+  justify-content: inherit;
+  align-items: inherit;
+  font-size: 1rem;
+  /* font-family: var(--font-mono); */
+}
+
+.addButton {
+  width: 100%;
+  margin: 30px;
+}
+
+.addedProducsText {
+  margin: 10px 0;
+  align-self: flex-start;
+}
+
+.card {
+  padding: 1rem 1.2rem;
+  border-radius: 10px;
+  background: #2b2c4b;
+  border: 1px solid rgba(var(--card-border-rgb), 0);
+  transition: border 200ms;
+  width: 100%;
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.card div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+/* .card span {
+  display: inline-block;
+  transition: transform 200ms;
+} */
+
+.card h3 {
+  font-weight: 600;
+  margin-bottom: 0.7rem;
+  text-transform: capitalize;
+}
+
+.card p {
+  margin: 0;
+  opacity: 0.6;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  max-width: 30ch;
+  text-transform: capitalize;
+}
+
+.editIcon {
+  color: #7b61ff;
+}

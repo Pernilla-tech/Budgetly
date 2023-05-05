@@ -7,7 +7,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useMemo, useState } from "react";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import styles from "./styles.module.css";
+import styles from "./searchinput.module.css";
 
 interface Props {
   expenses: Expense[];
@@ -78,39 +78,35 @@ export const SearchInput = ({ expenses }: Props) => {
 
   return (
     <>
-      <CustomInput
-        type="text"
-        label="Search"
-        value={search}
-        onChange={handleSearchText}
-        placeholder="Search products"
-        sx={{
-          color: "white",
-
-          "& .MuiInputLabel-root": {
-            color: "white",
-          },
-          "&  svg": {
-            color: "white",
-          },
-        }}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <SearchIcon />
-            </InputAdornment>
-          ),
-        }}
-      />
+      <h1 className={styles.description}>Product List</h1>
+      <div className={styles.searchInputWrapper}>
+        <CustomInput
+          type="text"
+          label="Search"
+          value={search}
+          onChange={handleSearchText}
+          placeholder="Search products"
+          className={styles.searchInput}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </div>
 
       <div className={styles.buttonWrapper}>
         <CustomButton
+          size="small"
           color={isNameSorted ? "purple" : "darkpurple"}
           onClick={sortByName}
           text="Name"
           endIcon={isNameSorted ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />}
         />
         <CustomButton
+          size="small"
           color={isPriceSorted ? "purple" : "darkpurple"}
           onClick={isPriceHighest ? sortByLowestPrice : sortByHighestPrice}
           text="Price"
@@ -125,6 +121,7 @@ export const SearchInput = ({ expenses }: Props) => {
           }
         />
         <CustomButton
+          size="small"
           color={isCategorySorted ? "purple" : "darkpurple"}
           onClick={sortByCategory}
           text="Category"

@@ -74,8 +74,6 @@ export default function Overview({ params: { year, month } }: Params) {
     }
   }, [month, user?.id, year]);
 
-  console.log({ budget });
-
   const getExpensesCurrentMonth = useCallback(async () => {
     try {
       const { data: currentMonth, error } = await supabase
@@ -88,7 +86,6 @@ export default function Overview({ params: { year, month } }: Params) {
       if (error) throw error;
       if (data != null) {
         setExpensesCurrentMonth(currentMonth as GroupExpense[]);
-        console.log({ currentMonth });
       }
     } catch (error: any) {
       alert(error.message);
@@ -106,7 +103,6 @@ export default function Overview({ params: { year, month } }: Params) {
       if (error) throw error;
       if (data != null) {
         setTotalExpenses(data as GroupExpense[]);
-        console.log({ data });
       }
     } catch (error: any) {
       alert(error.message);
@@ -131,7 +127,6 @@ export default function Overview({ params: { year, month } }: Params) {
   );
 
   const diffFromLastMonth = sum - lastMonthSum;
-  console.log({ diffFromLastMonth });
 
   let formattedDiff = "";
 
@@ -147,12 +142,7 @@ export default function Overview({ params: { year, month } }: Params) {
     } else {
       formattedDiff = (diffFromLastMonth > 0 ? "+" : "") + diff + " %";
     }
-
-    console.log({ diffFromLastMonthPercentage });
-    console.log({ diff });
   }
-
-  console.log({ lastMonthSum });
 
   useEffect(() => {
     if (user?.id != null) {
@@ -219,8 +209,6 @@ export default function Overview({ params: { year, month } }: Params) {
     router.replace(`/${newYear}/${newMonth}/overview`);
   };
 
-  console.log({ month });
-
   let monthName = new Date(
     parseInt(year),
     parseInt(month) - 1,
@@ -229,8 +217,6 @@ export default function Overview({ params: { year, month } }: Params) {
 
   const formattedMonthName =
     monthName.charAt(0).toUpperCase() + monthName.slice(1);
-
-  console.log(formattedMonthName);
 
   return (
     <main className={styles.main}>

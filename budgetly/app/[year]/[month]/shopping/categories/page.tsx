@@ -5,7 +5,7 @@ import CustomButton from "@/components/components/ui/CustomButton";
 import supabase from "@/components/lib/supabase-client";
 import { Expense, GroupExpenseFood } from "@/components/types/collection";
 import { useRouter } from "next/navigation";
-import styles from "./page.module.css";
+import styles from "./categories.module.css";
 
 import React, { useEffect, useState } from "react";
 import CategoryAccordion from "./components.tsx/CategoryAccordion";
