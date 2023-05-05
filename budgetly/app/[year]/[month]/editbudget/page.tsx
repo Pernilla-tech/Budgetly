@@ -6,6 +6,7 @@ import CustomButton from "@/components/components/ui/CustomButton";
 import supabase from "@/components/lib/supabase-client";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import styles from "./page.module.css";
 import CustomInput from "@/components/components/ui/CustomInput";
 
 const Editbudget = () => {
@@ -70,9 +71,9 @@ const Editbudget = () => {
   ];
 
   return (
-    <>
-      <>
-        Edit Monthly budget
+    <div className={styles.main}>
+      <h1 className={styles.description}>Edit Monthly budget</h1>
+      <div className={styles.card}>
         <form onSubmit={handleSubmit}>
           <CustomInput
             placeholder="lägg till månadsbudget"
@@ -82,13 +83,15 @@ const Editbudget = () => {
           />
 
           <CustomSelect
+            className={styles.select}
             value={month}
             label="Month"
-            onChange={(e) => setBudget(Number(e.target.value))}
+            onChange={(e) => setMonth(Number(e.target.value))}
             options={optionsMonth}
           />
 
           <CustomSelect
+            className={styles.select}
             label="Year"
             value={year}
             onChange={(e) => setYear(Number(e.target.value))}
@@ -102,8 +105,8 @@ const Editbudget = () => {
             size="medium"
           />
         </form>
-      </>
-    </>
+      </div>
+    </div>
   );
 };
 

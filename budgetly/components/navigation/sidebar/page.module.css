@@ -14,6 +14,10 @@
   color: #ffff;
 }
 
+.iconbutton svg {
+  color: #ffff;
+}
+
 .profileInfo {
   display: flex;
   flex-direction: column;

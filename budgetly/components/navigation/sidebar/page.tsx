@@ -19,8 +19,9 @@ import styles from "./page.module.css";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import { useAuth } from "../../providers/supabase-auth-provider";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import AddIcon from "@mui/icons-material/Add";
 
-import { ServerCogIcon } from "lucide-react";
+import CustomIconButton from "../../ui/CustomIconButton";
 
 type Anchor = "left";
 
@@ -69,30 +70,41 @@ const Sidebar: React.FC<SidebarProps> = ({ anchor }) => {
 
       <Divider />
       <List>
-        {["Edit monthly budget", "Edit categories"].map((text, index) => (
-          <ListItem key={text} disablePadding style={{ color: "inherit" }}>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? (
-                  <IconButton
-                    className={styles.iconbutton}
-                    onClick={() => router.push(`/${year}/${month}/editbudget`)}
-                  >
-                    <ModeEditIcon />
-                  </IconButton>
-                ) : (
-                  <IconButton
-                    className={styles.iconbutton}
-                    onClick={() => router.push(`/${year}/${month}/expenses`)}
-                  >
-                    <CategoryIcon />
-                  </IconButton>
-                )}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        {["Add monthly budget", "Edit monthly budget", "Edit categories"].map(
+          (text, index) => (
+            <ListItem key={text} disablePadding style={{ color: "inherit" }}>
+              <ListItemButton>
+                <ListItemIcon>
+                  {index % 3 === 0 ? (
+                    <CustomIconButton
+                      className={styles.iconbutton}
+                      onClick={() => router.push(`/${year}/${month}/addbudget`)}
+                    >
+                      <AddIcon />
+                    </CustomIconButton>
+                  ) : index % 3 === 1 ? (
+                    <CustomIconButton
+                      className={styles.iconbutton}
+                      onClick={() =>
+                        router.push(`/${year}/${month}/editbudget`)
+                      }
+                    >
+                      <ModeEditIcon />
+                    </CustomIconButton>
+                  ) : (
+                    <CustomIconButton
+                      className={styles.iconbutton}
+                      onClick={() => router.push(`/${year}/${month}/expenses`)}
+                    >
+                      <CategoryIcon />
+                    </CustomIconButton>
+                  )}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          )
+        )}
       </List>
       <Divider />
       <List>
@@ -101,16 +113,19 @@ const Sidebar: React.FC<SidebarProps> = ({ anchor }) => {
             <ListItemButton>
               <ListItemIcon>
                 {index % 2 === 0 ? (
-                  <IconButton
+                  <CustomIconButton
                     className={styles.iconbutton}
                     onClick={() => router.push("/")}
                   >
                     <HomeOutlinedIcon />
-                  </IconButton>
+                  </CustomIconButton>
                 ) : (
-                  <IconButton className={styles.iconbutton} onClick={signOut}>
+                  <CustomIconButton
+                    className={styles.iconbutton}
+                    onClick={signOut}
+                  >
                     <LogoutOutlinedIcon />
-                  </IconButton>
+                  </CustomIconButton>
                 )}
               </ListItemIcon>
               <ListItemText primary={text} />

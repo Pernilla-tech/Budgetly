@@ -11,45 +11,50 @@
   /* min-height: 85vh; */
 }
 
-.cointainer {
+.buttonWrapper {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   align-items: center;
-  padding: 1rem;
-  margin: 0 auto;
-  background-color: #2b2c4b;
-  /* height: 600px; */
+}
+
+.button {
+  background-color: #9747ff;
+  color: #fff;
+}
+
+.button svg {
+  color: #fff;
+}
+
+.select {
+  color: #fff;
+}
+
+.select svg {
+  color: #fff;
+}
+
+.card {
+  padding: 4rem 1.2rem;
+  border-radius: 10px;
+  background: #2b2c4b;
   width: 100%;
-  border-radius: 5px;
+  margin: 10px 0;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .description {
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
   align-items: center;
   font-size: 18px;
-  max-width: var(--max-width);
   width: 100%;
-  /* z-index: 2;
-  font-family: var(--font-mono); */
 }
 
-/* .description a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-} */
-
 .description p {
-  position: relative;
   margin: 0;
   padding: 1rem;
-  /* background-color: rgba(var(--callout-rgb), 0.5);
-  border: 1px solid rgba(var(--callout-border-rgb), 0.3);
-  border-radius: var(--border-radius); */
 }
 
 .wrapper {
@@ -59,5 +64,67 @@
   align-items: center;
   width: 100%;
   margin: 0 auto;
-  /* max-width: var(--max-width); */
+}
+
+.wrapper p {
+  margin: 4px 0;
+  opacity: 0.8;
+}
+
+.amountSpent {
+  font-size: 20px;
+  color: #fff;
+}
+.amountLeft {
+  font-size: 20px;
+  color: #fff;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+}
+
+.formInput {
+  margin: 6px 0;
+  width: 100%;
+}
+
+.formSelect {
+  width: 100%;
+  margin: 6px 0;
+}
+
+.formSelect svg {
+  color: #fff;
+}
+
+.formContainer button {
+  width: 50%;
+  margin-top: 6px;
+}
+
+.chartLegend {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.categoryWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.expense {
+  margin-right: auto;
+}
+
+.divider {
+  margin: 6px 0;
+  color: #0f102b;
 }

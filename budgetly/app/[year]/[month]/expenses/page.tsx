@@ -20,6 +20,7 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import CustomButton from "@/components/components/ui/CustomButton";
 import CustomSelect from "@/components/components/ui/CustomSelect";
 import CustomInput from "@/components/components/ui/CustomInput";
+import { Divider } from "@mui/material";
 
 ChartJS.register(ArcElement, Tooltip, Legend); // register the chart.js plugins
 
@@ -37,7 +38,6 @@ const Expenses = ({ params: { month, year } }: Params) => {
 
   const [groupedExpenses, setGroupedExpenses] = useState<GroupExpense[]>([]);
   const [budget, setBudget] = useState(0);
-  // const [selectedDate, setSelectedDate] = useState(new Date().getMonth());
 
   const { user } = useAuth();
   const router = useRouter();
@@ -128,14 +128,14 @@ const Expenses = ({ params: { month, year } }: Params) => {
         data: groupedExpenses.map((expense: GroupExpense) => expense.sum_price),
 
         backgroundColor: [
-          "rgba(255, 99, 132, 0.2)",
-          "rgba(54, 162, 235, 0.2)",
-          "rgba(255, 206, 86, 0.2)",
-          "rgba(75, 192, 192, 0.2)",
-          "rgba(153, 102, 255, 0.2)",
-          "rgba(255, 159, 64, 0.2)",
-          "rgba(255, 99, 132, 0.2)",
-          "rgba(235, 54, 184, 0.2)",
+          "rgba(255, 99, 132, 1)",
+          "rgba(54, 162, 235, 1)",
+          "rgba(255, 206, 86, 1)",
+          "rgba(75, 192, 192, 1)",
+          "rgba(153, 102, 255, 1)",
+          "rgba(255, 159, 64, 1)",
+          "rgba(255, 99, 132, 1)",
+          "rgba(235, 54, 184, 1)",
         ],
         borderColor: [
           "rgba(255, 99, 132, 1)",
@@ -147,7 +147,6 @@ const Expenses = ({ params: { month, year } }: Params) => {
           "rgba(255, 99, 132, 1)",
           "rgba(235, 54, 184, 1)",
         ],
-        borderWidth: 1,
       },
     ],
   };
@@ -187,12 +186,12 @@ const Expenses = ({ params: { month, year } }: Params) => {
   };
   return (
     <main className={styles.main}>
-      <div style={{ display: "flex", alignItems: "center" }}>
+      <div className={styles.buttonWrapper}>
         <>
           <CustomIconButton
+            className={styles.button}
             value={`${year}/${month}`}
             size="small"
-            sx={{ background: "#9747FF", color: "white" }}
             onClick={() => handleChangeMonth(-1)}
           >
             <KeyboardArrowLeftIcon />
@@ -201,6 +200,7 @@ const Expenses = ({ params: { month, year } }: Params) => {
 
         <>
           <CustomSelect
+            className={styles.select}
             value={`${year}/${month}`}
             defaultValue={`${year}/${month}`}
             onChange={(e) => router.replace(`/${e.target.value}/expenses`)}
@@ -209,18 +209,20 @@ const Expenses = ({ params: { month, year } }: Params) => {
         </>
         <>
           <CustomIconButton
+            className={styles.button}
             onClick={() => handleChangeMonth(1)}
             size="small"
             value={`${year}/${month}`}
-            sx={{ background: "#9747FF", color: "white" }}
           >
             <KeyboardArrowRightIcon />
           </CustomIconButton>
         </>
       </div>
 
-      <div className={styles.cointainer}>
-        <div className={styles.description}>Expenses</div>
+      <div className={styles.card}>
+        <div className={styles.description}>
+          <h2>Expenses</h2>
+        </div>
         <div className={styles.description}>
           <p>Monthly budget</p>
 
@@ -238,20 +240,21 @@ const Expenses = ({ params: { month, year } }: Params) => {
         </div>
 
         <div className={styles.wrapper}>
-          <>
-            <p className={styles.spent}>Spent</p>
-            <p className={styles.spent}>{totalExpenses} kr</p>
-          </>
+          <div className={styles.spent}>
+            <p>Spent</p>
+            <p className={styles.amountSpent}>{totalExpenses} kr</p>
+          </div>
 
-          <>
-            <p className={styles.left}>Left</p>
-            <p className={styles.left}>{left} kr</p>
-          </>
+          <div className={styles.left}>
+            <p>Left</p>
+            <p className={styles.amountLeft}>{left} kr</p>
+          </div>
         </div>
 
-        <>
-          <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit}>
+          <div className={styles.formContainer}>
             <CustomInput
+              className={styles.formInput}
               type="text"
               placeholder="Expense"
               value={item}
@@ -259,6 +262,7 @@ const Expenses = ({ params: { month, year } }: Params) => {
             />
             <CustomInput
               placeholder="Price"
+              className={styles.formInput}
               type="number"
               value={price}
               onChange={(e) => setPrice(Number(e.target.value))}
@@ -266,13 +270,14 @@ const Expenses = ({ params: { month, year } }: Params) => {
 
             <CustomSelect
               value={category}
+              className={styles.formSelect}
               onChange={(e) => setCategory(e.target.value.toString())}
               options={optionsCategory}
             />
 
             <CustomButton type="submit" text="Add" />
-          </form>
-        </>
+          </div>
+        </form>
 
         <div style={{ width: "300px" }}>
           <Doughnut
@@ -290,28 +295,28 @@ const Expenses = ({ params: { month, year } }: Params) => {
                     if (label === expense.group_category) {
                       return (
                         <div
+                          className={styles.chartLegend}
                           key={label}
                           style={{
-                            width: "20px",
-                            height: "20px",
                             backgroundColor:
                               expenseData.datasets[0].backgroundColor[
                                 expenseData.labels.indexOf(label)
                               ],
-                            borderRadius: "50%",
-                            marginRight: "10px",
                           }}
                         ></div>
                       );
                     }
                   })}
 
-                  <>
-                    <p>{expense.group_category}</p>
-                  </>
-                  <>
-                    <p>{expense.sum_price} kr</p>
-                  </>
+                  <div className={styles.categoryWrapper}>
+                    <>
+                      <p className={styles.expense}>{expense.group_category}</p>
+                    </>
+                    <>
+                      <p>{expense.sum_price} kr</p>
+                    </>
+                  </div>
+                  <Divider className={styles.divider} />
                 </>
               </div>
             );

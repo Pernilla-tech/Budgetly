@@ -1,0 +1,51 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 20px;
+  padding: 1rem;
+  /* min-height: 85vh; */
+}
+
+.description {
+  display: inherit;
+  justify-content: inherit;
+  align-items: inherit;
+  font-size: 1rem;
+}
+.card {
+  padding: 4rem 1.2rem;
+  border-radius: 10px;
+  background: #2b2c4b;
+  width: 100%;
+  margin: 10px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.card input {
+  width: 100%;
+}
+
+.select {
+  width: 100%;
+}
+
+.select svg {
+  color: #fff;
+}
+
+.select label {
+  color: #fff;
+}
+.select .MuiFormLabel-root {
+  color: #fff;
+}
+.select .MuiFormLabel-root.Mui-focused {
+  color: #fff;
+}
+.card button {
+  margin-top: 30px;
+  width: 100%;
+}

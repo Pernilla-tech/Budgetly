@@ -1,5 +1,5 @@
 import Sidebar from "@/components/components/navigation/sidebar/page";
-import TabBar from "@/components/components/navigation/tabbar/TabBar";
+import TabBar from "@/components/components/navigation/tabbar/tabbar";
 
 type Params = {
   params: {

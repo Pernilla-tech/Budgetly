@@ -3,7 +3,7 @@
 import { useAuth } from "@/components/components/providers/supabase-auth-provider";
 import supabase from "@/components/lib/supabase-client";
 import React, { FormEventHandler, useState } from "react";
-
+import styles from "./page.module.css";
 import { useRouter } from "next/navigation";
 
 import CustomSelect from "@/components/components/ui/CustomSelect";
@@ -76,27 +76,29 @@ const AddBudget = () => {
   ];
 
   return (
-    <>
-      AddBudget
-      <>
+    <div className={styles.main}>
+      <h1 className={styles.description}>Add Budget</h1>
+      <div className={styles.card}>
         <form onSubmit={handleSubmit}>
           <CustomInput
             placeholder="lägg till månadsbudget"
             value={budget}
+            // label="Budget"
             onChange={(e) => setBudget(Number(e.target.value))}
-            defaultValue={budget}
             size="small"
           />
 
           <CustomSelect
+            className={styles.select}
             value={month}
             label="Month"
-            onChange={(e) => setBudget(Number(e.target.value))}
+            onChange={(e) => setMonth(Number(e.target.value))}
             options={optionsMonth}
           />
 
           <CustomSelect
             label="Year"
+            className={styles.select}
             value={year}
             onChange={(e) => setYear(Number(e.target.value))}
             options={optionsYear}
@@ -109,8 +111,8 @@ const AddBudget = () => {
             size="medium"
           />
         </form>
-      </>
-    </>
+      </div>
+    </div>
   );
 };
 

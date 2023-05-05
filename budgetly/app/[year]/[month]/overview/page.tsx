@@ -290,13 +290,6 @@ export default function Overview({ params: { year, month } }: Params) {
         data={data}
         style={{ background: "#2B2C4B", color: "white", borderRadius: "12px" }}
       />
-
-      <CustomButton
-        href={`/${year}/${month}/addbudget`}
-        size="small"
-        variant="contained"
-        text="Add Budget"
-      />
     </main>
   );
 }
