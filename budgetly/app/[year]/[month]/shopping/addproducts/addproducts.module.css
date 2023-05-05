@@ -8,6 +8,17 @@
   width: 100%;
 }
 
+.styledDiv {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.arrowIcon svg {
+  margin-right: auto;
+  color: #fff;
+}
+
 .wrapper {
   background-color: #2b2c4b;
   display: flex;
@@ -54,19 +65,21 @@
   width: 100%;
 }
 
-/* .addProductsWrapper .MuiSvgIcon-root-MuiSelect-icon {
-  color: white;
-}
-
-.addProductsWrapper select svg {
-  color: white;
-} */
-
 .addProducts {
   width: 100%;
   background-color: #0f102b;
   margin: 6px 0;
-  /* border-radius: 16px; */
+  color: #fff;
+}
+
+.addProducts svg {
+  color: #fff;
+}
+
+.addButton {
+  margin-top: 10px;
+  color: #ffff;
+  width: 50%;
 }
 
 .icon {
@@ -78,24 +91,16 @@
   color: #fff;
 }
 
-.select {
-  margin: 0 10px;
-}
-
 .description {
-  display: inherit;
+  /* display: inherit;
   justify-content: inherit;
-  align-items: inherit;
+  align-items: inherit; */
   font-size: 1rem;
+  margin: 0 auto;
   /* font-family: var(--font-mono); */
 }
 
-.addButton {
-  width: 100%;
-  margin: 30px;
-}
-
-.addedProducsText {
+.addedProductsText {
   margin: 10px 0;
   align-self: flex-start;
 }
@@ -119,11 +124,6 @@
   align-items: center;
   width: 100%;
 }
-
-/* .card span {
-  display: inline-block;
-  transition: transform 200ms;
-} */
 
 .card h3 {
   font-weight: 600;

@@ -14,6 +14,7 @@ import { FormEventHandler, useEffect, useState } from "react";
 import CustomIconButton from "@/components/components/ui/CustomIconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import { ShoppingSvg } from "@/components/public/ShoppingSvg";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const AddProducts = () => {
   const [item, setItem] = useState("");
@@ -139,7 +140,19 @@ const AddProducts = () => {
 
   return (
     <div className={styles.main}>
-      <h1 className={styles.description}>Add Products</h1>
+      <div className={styles.styledDiv}>
+        <div className={styles.arrowIcon}>
+          <CustomIconButton
+            onClick={() => route.push(`/${year}/${month}/shopping`)}
+          >
+            <ArrowBackIcon />
+          </CustomIconButton>
+        </div>
+        <div>
+          <h1 className={styles.description}>Add Products</h1>
+        </div>
+      </div>
+
       <div className={styles.wrapper}>
         <form onSubmit={onSubmit}>
           {/* <div className={styles.selectDateWrapper}>
@@ -200,7 +213,7 @@ const AddProducts = () => {
             <CustomSelect
               //Todo gör första label synlig i selecten
               labelId="Välj kategori"
-              // label="Välj kategori"
+              label="Välj kategori"
               className={styles.addProducts}
               value={category}
               onChange={(e) => setCategory(e.target.value.toString())}
@@ -216,7 +229,6 @@ const AddProducts = () => {
           </div>
         </form>
       </div>
-
       {items.length === 0 ? (
         <>
           <p>No products added</p>
@@ -224,7 +236,7 @@ const AddProducts = () => {
         </>
       ) : (
         <>
-          <p className={styles.addedProducsText}>Added products</p>
+          <p className={styles.addedProductsText}>Added products</p>
           {items.map((item) => (
             <div className={styles.card} key={item.id}>
               <div>
