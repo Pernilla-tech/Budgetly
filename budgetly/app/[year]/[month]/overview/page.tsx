@@ -38,6 +38,8 @@ import { useAuth } from "@/components/components/providers/supabase-auth-provide
 import CustomButton from "@/components/components/ui/CustomButton";
 import supabase from "@/components/lib/supabase-client";
 import { Budgets, GroupExpense } from "@/components/types/collection";
+import { LinearProgress } from "@mui/material";
+import CustomLinearProgress from "@/components/components/ui/CustomLinearProgress";
 
 export const metadata: Metadata = {
   title: "Budgetly",
@@ -218,14 +220,16 @@ export default function Overview({ params: { year, month } }: Params) {
   const formattedMonthName =
     monthName.charAt(0).toUpperCase() + monthName.slice(1);
 
+  const percentageUsed = (sum / (budget?.budget ?? 1)) * 100;
+
   return (
     <main className={styles.main}>
-      <div style={{ display: "flex", alignItems: "center" }}>
+      <div className={styles.dateSelectContainer}>
         <>
           <CustomIconButton
             value={`${year}/${month}`}
             size="small"
-            sx={{ background: "#9747FF", color: "white" }}
+            // className={styles.iconButton}
             onClick={() => handleChangeMonth(-1)}
           >
             <KeyboardArrowLeftIcon />
@@ -237,53 +241,72 @@ export default function Overview({ params: { year, month } }: Params) {
             onClick={() => handleChangeMonth(1)}
             size="small"
             value={`${year}/${month}`}
-            sx={{ background: "#9747FF", color: "white" }}
+            // className={styles.iconButton}
           >
             <KeyboardArrowRightIcon />
           </CustomIconButton>
         </>
       </div>
 
-      <>Overview</>
+      <h1>Overview</h1>
 
-      <div style={{ background: "pink", color: "white" }}>
-        <div style={{ background: "pink", color: "white" }}>
-          {budget !== null ? (
-            <p> {budget?.budget}</p>
-          ) : (
-            <>
-              <p>Set your budget</p>
-              <CustomButton
-                text="Add budget"
-                onClick={() => router.push(`/${year}/${month}/addbudget`)}
-              />
-            </>
-          )}
-        </div>
+      <div className={styles.budgetOverView}>
+        {budget !== null ? (
+          <p className={styles.description}> Budget: {budget?.budget} kr</p>
+        ) : (
+          <>
+            <p className={styles.description}>
+              You have no budget for this month
+            </p>
+            <CustomButton
+              size="small"
+              text="Add budget"
+              onClick={() => router.push(`/${year}/${month}/addbudget`)}
+            />
+          </>
+        )}
       </div>
 
-      <>
-        <div
-          style={{ background: "#2B2C4B" }}
-          onClick={() =>
-            router.push(
-              `/${budget?.year ?? year}/${budget?.month ?? month}/expenses`
-            )
-          }
-          role="button"
-          className="button"
-        >
-          <h2>Expenses</h2>
+      <div
+        className={styles.card}
+        onClick={() =>
+          router.push(
+            `/${budget?.year ?? year}/${budget?.month ?? month}/expenses`
+          )
+        }
+        role="button"
+      >
+        <div className={styles.spentLeftWrapper}>
+          <div className={styles.spent}>
+            <p>Spent</p>
+            <p className={styles.spentText}>{sum}kr</p>
+          </div>
 
-          <>
-            <p>This month you have spend {sum}kr</p>
-          </>
-          <p>Left {left} kr</p>
+          <div className={styles.left}>
+            <p>Left</p>
+            <p className={styles.leftText}>{left} kr</p>
+          </div>
+          {/* TODO: ändra p till ingen opacity */}
         </div>
-      </>
 
-      <>Förra månaden månaden spenderade du {lastMonthSum} kr</>
-      <p> {formattedDiff} </p>
+        <CustomLinearProgress
+          variant="determinate"
+          value={percentageUsed}
+          color={percentageUsed > 100 ? "secondary" : "primary"}
+        />
+      </div>
+
+      <div className={styles.differenceLastMonth}>
+        <span>
+          <p className={styles.description}>
+            Förra månaden månaden spenderade du {lastMonthSum} kr
+          </p>
+        </span>
+
+        <span>
+          <p className={styles.description}> {formattedDiff} </p>
+        </span>
+      </div>
 
       <Bar
         options={options}
