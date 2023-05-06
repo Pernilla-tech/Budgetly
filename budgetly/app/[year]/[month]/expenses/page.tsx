@@ -21,6 +21,8 @@ import CustomButton from "@/components/components/ui/CustomButton";
 import CustomSelect from "@/components/components/ui/CustomSelect";
 import CustomInput from "@/components/components/ui/CustomInput";
 import { Divider } from "@mui/material";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import CustomLinearProgress from "@/components/components/ui/CustomLinearProgress";
 
 ChartJS.register(ArcElement, Tooltip, Legend); // register the chart.js plugins
 
@@ -184,6 +186,29 @@ const Expenses = ({ params: { month, year } }: Params) => {
     const newYear = date.getFullYear();
     router.replace(`/${newYear}/${newMonth}/expenses`);
   };
+
+  const percentageUsed = (totalExpenses / budget) * 100;
+
+  const moneyOverBudget = budget - totalExpenses;
+  const overBudget = Math.abs(moneyOverBudget);
+
+  const moneyBelowBudget = totalExpenses - budget;
+  const belowBudget = Math.abs(moneyBelowBudget);
+
+  // const deleteExpense = async (id: string) => {
+  //   try {
+  //     const { error } = await supabase
+
+  //       .from("expenses")
+  //       .delete()
+  //       .match({ id: id });
+  //     if (error) throw error;
+  //     getExpenses();
+  //   } catch (error: any) {
+  //     alert(error.message);
+  //   }
+  // };
+
   return (
     <main className={styles.main}>
       <div className={styles.buttonWrapper}>
@@ -251,6 +276,26 @@ const Expenses = ({ params: { month, year } }: Params) => {
           </div>
         </div>
 
+        <CustomLinearProgress
+          variant="determinate"
+          value={percentageUsed}
+          color={percentageUsed > 100 ? "secondary" : "primary"}
+        />
+
+        <div className={styles.budgetOverview}>
+          {percentageUsed > 100 ? (
+            <>
+              <p className={styles.overBudget}>{overBudget} kr</p>
+              <p>over budget</p>
+            </>
+          ) : (
+            <>
+              <p className={styles.belowBudget}>{belowBudget} kr</p>
+              <p>below budget</p>
+            </>
+          )}
+        </div>
+
         <form onSubmit={onSubmit}>
           <div className={styles.formContainer}>
             <CustomInput
@@ -309,12 +354,16 @@ const Expenses = ({ params: { month, year } }: Params) => {
                   })}
 
                   <div className={styles.categoryWrapper}>
-                    <>
+                    <div>
                       <p className={styles.expense}>{expense.group_category}</p>
-                    </>
-                    <>
                       <p>{expense.sum_price} kr</p>
-                    </>
+                    </div>
+
+                    <CustomIconButton className={styles.deleteIconButton}>
+                      <DeleteOutlineIcon />
+                    </CustomIconButton>
+
+                    {/* //Todo fixa funktionen för knappen */}
                   </div>
                   <Divider className={styles.divider} />
                 </>

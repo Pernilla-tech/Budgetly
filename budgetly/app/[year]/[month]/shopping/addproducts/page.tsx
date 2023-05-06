@@ -230,10 +230,10 @@ const AddProducts = () => {
         </form>
       </div>
       {items.length === 0 ? (
-        <>
+        <div className={styles.noAddedProductsText}>
           <p>No products added</p>
           <ShoppingSvg />
-        </>
+        </div>
       ) : (
         <>
           <p className={styles.addedProductsText}>Added products</p>

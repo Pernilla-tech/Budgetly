@@ -80,6 +80,21 @@
   color: #fff;
 }
 
+.budgetOverview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 1rem;
+}
+
+.overBudget {
+  color: #ff6161;
+}
+
+.belowBudget {
+  color: #30c9c9;
+}
 .formContainer {
   display: flex;
   flex-direction: column;
@@ -115,16 +130,23 @@
 
 .categoryWrapper {
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
   margin: 10px 0;
+  position: relative;
 }
 
 .expense {
   margin-right: auto;
+  text-transform: capitalize;
 }
 
 .divider {
   margin: 6px 0;
   color: #0f102b;
+}
+
+.deleteIconButton {
+  color: #fff;
+  align-self: flex-end;
+  position: absolute;
 }

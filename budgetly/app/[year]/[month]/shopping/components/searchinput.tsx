@@ -149,11 +149,11 @@ export const SearchInput = ({ expenses }: Props) => {
             ))}
           </>
         ) : (
-          <>
+          <div className={styles.noAddedProductsText}>
             <p>Added products will appear here</p>
 
             <ShoppingSvg />
-          </>
+          </div>
         )}
       </>
     </>

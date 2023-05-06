@@ -3,9 +3,36 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  /* padding: 6rem; */
+  padding: 1rem;
   /* min-height: 85vh; */
   width: 100%;
+}
+
+.dateSelectContainer {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+}
+
+.dateSelectContainer button {
+  background-color: #9747ff;
+  color: #fff;
+}
+
+/* .iconButton {
+  background-color: #9747ff;
+  color: #fff;
+} */
+
+.budgetOverView {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+}
+
+.budgetOverView p {
+  margin: 6px;
 }
 
 .description {
@@ -13,10 +40,7 @@
   justify-content: inherit;
   align-items: inherit;
   font-size: 0.85rem;
-  max-width: var(--max-width);
   width: 100%;
-  z-index: 2;
-  font-family: var(--font-mono);
 }
 
 .description a {
@@ -35,6 +59,24 @@
   border-radius: var(--border-radius);
 }
 
+.spentLeftWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.spentText {
+  color: #fff;
+  font-weight: 600;
+}
+.leftText {
+  color: #fff;
+  font-weight: 600;
+  /* //vill ta bort opacity: ; */
+  opacity: none;
+}
+
 .code {
   font-weight: 700;
   font-family: var(--font-mono);
@@ -48,11 +90,14 @@
 }
 
 .card {
-  padding: 1rem 1.2rem;
-  border-radius: var(--border-radius);
-  background: rgba(var(--card-rgb), 0);
-  border: 1px solid rgba(var(--card-border-rgb), 0);
-  transition: background 200ms, border 200ms;
+  padding: 4rem 1.2rem;
+  border-radius: 10px;
+  background: #2b2c4b;
+  width: 100%;
+  margin: 10px 0;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .card span {
@@ -71,6 +116,19 @@
   font-size: 0.9rem;
   line-height: 1.5;
   max-width: 30ch;
+}
+
+.differenceLastMonth {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.differenceLastMonth p {
+  padding: 2px;
 }
 
 .center {
