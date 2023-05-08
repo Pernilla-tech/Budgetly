@@ -9,6 +9,7 @@ import styles from "./categories.module.css";
 
 import React, { useEffect, useState } from "react";
 import CategoryAccordion from "./components.tsx/CategoryAccordion";
+import { ShoppingSvg } from "@/components/public/ShoppingSvg";
 
 type Params = {
   params: {
@@ -36,18 +37,20 @@ const Categories = ({ params: { year, month } }: Params) => {
     const { data: groupedExpensesData, error } = await supabase
       .from("grouped_food_expenses_view")
       .select("*")
-
       .eq("profile_id", user?.id);
+    // .eq("month", month)
+    // .eq("year", year);
+    //TODO - fixa så att kategorierna endast visar för rätt månad och år
 
     if (error) console.log("error", error);
     else {
       setGroupedExpenses(groupedExpensesData);
+      console.log("groupedExpensesData", groupedExpensesData);
     }
   };
 
   const getExpenses = async () => {
     const { data: expensesData, error } = await supabase
-
       .from("expenses")
       .select("*")
       .ilike("category", "food/%")
@@ -58,6 +61,7 @@ const Categories = ({ params: { year, month } }: Params) => {
     if (error) console.log("error", error);
     else {
       setExpenses(expensesData);
+      console.log("expensesData", expensesData);
     }
   };
 
@@ -77,6 +81,13 @@ const Categories = ({ params: { year, month } }: Params) => {
           // sx={{ backgroundColor: "#0F102B" }}
         />
       </div>
+
+      {expenses.length === 0 && (
+        <div className={styles.description}>
+          <p>No expenses</p>
+          <ShoppingSvg />
+        </div>
+      )}
 
       {groupedExpenses.map((categoryTotal) => {
         return (
