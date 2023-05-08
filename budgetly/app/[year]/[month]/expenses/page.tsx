@@ -215,7 +215,7 @@ const Expenses = ({ params: { month, year } }: Params) => {
   ];
 
   const handleChangeMonth = (delta: number) => {
-    const date = new Date(parseInt(year), parseInt(month) - 1, 1);
+    const date = new Date(parseInt(year, 10), parseInt(month, 10) - 1, 1);
     date.setMonth(date.getMonth() + delta);
     const newMonth = String(date.getMonth() + 1).padStart(2, "0");
     const newYear = date.getFullYear();

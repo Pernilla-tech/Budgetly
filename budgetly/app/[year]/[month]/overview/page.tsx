@@ -120,7 +120,8 @@ export default function Overview({ params: { year, month } }: Params) {
 
   const lastMonthExpenses = totalExpenses.filter((expense) => {
     return (
-      expense.month === parseInt(month) - 1 && expense.year === parseInt(year)
+      expense.month === parseInt(month, 10) - 1 &&
+      expense.year === parseInt(year, 10)
     );
   });
   const lastMonthSum = lastMonthExpenses.reduce(
@@ -188,7 +189,7 @@ export default function Overview({ params: { year, month } }: Params) {
           const expensesByMonth = totalExpenses.filter((expense) => {
             return (
               expense.month === labels.indexOf(label) + 1 &&
-              expense.year === parseInt(year)
+              expense.year === parseInt(year, 10)
             );
           });
           const totalExpenseByMonth = expensesByMonth.reduce(
@@ -204,7 +205,7 @@ export default function Overview({ params: { year, month } }: Params) {
   };
 
   const handleChangeMonth = (delta: number) => {
-    const date = new Date(parseInt(year), parseInt(month) - 1, 1);
+    const date = new Date(parseInt(year, 10), parseInt(month, 10) - 1, 1);
     date.setMonth(date.getMonth() + delta);
     const newMonth = String(date.getMonth() + 1).padStart(2, "0");
     const newYear = date.getFullYear();
@@ -212,8 +213,8 @@ export default function Overview({ params: { year, month } }: Params) {
   };
 
   let monthName = new Date(
-    parseInt(year),
-    parseInt(month) - 1,
+    parseInt(year, 10),
+    parseInt(month, 10) - 1,
     1
   ).toLocaleString("default", { month: "long" });
 
@@ -229,7 +230,6 @@ export default function Overview({ params: { year, month } }: Params) {
           <CustomIconButton
             value={`${year}/${month}`}
             size="small"
-            // className={styles.iconButton}
             onClick={() => handleChangeMonth(-1)}
           >
             <KeyboardArrowLeftIcon />
@@ -241,7 +241,6 @@ export default function Overview({ params: { year, month } }: Params) {
             onClick={() => handleChangeMonth(1)}
             size="small"
             value={`${year}/${month}`}
-            // className={styles.iconButton}
           >
             <KeyboardArrowRightIcon />
           </CustomIconButton>

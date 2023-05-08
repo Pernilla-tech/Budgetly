@@ -9,9 +9,15 @@ import React, { useState } from "react";
 import styles from "./page.module.css";
 import CustomInput from "@/components/components/ui/CustomInput";
 
-const Editbudget = () => {
-  const [month, setMonth] = useState(new Date().getDate() + 1);
-  const [year, setYear] = useState(new Date().getFullYear());
+type Params = {
+  params: {
+    year: string;
+    month: string;
+  };
+};
+const Editbudget = ({ params: { month, year } }: Params) => {
+  const [selectedMonth, setSelectedMonth] = useState(parseInt(month, 10));
+  const [selectedYear, setSelectedYear] = useState(parseInt(year, 10));
   const [budget, setBudget] = useState(0);
 
   const { user } = useAuth();
@@ -24,8 +30,8 @@ const Editbudget = () => {
       .from("budgets")
       .update({
         budget: budget,
-        month: month,
-        year: year,
+        month: selectedMonth,
+        year: selectedYear,
         profile_id: user?.id ?? "",
       })
       .eq("profile_id", user?.id ?? "")
@@ -39,14 +45,14 @@ const Editbudget = () => {
   const optionsMonth = [
     { value: 1, label: "Januari" },
     { value: 2, label: "Februari" },
-    { value: 3, label: "Mars" },
+    { value: 3, label: "March" },
     { value: 4, label: "April" },
-    { value: 5, label: "Maj" },
+    { value: 5, label: "May" },
     { value: 6, label: "Juni" },
-    { value: 7, label: "Juli" },
-    { value: 8, label: "Augusti" },
+    { value: 7, label: "July" },
+    { value: 8, label: "August" },
     { value: 9, label: "September" },
-    { value: 10, label: "Oktober" },
+    { value: 10, label: "October" },
     { value: 11, label: "November" },
     { value: 12, label: "December" },
   ];
@@ -84,15 +90,15 @@ const Editbudget = () => {
 
           <CustomSelect
             className={styles.select}
-            value={month}
-            onChange={(e) => setMonth(Number(e.target.value))}
+            value={selectedMonth}
+            onChange={(e) => setSelectedMonth(Number(e.target.value))}
             options={optionsMonth}
           />
 
           <CustomSelect
             className={styles.select}
-            value={year}
-            onChange={(e) => setYear(Number(e.target.value))}
+            value={selectedYear}
+            onChange={(e) => setSelectedYear(Number(e.target.value))}
             options={optionsYear}
           />
 

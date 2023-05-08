@@ -29,8 +29,8 @@ const AddProducts = ({ params: { year, month } }: Params) => {
   const [category, setCategory] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [items, setItems] = useState<Expense[]>([]);
-  const [selectedMonth, setSelectedMonth] = useState(parseInt(month));
-  const [selectedYear, setSelectedYear] = useState(parseInt(year));
+  const [selectedMonth, setSelectedMonth] = useState(parseInt(month, 10));
+  const [selectedYear, setSelectedYear] = useState(parseInt(year, 10));
   const [isLoading, setIsLoading] = useState(true);
 
   const { user } = useAuth();
