@@ -16,14 +16,25 @@ import EditIcon from "@mui/icons-material/Edit";
 import { ShoppingSvg } from "@/components/public/ShoppingSvg";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-const AddProducts = () => {
+type Params = {
+  params: {
+    year: string;
+    month: string;
+  };
+};
+
+const AddProducts = ({ params: { year, month } }: Params) => {
   const [item, setItem] = useState("");
   const [price, setPrice] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("Välj kategori");
   const [quantity, setQuantity] = useState(1);
   const [items, setItems] = useState<Expense[]>([]);
-  const [month, setMonth] = useState(new Date().getMonth() + 1);
-  const [year, setYear] = useState(new Date().getFullYear());
+  const [selectedMonth, setSelectedMonth] = useState(parseInt(month));
+  const [selectedYear, setSelectedYear] = useState(parseInt(year));
+
+  console.log("addProductsMonth", selectedMonth);
+  console.log("addProductsYear", selectedYear);
+
   const [isLoading, setIsLoading] = useState(true);
 
   const { user } = useAuth();
@@ -44,11 +55,13 @@ const AddProducts = () => {
         .from("expenses")
         .select("*")
         .ilike("category", "food/%")
-        .eq("profile_id", user.id);
-      // .limit(5) //om man vill ha en limit på antal produkter
+        .eq("profile_id", user.id)
+        .eq("month", month)
+        .eq("year", year);
+
       if (error) throw error;
       if (data != null) {
-        setItems(data); // [product1, product2, product3]
+        setItems(data);
       }
       setIsLoading(false);
     } catch (error: any) {
@@ -63,8 +76,8 @@ const AddProducts = () => {
         .from("expenses")
         .insert({
           item: item,
-          month: month,
-          year: year,
+          month: selectedMonth,
+          year: selectedYear,
           price: price as unknown as number,
           category: category,
           quantity: quantity,
@@ -97,7 +110,7 @@ const AddProducts = () => {
     { label: "July", value: 7 },
     { label: "August", value: 8 },
     { label: "September", value: 9 },
-    { label: "Okcober", value: 10 },
+    { label: "October", value: 10 },
     { label: "November", value: 11 },
     { label: "December", value: 12 },
   ];
@@ -155,22 +168,22 @@ const AddProducts = () => {
 
       <div className={styles.wrapper}>
         <form onSubmit={onSubmit}>
-          {/* <div className={styles.selectDateWrapper}>
+          <div className={styles.selectDateWrapper}>
             <CustomSelect
-              //Todo ändra färg på iconen till vit
-
-              className={styles.select}
-              value={month}
-              onChange={(e) => setMonth(Number(e.target.value))}
+              value={selectedMonth}
+              className={styles.selectMonth}
+              onChange={(e) => setSelectedMonth(Number(e.target.value))}
               options={optionsMonth}
             />
+
             <CustomSelect
-              className={styles.select}
-              value={year}
-              onChange={(e) => setYear(Number(e.target.value))}
+              className={styles.selectYear}
+              value={selectedYear}
+              onChange={(e) => setSelectedYear(Number(e.target.value))}
               options={optionsYear}
             />
-          </div> */}
+          </div>
+
           <div className={styles.quantityWrapper}>
             <p className={styles.despription}>Amount</p>
             <div className={styles.quantityInnerWrapper}>
@@ -195,7 +208,6 @@ const AddProducts = () => {
           <div className={styles.addProductsWrapper}>
             <CustomInput
               className={styles.addProducts}
-              //TODO fixa så att det går att ändra färg på input
               value={item}
               placeholder="Add products"
               type="text"
@@ -203,17 +215,12 @@ const AddProducts = () => {
             />
             <CustomInput
               className={styles.addProducts}
-              //TODO fixa så att det går att ändra färg på input
-
               value={price}
               placeholder="price or discount"
               type="number"
               onChange={(e) => setPrice(e.target.value)}
             />
             <CustomSelect
-              //Todo gör första label synlig i selecten
-              labelId="Välj kategori"
-              label="Välj kategori"
               className={styles.addProducts}
               value={category}
               onChange={(e) => setCategory(e.target.value.toString())}
