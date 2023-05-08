@@ -91,13 +91,11 @@ const AddBudget = () => {
           <CustomSelect
             className={styles.select}
             value={month}
-            label="Month"
             onChange={(e) => setMonth(Number(e.target.value))}
             options={optionsMonth}
           />
 
           <CustomSelect
-            label="Year"
             className={styles.select}
             value={year}
             onChange={(e) => setYear(Number(e.target.value))}

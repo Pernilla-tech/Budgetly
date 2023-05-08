@@ -38,7 +38,7 @@ import { useAuth } from "@/components/components/providers/supabase-auth-provide
 import CustomButton from "@/components/components/ui/CustomButton";
 import supabase from "@/components/lib/supabase-client";
 import { Budgets, GroupExpense } from "@/components/types/collection";
-import { LinearProgress } from "@mui/material";
+
 import CustomLinearProgress from "@/components/components/ui/CustomLinearProgress";
 
 export const metadata: Metadata = {
@@ -158,7 +158,7 @@ export default function Overview({ params: { year, month } }: Params) {
     responsive: true,
     plugins: {
       legend: {
-        position: "top" as const,
+        display: false,
       },
     },
   };
