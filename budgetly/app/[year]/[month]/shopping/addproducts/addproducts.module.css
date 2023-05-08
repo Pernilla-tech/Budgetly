@@ -31,7 +31,22 @@
 .selectDateWrapper {
   display: flex;
   justify-content: center;
-  margin: 10px;
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 4rem;
+}
+
+.selectDateWrapper svg {
+  color: #fff;
+}
+
+.selectMonth {
+  margin: 0 10px;
+  width: 100%;
+}
+
+.selectYear {
+  margin: 0 10px;
   width: 100%;
 }
 
