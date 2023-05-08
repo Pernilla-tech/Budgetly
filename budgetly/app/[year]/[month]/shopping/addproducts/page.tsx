@@ -26,15 +26,11 @@ type Params = {
 const AddProducts = ({ params: { year, month } }: Params) => {
   const [item, setItem] = useState("");
   const [price, setPrice] = useState("");
-  const [category, setCategory] = useState("Välj kategori");
+  const [category, setCategory] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [items, setItems] = useState<Expense[]>([]);
   const [selectedMonth, setSelectedMonth] = useState(parseInt(month));
   const [selectedYear, setSelectedYear] = useState(parseInt(year));
-
-  console.log("addProductsMonth", selectedMonth);
-  console.log("addProductsYear", selectedYear);
-
   const [isLoading, setIsLoading] = useState(true);
 
   const { user } = useAuth();
@@ -135,7 +131,7 @@ const AddProducts = ({ params: { year, month } }: Params) => {
   ];
 
   const optionsCategory = [
-    { label: "Välj kategori", value: "" },
+    { label: "Categories", value: "" },
     { label: "Bread", value: "food/Bread" },
     { label: "Chicken", value: "food/Chicken" },
     { label: "Diary", value: "food/Dairy" },
@@ -220,8 +216,10 @@ const AddProducts = ({ params: { year, month } }: Params) => {
               type="number"
               onChange={(e) => setPrice(e.target.value)}
             />
+
             <CustomSelect
               className={styles.addProducts}
+              displayEmpty
               value={category}
               onChange={(e) => setCategory(e.target.value.toString())}
               options={optionsCategory}

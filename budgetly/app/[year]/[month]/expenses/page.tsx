@@ -203,6 +203,7 @@ const Expenses = ({ params: { month, year } }: Params) => {
   ];
 
   const optionsCategory = [
+    { value: "", label: "Category" },
     { value: "entertaintment", label: "Entertaintment" },
     { value: "food", label: "Food" },
     { value: "housing", label: "Housing" },
@@ -336,6 +337,7 @@ const Expenses = ({ params: { month, year } }: Params) => {
             <CustomSelect
               value={category}
               className={styles.formSelect}
+              displayEmpty
               onChange={(e) => setCategory(e.target.value.toString())}
               options={optionsCategory}
             />

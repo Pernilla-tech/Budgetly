@@ -98,22 +98,20 @@ const EditItem = ({ params: { itemId, year, month } }: Params) => {
   };
 
   const optionsCategory = [
-    { label: "Välj kategori", value: "" },
-    { label: "Bröd", value: "food/Bröd" },
-    { label: "Drycker", value: "food/Drycker" },
-    { label: "Fisk och skaldjur", value: "food/Fisk och skaldjur" },
-    { label: "Frukt/grönt/bär", value: "food/Frukt/grönt/bär" },
-    { label: "Kyckling", value: "food/Kyckling" },
-    { label: "Köksartiklar", value: "food/Köksartiklar" },
-    { label: "Kött", value: "food/Kött" },
-    { label: "Mejeriprodukter", value: "food/Mejeriprodukter" },
-    { label: "Rabatt", value: "food/Rabatt" },
-    { label: "Skafferi", value: "food/Skafferi" },
+    { label: "Categories", value: "" },
+    { label: "Bread", value: "food/Bread" },
+    { label: "Chicken", value: "food/Chicken" },
+    { label: "Diary", value: "food/Dairy" },
+    { label: "Discount", value: "food/Discount" },
+    { label: "Drinks", value: "food/Drinks" },
+    { label: "Fish and seafood", value: "food/Fish and seafood" },
+    { label: "Fruit/greens/berries", value: "food/Fruit/greens/berries" },
+    { label: "Kitchenware", value: "food/Kitchenware" },
+    { label: "Meat", value: "food/Meat" },
+    { label: "Other", value: "food/Other" },
     { label: "Snacks", value: "food/Snacks" },
-    { label: "Såser", value: "food/Såser" },
-    { label: "Toalettartiklar", value: "food/Toalettartiklar" },
-    { label: "Vegetariskt", value: "food/Vegetariskt" },
-    { label: "Övrigt", value: "food/Övrigt" },
+    { label: "Staples", value: "food/Staples" },
+    { label: "Sweets and candy", value: "food/Sweets and candy" },
   ];
 
   return (
@@ -143,7 +141,6 @@ const EditItem = ({ params: { itemId, year, month } }: Params) => {
           </div>
 
           <div className={styles.wrapper}>
-            {/* <label htmlFor="price">Name</label> */}
             <CustomInput
               className={styles.addProducts}
               type="text"
@@ -151,7 +148,7 @@ const EditItem = ({ params: { itemId, year, month } }: Params) => {
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-            {/* <label htmlFor="price">Price</label> */}
+
             <CustomInput
               className={styles.addProducts}
               type="number"
@@ -159,7 +156,6 @@ const EditItem = ({ params: { itemId, year, month } }: Params) => {
               value={price}
               onChange={(e) => setPrice(e.target.value)}
             />
-            {/* <label htmlFor="category">Category</label> */}
 
             <CustomSelect
               className={styles.addProducts}

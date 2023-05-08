@@ -17,6 +17,7 @@ type CustomSelectProps = {
   options: Option[];
   sx?: any;
   className?: string;
+  displayEmpty?: boolean;
 
   onChange: (
     event: SelectChangeEvent<string | number>,
@@ -33,6 +34,8 @@ const CustomSelect = ({
   onChange,
   defaultValue,
   className,
+  displayEmpty,
+
   sx,
 }: CustomSelectProps) => {
   return (
@@ -46,16 +49,18 @@ const CustomSelect = ({
         onChange={onChange}
         defaultValue={defaultValue}
         className={className}
+        displayEmpty={displayEmpty}
         sx={{
           ...sx,
           backgroundColor: "#0F102B",
           color: "#fff",
           borderRadius: "30px",
         }}
+        inputProps={{ "aria-label": "Without label" }}
       >
         {options.map((option) => (
           <MenuItem key={option.value} value={option.value}>
-            {option.label}
+            {option.label || ""}
           </MenuItem>
         ))}
       </Select>
