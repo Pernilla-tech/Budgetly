@@ -115,6 +115,15 @@
   /* font-family: var(--font-mono); */
 }
 
+.addedProductsWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+}
+
 .noAddedProductsText {
   padding: 1rem;
   text-align: center;

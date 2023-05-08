@@ -240,7 +240,7 @@ const AddProducts = ({ params: { year, month } }: Params) => {
           <ShoppingSvg />
         </div>
       ) : (
-        <>
+        <div className={styles.addedProductsWrapper}>
           <p className={styles.addedProductsText}>Added products</p>
           {items.map((item) => (
             <div className={styles.card} key={item.id}>
@@ -268,7 +268,7 @@ const AddProducts = ({ params: { year, month } }: Params) => {
               </span>
             </div>
           ))}
-        </>
+        </div>
       )}
     </div>
   );
