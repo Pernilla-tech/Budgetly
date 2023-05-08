@@ -12,7 +12,7 @@ import supabase from "@/components/lib/supabase-client";
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-import { GroupExpense } from "@/components/types/collection";
+import { Expense, GroupExpense } from "@/components/types/collection";
 import { useRouter } from "next/navigation";
 import CustomIconButton from "@/components/components/ui/CustomIconButton";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
@@ -20,9 +20,9 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import CustomButton from "@/components/components/ui/CustomButton";
 import CustomSelect from "@/components/components/ui/CustomSelect";
 import CustomInput from "@/components/components/ui/CustomInput";
-import { Divider } from "@mui/material";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+
 import CustomLinearProgress from "@/components/components/ui/CustomLinearProgress";
+import ExpensesAccordion from "./components/ExpensesAccordion";
 
 ChartJS.register(ArcElement, Tooltip, Legend); // register the chart.js plugins
 
@@ -34,6 +34,7 @@ type Params = {
 };
 
 const Expenses = ({ params: { month, year } }: Params) => {
+  const [expense, setExpense] = useState<Expense[]>([]);
   const [category, setCategory] = useState("");
   const [item, setItem] = useState("");
   const [price, setPrice] = useState(0);
@@ -41,26 +42,39 @@ const Expenses = ({ params: { month, year } }: Params) => {
   const [groupedExpenses, setGroupedExpenses] = useState<GroupExpense[]>([]);
   const [budget, setBudget] = useState(0);
 
+  console.log(groupedExpenses);
   const { user } = useAuth();
   const router = useRouter();
 
-  const getExpenses = useCallback(async () => {
+  const getGroupedExpenses = useCallback(async () => {
     try {
-      const { data, error } = await supabase
+      const { data: groupedData, error: groupedDataError } = await supabase
         .from("grouped_expenses_view")
         .select("*")
         .eq("profile_id", user?.id)
         .eq("month", month)
         .eq("year", year)
         .order("sum_price", { ascending: false });
-      if (error) throw error;
-      if (data != null) {
-        setGroupedExpenses(data as GroupExpense[]);
+      if (groupedDataError) throw groupedDataError;
+      if (groupedData != null) {
+        setGroupedExpenses(groupedData as GroupExpense[]);
+      }
+
+      const { data: expensesData, error: expensesDataError } = await supabase
+        .from("expenses")
+        .select("*")
+        .eq("profile_id", user?.id)
+        .eq("month", month)
+        .eq("year", year);
+
+      if (expensesDataError) throw expensesDataError;
+      if (expensesData != null) {
+        setExpense(expensesData as Expense[]);
       }
     } catch (error: any) {
       alert(error.message);
     }
-  }, [user?.id, setGroupedExpenses, year, month]);
+  }, [user?.id, setGroupedExpenses, setExpense, year, month]);
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -80,14 +94,17 @@ const Expenses = ({ params: { month, year } }: Params) => {
         .single();
 
       if (error) throw error;
-      getExpenses();
+      getGroupedExpenses();
     } catch (error: any) {
       alert(error.message);
     }
+
     setCategory("");
     setItem("");
     setPrice(0);
   };
+
+  console.log({ expense });
 
   const getBudget = useCallback(async () => {
     const { data, error } = await supabase
@@ -105,10 +122,27 @@ const Expenses = ({ params: { month, year } }: Params) => {
 
   useEffect(() => {
     if (user?.id != null && month != null && year != null) {
-      getExpenses();
+      getGroupedExpenses();
       getBudget();
     }
-  }, [getBudget, getExpenses, user?.id, month, year]);
+  }, [getBudget, getGroupedExpenses, user?.id, month, year]);
+
+  const deleteGroupedExpenses = async (category: string | null) => {
+    try {
+      const { error } = await supabase
+        .from("expenses")
+        .delete()
+        .eq("profile_id", user?.id)
+        .eq("category", category)
+        .eq("month", parseInt(month, 10))
+        .eq("year", parseInt(year, 10));
+      if (error) throw error;
+
+      getGroupedExpenses();
+    } catch (error: any) {
+      alert(error.message);
+    }
+  };
 
   const totalExpenses = groupedExpenses.reduce(
     (total: number, expense: GroupExpense) => {
@@ -194,20 +228,6 @@ const Expenses = ({ params: { month, year } }: Params) => {
 
   const moneyBelowBudget = totalExpenses - budget;
   const belowBudget = Math.abs(moneyBelowBudget);
-
-  // const deleteExpense = async (id: string) => {
-  //   try {
-  //     const { error } = await supabase
-
-  //       .from("expenses")
-  //       .delete()
-  //       .match({ id: id });
-  //     if (error) throw error;
-  //     getExpenses();
-  //   } catch (error: any) {
-  //     alert(error.message);
-  //   }
-  // };
 
   return (
     <main className={styles.main}>
@@ -324,49 +344,50 @@ const Expenses = ({ params: { month, year } }: Params) => {
           </div>
         </form>
 
-        <div style={{ width: "300px" }}>
+        <>
           <Doughnut
+            options={{
+              plugins: {
+                legend: {
+                  display: false,
+                },
+              },
+            }}
             data={expenseData}
-            style={{ width: "300px", height: "250px" }}
           />
-        </div>
+        </>
 
-        <div style={{ width: "300px" }}>
-          {groupedExpenses.map((expense: GroupExpense) => {
+        <div className={styles.expensesWrapper}>
+          {groupedExpenses.map((expenses: GroupExpense) => {
             return (
-              <div key={expense.group_category}>
-                <>
-                  {expenseData.labels.map((label) => {
-                    if (label === expense.group_category) {
-                      return (
-                        <div
-                          className={styles.chartLegend}
-                          key={label}
-                          style={{
-                            backgroundColor:
-                              expenseData.datasets[0].backgroundColor[
-                                expenseData.labels.indexOf(label)
-                              ],
-                          }}
-                        ></div>
-                      );
-                    }
-                  })}
-
-                  <div className={styles.categoryWrapper}>
-                    <div>
-                      <p className={styles.expense}>{expense.group_category}</p>
-                      <p>{expense.sum_price} kr</p>
-                    </div>
-
-                    <CustomIconButton className={styles.deleteIconButton}>
-                      <DeleteOutlineIcon />
-                    </CustomIconButton>
-
-                    {/* //Todo fixa funktionen för knappen */}
-                  </div>
-                  <Divider className={styles.divider} />
-                </>
+              <div
+                key={expenses.group_category}
+                className={styles.categoryCard}
+              >
+                {expenseData.labels.map((label) => {
+                  if (label === expenses.group_category) {
+                    return (
+                      <div
+                        className={styles.chartLegend}
+                        key={label}
+                        style={{
+                          backgroundColor:
+                            expenseData.datasets[0].backgroundColor[
+                              expenseData.labels.indexOf(label)
+                            ],
+                        }}
+                      ></div>
+                    );
+                  }
+                })}
+                <div className={styles.accordion}>
+                  <ExpensesAccordion
+                    deleteGroupedExpenses={deleteGroupedExpenses}
+                    expense={expense}
+                    expenseCategory={expenses.group_category}
+                    expenseSum={expenses.sum_price}
+                  />
+                </div>
               </div>
             );
           })}
