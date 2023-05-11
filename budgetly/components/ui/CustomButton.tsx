@@ -65,6 +65,7 @@ const CustomButton = ({
       sx={{
         ...props.sx,
         backgroundColor,
+        cursor: "pointer",
         color: "white",
         borderRadius: "25px",
         padding: "10px 20px",
@@ -77,29 +78,3 @@ const CustomButton = ({
 };
 
 export default CustomButton;
-
-// type CustomButtonProps = {
-//   color?: "primary" | "secondary" | "danger" | "success";
-//   ...
-// }
-
-// const CustomButton = ({ color = "primary", ...props }: CustomButtonProps) => {
-//   let backgroundColor;
-//   switch (color) {
-//     case "primary":
-//       backgroundColor = "#7B61FF";
-//       break;
-//     case "secondary":
-//       backgroundColor = "#61A0FF";
-//       break;
-//     case "danger":
-//       backgroundColor = "#FF6161";
-//       break;
-//     case "success":
-//       backgroundColor = "#4A4D78";
-//       break;
-//     default:
-//       backgroundColor = "#7B61FF";
-//   }
-//   ...
-// }

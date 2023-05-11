@@ -134,6 +134,7 @@ const Expenses = ({ params: { month, year } }: Params) => {
         .delete()
         .eq("profile_id", user?.id)
         .eq("category", category)
+        //TODO radera alla kategorier med food/transport osv
         .eq("month", parseInt(month, 10))
         .eq("year", parseInt(year, 10));
       if (error) throw error;
@@ -143,6 +144,36 @@ const Expenses = ({ params: { month, year } }: Params) => {
       alert(error.message);
     }
   };
+
+  // const deleteGroupedExpenses = async () => {
+  //   try {
+  //     const { data, error } = await supabase
+  //       .from("expenses")
+  //       .select("category")
+  //       .eq("profile_id", user?.id)
+  //       .eq("month", parseInt(month, 10))
+  //       .eq("year", parseInt(year, 10))
+  //       .like("category", "food/%");
+
+  //     if (error) throw error;
+
+  //     if (data) {
+  //       for (const expense of data) {
+  //         await supabase
+  //           .from("expenses")
+  //           .delete()
+  //           .eq("profile_id", user?.id)
+  //           .eq("category", expense.category)
+  //           .eq("month", parseInt(month, 10))
+  //           .eq("year", parseInt(year, 10));
+  //       }
+  //     }
+
+  //     getGroupedExpenses();
+  //   } catch (error: any) {
+  //     alert(error.message);
+  //   }
+  // };
 
   const totalExpenses = groupedExpenses.reduce(
     (total: number, expense: GroupExpense) => {

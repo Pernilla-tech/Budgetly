@@ -1,7 +1,6 @@
-import LoginForm from "./login-form";
-import styles from "./page.module.css";
-
 import { Metadata } from "next";
+import LoginForm from "./components/loginform/loginForm";
+import styles from "./page.module.css";
 
 export const metadata: Metadata = {
   title: "Log in",
@@ -10,9 +9,9 @@ export const metadata: Metadata = {
 
 const LoginPage = () => {
   return (
-    <>
+    <div className={styles.main}>
       <LoginForm />
-    </>
+    </div>
   );
 };
 
