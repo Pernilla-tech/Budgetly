@@ -10,7 +10,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import IconButton from "@mui/material/IconButton";
 import CategoryIcon from "@mui/icons-material/Category";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
@@ -30,12 +30,11 @@ type SidebarProps = {
 };
 
 const Sidebar: React.FC<SidebarProps> = ({ anchor }) => {
-  const month = new Date().getMonth() + 1;
-  const year = new Date().getFullYear();
   const [state, setState] = React.useState({
     [anchor]: false,
   });
 
+  const { year, month } = useParams();
   const router = useRouter();
   const { signOut, user } = useAuth();
 
