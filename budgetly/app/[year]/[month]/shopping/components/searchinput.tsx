@@ -100,14 +100,12 @@ export const SearchInput = ({ expenses }: Props) => {
       <div className={styles.buttonWrapper}>
         <CustomButton
           size="small"
-          color={isNameSorted ? "purple" : "darkpurple"}
           onClick={sortByName}
           text="Name"
           endIcon={isNameSorted ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />}
         />
         <CustomButton
           size="small"
-          color={isPriceSorted ? "purple" : "darkpurple"}
           onClick={isPriceHighest ? sortByLowestPrice : sortByHighestPrice}
           text="Price"
           endIcon={
@@ -122,7 +120,6 @@ export const SearchInput = ({ expenses }: Props) => {
         />
         <CustomButton
           size="small"
-          color={isCategorySorted ? "purple" : "darkpurple"}
           onClick={sortByCategory}
           text="Category"
           endIcon={

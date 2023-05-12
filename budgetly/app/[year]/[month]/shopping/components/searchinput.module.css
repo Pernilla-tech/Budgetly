@@ -11,17 +11,12 @@
   font-size: 1rem;
   max-width: var(--max-width);
   width: 100%;
-  /* font-family: var(--font-mono); */
   margin-bottom: 20px;
 }
 
 .searchInputWrapper {
   width: 100%;
 }
-
-/* .MuiFormControl-root-MuiTextField-root {
-  width: 100%;
-} */
 
 .card {
   padding: 1rem 1.2rem;
