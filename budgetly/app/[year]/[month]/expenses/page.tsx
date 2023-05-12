@@ -42,7 +42,6 @@ const Expenses = ({ params: { month, year } }: Params) => {
   const [groupedExpenses, setGroupedExpenses] = useState<GroupExpense[]>([]);
   const [budget, setBudget] = useState(0);
 
-  console.log(groupedExpenses);
   const { user } = useAuth();
   const router = useRouter();
 
@@ -129,51 +128,31 @@ const Expenses = ({ params: { month, year } }: Params) => {
 
   const deleteGroupedExpenses = async (category: string | null) => {
     try {
-      const { error } = await supabase
-        .from("expenses")
-        .delete()
-        .eq("profile_id", user?.id)
-        .eq("category", category)
-        //TODO radera alla kategorier med food/transport osv
-        .eq("month", parseInt(month, 10))
-        .eq("year", parseInt(year, 10));
-      if (error) throw error;
+      if (category === "food") {
+        const { error } = await supabase
+          .from("expenses")
+          .delete()
+          .eq("profile_id", user?.id)
+          .like("category", "food%")
+          .eq("month", parseInt(month, 10))
+          .eq("year", parseInt(year, 10));
+        if (error) throw error;
+      } else {
+        const { error } = await supabase
+          .from("expenses")
+          .delete()
+          .eq("profile_id", user?.id)
+          .eq("category", category)
+          .eq("month", parseInt(month, 10))
+          .eq("year", parseInt(year, 10));
+        if (error) throw error;
+      }
 
       getGroupedExpenses();
     } catch (error: any) {
       alert(error.message);
     }
   };
-
-  // const deleteGroupedExpenses = async () => {
-  //   try {
-  //     const { data, error } = await supabase
-  //       .from("expenses")
-  //       .select("category")
-  //       .eq("profile_id", user?.id)
-  //       .eq("month", parseInt(month, 10))
-  //       .eq("year", parseInt(year, 10))
-  //       .like("category", "food/%");
-
-  //     if (error) throw error;
-
-  //     if (data) {
-  //       for (const expense of data) {
-  //         await supabase
-  //           .from("expenses")
-  //           .delete()
-  //           .eq("profile_id", user?.id)
-  //           .eq("category", expense.category)
-  //           .eq("month", parseInt(month, 10))
-  //           .eq("year", parseInt(year, 10));
-  //       }
-  //     }
-
-  //     getGroupedExpenses();
-  //   } catch (error: any) {
-  //     alert(error.message);
-  //   }
-  // };
 
   const totalExpenses = groupedExpenses.reduce(
     (total: number, expense: GroupExpense) => {
@@ -219,15 +198,15 @@ const Expenses = ({ params: { month, year } }: Params) => {
   };
 
   const optionsYearMonth = [
-    { value: "2023/1", label: "Januari" },
-    { value: "2023/2", label: "Februari" },
-    { value: "2023/3", label: "March" },
-    { value: "2023/4", label: "April" },
-    { value: "2023/5", label: "May" },
-    { value: "2023/6", label: "Juni" },
-    { value: "2023/7", label: "July" },
-    { value: "2023/8", label: "August" },
-    { value: "2023/9", label: "September" },
+    { value: "2023/01", label: "Januari" },
+    { value: "2023/02", label: "Februari" },
+    { value: "2023/03", label: "March" },
+    { value: "2023/04", label: "April" },
+    { value: "2023/05", label: "May" },
+    { value: "2023/06", label: "Juni" },
+    { value: "2023/07", label: "July" },
+    { value: "2023/08", label: "August" },
+    { value: "2023/09", label: "September" },
     { value: "2023/10", label: "October" },
     { value: "2023/11", label: "November" },
     { value: "2023/12", label: "December" },

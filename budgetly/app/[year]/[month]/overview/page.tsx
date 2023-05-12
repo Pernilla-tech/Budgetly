@@ -258,6 +258,7 @@ export default function Overview({ params: { year, month } }: Params) {
               You have no budget for this month
             </p>
             <CustomButton
+              className={styles.addBudgetButton}
               size="small"
               text="Add budget"
               onClick={() => router.push(`/${year}/${month}/addbudget`)}
