@@ -114,7 +114,7 @@ const Sidebar: React.FC<SidebarProps> = ({ anchor }) => {
                 {index % 2 === 0 ? (
                   <CustomIconButton
                     className={styles.iconbutton}
-                    onClick={() => router.push("/")}
+                    onClick={() => router.push(`/${year}/${month}/overview`)}
                   >
                     <HomeOutlinedIcon />
                   </CustomIconButton>
