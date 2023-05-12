@@ -70,6 +70,12 @@ const CustomButton = ({
         borderRadius: "25px",
         padding: "10px 20px",
         textTransform: "none",
+        "&:hover": {
+          backgroundColor: "#7B61FF",
+        },
+        "&:disabled": {
+          backgroundColor: "#4A4D78",
+        },
       }}
     >
       {props.text}
