@@ -14,6 +14,10 @@
   margin-bottom: 20px;
 }
 
+.description h1 {
+  text-transform: uppercase;
+}
+
 .searchInputWrapper {
   width: 100%;
 }

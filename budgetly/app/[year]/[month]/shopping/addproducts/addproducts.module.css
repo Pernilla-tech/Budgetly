@@ -11,12 +11,30 @@
 .styledDiv {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  width: 100%;
+  padding-bottom: 1rem;
 }
 
+.arrowIcon {
+  margin-right: auto;
+}
+
+.arrowIcon button {
+  padding: 0;
+  margin: 0;
+}
 .arrowIcon svg {
   margin-right: auto;
   color: #fff;
+}
+
+.description {
+  font-size: 0.6rem;
+  text-align: center;
+  flex-grow: 1;
+  margin: 0 auto;
+  text-transform: uppercase;
 }
 
 .wrapper {
@@ -104,15 +122,6 @@
 
 .icon svg {
   color: #fff;
-}
-
-.description {
-  /* display: inherit;
-  justify-content: inherit;
-  align-items: inherit; */
-  font-size: 1rem;
-  margin: 0 auto;
-  /* font-family: var(--font-mono); */
 }
 
 .addedProductsWrapper {
