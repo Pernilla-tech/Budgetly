@@ -2,7 +2,7 @@
 
 import { Session } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
-import { createContext, useContext, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import useSWR from "swr";
 import { useSupabase } from "./supabase-provider";
 import { Profile } from "@/components/types/collection";
@@ -65,10 +65,14 @@ export default function SupabaseAuthProvider({
   };
 
   // Sign-In with Google
+
+  // TODO: add loading state..
+
   async function signInWithGoogle() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
     });
+
     if (error) {
       console.error(error);
     }

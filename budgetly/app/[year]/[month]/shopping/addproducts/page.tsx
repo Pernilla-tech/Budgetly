@@ -29,9 +29,14 @@ const AddProducts = ({ params: { year, month } }: Params) => {
   const [category, setCategory] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [items, setItems] = useState<Expense[]>([]);
-  const [selectedMonth, setSelectedMonth] = useState(parseInt(month, 10));
+  // const [selectedMonth, setSelectedMonth] = useState(parseInt(month, 10));
+  const [selectedMonth, setSelectedMonth] = useState(
+    month.toString().padStart(2, "0")
+  );
   const [selectedYear, setSelectedYear] = useState(parseInt(year, 10));
   const [isLoading, setIsLoading] = useState(true);
+
+  console.log("selectedMonth", selectedMonth);
 
   const { user } = useAuth();
   const route = useRouter();
@@ -111,6 +116,10 @@ const AddProducts = ({ params: { year, month } }: Params) => {
     { value: "12", label: "December" },
   ];
 
+  useEffect(() => {
+    setSelectedMonth(month.toString().padStart(2, "0"));
+  }, [month]);
+
   const optionsYear = [
     {
       value: new Date().getFullYear() - 1,
@@ -157,8 +166,8 @@ const AddProducts = ({ params: { year, month } }: Params) => {
             <ArrowBackIcon />
           </CustomIconButton>
         </div>
-        <div>
-          <h1 className={styles.description}>Add Products</h1>
+        <div className={styles.description}>
+          <h1>Add Products</h1>
         </div>
       </div>
 
@@ -167,8 +176,12 @@ const AddProducts = ({ params: { year, month } }: Params) => {
           <div className={styles.selectDateWrapper}>
             <CustomSelect
               value={selectedMonth}
+              defaultValue={{
+                value: month.toString().padStart(2, "0"), // value sätts till en sträng  med två siffror om mån är mindre än 2 siffror, padstart lägger till en 0 i början av strängenför att få en 2 siffrig sträng
+                label: optionsMonth[parseInt(month, 10) - 1].label, // värdet för label sätts till månadens namn, parseInt(month, 10) - 1 omvandlar månadens nummer till en siffra och tar bort 1 för att få rätt index i arrayen
+              }}
               className={styles.selectMonth}
-              onChange={(e) => setSelectedMonth(Number(e.target.value))}
+              onChange={(e) => setSelectedMonth(String(e.target.value))}
               options={optionsMonth}
             />
 

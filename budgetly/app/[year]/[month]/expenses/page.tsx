@@ -38,10 +38,10 @@ const Expenses = ({ params: { month, year } }: Params) => {
   const [category, setCategory] = useState("");
   const [item, setItem] = useState("");
   const [price, setPrice] = useState(0);
-
   const [groupedExpenses, setGroupedExpenses] = useState<GroupExpense[]>([]);
   const [budget, setBudget] = useState(0);
 
+  console.log({ month, year });
   const { user } = useAuth();
   const router = useRouter();
 
@@ -197,7 +197,7 @@ const Expenses = ({ params: { month, year } }: Params) => {
     ],
   };
 
-  const optionsYearMonth = [
+  const optionsMonth = [
     { value: "2023/01", label: "Januari" },
     { value: "2023/02", label: "Februari" },
     { value: "2023/03", label: "March" },
@@ -210,6 +210,12 @@ const Expenses = ({ params: { month, year } }: Params) => {
     { value: "2023/10", label: "October" },
     { value: "2023/11", label: "November" },
     { value: "2023/12", label: "December" },
+  ];
+
+  const optionsYear = [
+    { value: "2023", label: "2023" },
+    { value: "2024", label: "2024" },
+    { value: "2025", label: "2025" },
   ];
 
   const optionsCategory = [
@@ -257,10 +263,18 @@ const Expenses = ({ params: { month, year } }: Params) => {
         <>
           <CustomSelect
             className={styles.select}
-            value={`${year}/${month}`}
-            defaultValue={`${year}/${month}`}
+            value={`${year}/${month.padStart(2, "0")}`}
+            defaultValue={`${year}/${month.padStart(2, "0")}`}
             onChange={(e) => router.replace(`/${e.target.value}/expenses`)}
-            options={optionsYearMonth}
+            options={optionsMonth}
+          />
+
+          <CustomSelect
+            className={styles.select}
+            value={`${year}`}
+            defaultValue={`${year}`}
+            onChange={(e) => router.replace(`/${e.target.value}/expenses`)}
+            options={optionsYear}
           />
         </>
         <>

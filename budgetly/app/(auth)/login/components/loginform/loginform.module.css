@@ -48,7 +48,7 @@
   text-align: center;
   font-size: 0.85rem;
   width: 100%;
-  font-family: var(--font-mono);
+  /* font-family: var(--font-mono); */
 }
 
 .description h1 {
@@ -109,6 +109,10 @@
     font-size: 1.25rem;
     line-height: 1.5;
     margin-bottom: 2rem;
+  }
+
+  .description h1 {
+    text-transform: uppercase;
   }
 
   .info {

@@ -7,7 +7,7 @@ import { Expense, GroupExpenseFood } from "@/components/types/collection";
 import { useRouter } from "next/navigation";
 import styles from "./categories.module.css";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import CategoryAccordion from "./components.tsx/CategoryAccordion";
 import { ShoppingSvg } from "@/components/public/ShoppingSvg";
 
@@ -25,31 +25,13 @@ const Categories = ({ params: { year, month } }: Params) => {
   const [expenses, setExpenses] = useState<Expense[]>([]);
 
   const router = useRouter();
-
   const { user } = useAuth();
 
-  useEffect(() => {
-    groupedExpensesData();
-    getExpenses();
-  }, [user]);
+  console.log({ month, year });
+  console.log({ expenses });
+  console.log("groupedExpenses", groupedExpenses);
 
-  const groupedExpensesData = async () => {
-    const { data: groupedExpensesData, error } = await supabase
-      .from("grouped_food_expenses_view")
-      .select("*")
-      .eq("profile_id", user?.id);
-    // .eq("month", month)
-    // .eq("year", year);
-    //TODO - fixa så att kategorierna endast visar för rätt månad och år
-
-    if (error) console.log("error", error);
-    else {
-      setGroupedExpenses(groupedExpensesData);
-      console.log("groupedExpensesData", groupedExpensesData);
-    }
-  };
-
-  const getExpenses = async () => {
+  const getExpenses = useCallback(async () => {
     const { data: expensesData, error } = await supabase
       .from("expenses")
       .select("*")
@@ -61,9 +43,27 @@ const Categories = ({ params: { year, month } }: Params) => {
     if (error) console.log("error", error);
     else {
       setExpenses(expensesData);
-      console.log("expensesData", expensesData);
     }
-  };
+  }, [user, month, year]);
+
+  const groupedExpensesData = useCallback(async () => {
+    const { data: groupedExpensesData, error } = await supabase
+      .from("grouped_food_expenses_view")
+      .select("*")
+      .eq("profile_id", user?.id);
+
+    //TODO - fixa så att kategorierna endast visar för rätt månad och år
+
+    if (error) console.log("error", error);
+    else {
+      setGroupedExpenses(groupedExpensesData);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    groupedExpensesData();
+    getExpenses();
+  }, [getExpenses, groupedExpensesData, user]);
 
   return (
     <div className={styles.main}>
@@ -73,12 +73,10 @@ const Categories = ({ params: { year, month } }: Params) => {
         <CustomButton
           onClick={() => router.push(`/${year}/${month}/shopping`)}
           text="Products"
-          // sx={{ background: "#4A4D78" }}
         />
         <CustomButton
           onClick={() => router.push(`/${year}/${month}/shopping/categories`)}
           text="categories"
-          // sx={{ backgroundColor: "#0F102B" }}
         />
       </div>
 

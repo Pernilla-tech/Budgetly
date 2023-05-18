@@ -5,7 +5,7 @@ import CustomSelect from "@/components/components/ui/CustomSelect";
 import CustomButton from "@/components/components/ui/CustomButton";
 import supabase from "@/components/lib/supabase-client";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./page.module.css";
 import CustomInput from "@/components/components/ui/CustomInput";
 
@@ -16,7 +16,10 @@ type Params = {
   };
 };
 const Editbudget = ({ params: { month, year } }: Params) => {
-  const [selectedMonth, setSelectedMonth] = useState(parseInt(month, 10));
+  // const [selectedMonth, setSelectedMonth] = useState(parseInt(month, 10));
+  const [selectedMonth, setSelectedMonth] = useState(
+    month.toString().padStart(2, "0")
+  );
   const [selectedYear, setSelectedYear] = useState(parseInt(year, 10));
   const [budget, setBudget] = useState(0);
 
@@ -39,22 +42,22 @@ const Editbudget = ({ params: { month, year } }: Params) => {
       .eq("year", year)
       .single();
     if (error) throw error;
-    route.push("/");
+    route.push(`/${year}/${parseInt(month, 10)}/expenses`);
   };
 
   const optionsMonth = [
-    { value: 1, label: "Januari" },
-    { value: 2, label: "Februari" },
-    { value: 3, label: "March" },
-    { value: 4, label: "April" },
-    { value: 5, label: "May" },
-    { value: 6, label: "Juni" },
-    { value: 7, label: "July" },
-    { value: 8, label: "August" },
-    { value: 9, label: "September" },
-    { value: 10, label: "October" },
-    { value: 11, label: "November" },
-    { value: 12, label: "December" },
+    { value: "01", label: "Januari" },
+    { value: "02", label: "Februari" },
+    { value: "03", label: "March" },
+    { value: "04", label: "April" },
+    { value: "05", label: "May" },
+    { value: "06", label: "Juni" },
+    { value: "07", label: "July" },
+    { value: "08", label: "August" },
+    { value: "09", label: "September" },
+    { value: "10", label: "October" },
+    { value: "11", label: "November" },
+    { value: "12", label: "December" },
   ];
 
   const optionsYear = [
@@ -76,6 +79,10 @@ const Editbudget = ({ params: { month, year } }: Params) => {
     },
   ];
 
+  useEffect(() => {
+    setSelectedMonth(month.toString().padStart(2, "0"));
+  }, [month]);
+
   return (
     <div className={styles.main}>
       <h1 className={styles.description}>Edit Monthly budget</h1>
@@ -91,7 +98,7 @@ const Editbudget = ({ params: { month, year } }: Params) => {
           <CustomSelect
             className={styles.select}
             value={selectedMonth}
-            onChange={(e) => setSelectedMonth(Number(e.target.value))}
+            onChange={(e) => setSelectedMonth(String(e.target.value))}
             options={optionsMonth}
           />
 

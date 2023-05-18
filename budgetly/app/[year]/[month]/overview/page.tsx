@@ -247,16 +247,16 @@ export default function Overview({ params: { year, month } }: Params) {
         </>
       </div>
 
-      <h1>Overview</h1>
+      <div className={styles.description}>
+        <h1>Overview</h1>
+      </div>
 
       <div className={styles.budgetOverView}>
         {budget !== null ? (
-          <p className={styles.description}> Budget: {budget?.budget} kr</p>
+          <p> Budget: {budget?.budget} kr</p>
         ) : (
           <>
-            <p className={styles.description}>
-              You have no budget for this month
-            </p>
+            <p>You have no budget for this month</p>
             <CustomButton
               className={styles.addBudgetButton}
               size="small"
