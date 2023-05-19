@@ -198,18 +198,18 @@ const Expenses = ({ params: { month, year } }: Params) => {
   };
 
   const optionsMonth = [
-    { value: "2023/01", label: "Januari" },
-    { value: "2023/02", label: "Februari" },
-    { value: "2023/03", label: "March" },
-    { value: "2023/04", label: "April" },
-    { value: "2023/05", label: "May" },
-    { value: "2023/06", label: "Juni" },
-    { value: "2023/07", label: "July" },
-    { value: "2023/08", label: "August" },
-    { value: "2023/09", label: "September" },
-    { value: "2023/10", label: "October" },
-    { value: "2023/11", label: "November" },
-    { value: "2023/12", label: "December" },
+    { value: "01", label: "Januari" },
+    { value: "02", label: "Februari" },
+    { value: "03", label: "March" },
+    { value: "04", label: "April" },
+    { value: "05", label: "May" },
+    { value: "06", label: "Juni" },
+    { value: "07", label: "July" },
+    { value: "08", label: "August" },
+    { value: "09", label: "September" },
+    { value: "10", label: "October" },
+    { value: "11", label: "November" },
+    { value: "12", label: "December" },
   ];
 
   const optionsYear = [
@@ -263,17 +263,19 @@ const Expenses = ({ params: { month, year } }: Params) => {
         <>
           <CustomSelect
             className={styles.select}
-            value={`${year}/${month.padStart(2, "0")}`}
-            defaultValue={`${year}/${month.padStart(2, "0")}`}
-            onChange={(e) => router.replace(`/${e.target.value}/expenses`)}
+            value={`${month.padStart(2, "0")}`}
+            onChange={(e) =>
+              router.replace(`${year}/${e.target.value}/expenses`)
+            }
             options={optionsMonth}
           />
 
           <CustomSelect
             className={styles.select}
             value={`${year}`}
-            defaultValue={`${year}`}
-            onChange={(e) => router.replace(`/${e.target.value}/expenses`)}
+            onChange={(e) =>
+              router.replace(`/${e.target.value}/${month}/expenses`)
+            }
             options={optionsYear}
           />
         </>

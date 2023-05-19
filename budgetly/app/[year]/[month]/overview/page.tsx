@@ -267,15 +267,7 @@ export default function Overview({ params: { year, month } }: Params) {
         )}
       </div>
 
-      <div
-        className={styles.card}
-        onClick={() =>
-          router.push(
-            `/${budget?.year ?? year}/${budget?.month ?? month}/expenses`
-          )
-        }
-        role="button"
-      >
+      <div className={styles.card}>
         <div className={styles.spentLeftWrapper}>
           <div className={styles.spent}>
             <p>Spent</p>
@@ -286,7 +278,6 @@ export default function Overview({ params: { year, month } }: Params) {
             <p>Left</p>
             <p className={styles.leftText}>{left} kr</p>
           </div>
-          {/* TODO: ändra p till ingen opacity */}
         </div>
 
         <CustomLinearProgress
@@ -294,6 +285,22 @@ export default function Overview({ params: { year, month } }: Params) {
           value={percentageUsed}
           color={percentageUsed > 100 ? "secondary" : "primary"}
         />
+
+        <div className={styles.goToExpensesButtonDiv}>
+          <CustomButton
+            text="Go to expenses"
+            color="blue"
+            size="small"
+            className={styles.goToExpensesButton}
+            onClick={() =>
+              router.push(
+                `/${budget?.year ?? year}/${
+                  budget?.month.toString().padStart(2, "0") ?? month
+                }/expenses`
+              )
+            }
+          />
+        </div>
       </div>
 
       <div className={styles.differenceLastMonth}>
