@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./page.module.css";
 import { ContactpageSvg } from "@/components/public/ContactpageSvg";
 
-export const About = () => {
+const About = () => {
   return (
     <div className={styles.container}>
       <div className={styles.logo}>
