@@ -4,7 +4,6 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  /* min-height: 85vh; */
   width: 100%;
 }
 
@@ -85,7 +84,6 @@
 
 .code {
   font-weight: 700;
-  font-family: var(--font-mono);
 }
 
 .card {
@@ -119,6 +117,17 @@
   font-size: 0.9rem;
   line-height: 1.5;
   max-width: 30ch;
+}
+
+.goToExpensesButtonDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.goToExpensesButton {
+  margin: 2rem;
 }
 
 .differenceLastMonth {

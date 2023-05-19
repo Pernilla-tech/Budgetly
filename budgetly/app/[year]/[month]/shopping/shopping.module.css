@@ -5,7 +5,7 @@
   align-items: center;
   margin: 0 20px;
   padding: 1rem;
-  /* min-height: 85vh; */
+  padding-bottom: 8rem;
 }
 
 .buttonWrapper {
@@ -38,5 +38,4 @@
   font-size: 1rem;
   width: 100%;
   text-transform: uppercase;
-  /* font-family: var(--font-mono); */
 }
