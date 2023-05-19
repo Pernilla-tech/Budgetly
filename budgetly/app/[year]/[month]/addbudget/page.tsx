@@ -18,7 +18,6 @@ type Params = {
 };
 
 const AddBudget = ({ params: { month, year } }: Params) => {
-  // const [selectedMonth, setSelectedMonth] = useState(parseInt(month, 10));
   const [selectedMonth, setSelectedMonth] = useState(
     month.toString().padStart(2, "0")
   );
@@ -38,7 +37,7 @@ const AddBudget = ({ params: { month, year } }: Params) => {
         .from("budgets")
         .insert({
           budget: budget,
-          month: selectedMonth,
+          month: parseInt(selectedMonth, 10),
           year: selectedYear,
           profile_id: user?.id ?? "",
         })
@@ -105,10 +104,6 @@ const AddBudget = ({ params: { month, year } }: Params) => {
             className={styles.select}
             value={selectedMonth}
             onChange={(e) => setSelectedMonth(String(e.target.value))}
-            defaultValue={{
-              value: month.toString().padStart(2, "0"), // value sätts till en sträng  med två siffror om mån är mindre än 2 siffror, padstart lägger till en 0 i början av strängenför att få en 2 siffrig sträng
-              label: optionsMonth[parseInt(month, 10) - 1].label, // värdet för label sätts till månadens namn, parseInt(month, 10) - 1 omvandlar månadens nummer till en siffra och tar bort 1 för att få rätt index i arrayen
-            }}
             options={optionsMonth}
           />
 
