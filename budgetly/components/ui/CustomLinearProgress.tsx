@@ -13,14 +13,6 @@ const CustomLinearProgress = ({
   sx,
   color,
 }: CustomLinearProgressProps) => {
-  // let backgroundColor;
-
-  // if (value && value > 100) {
-  //   backgroundColor = "#FF6161";
-  // } else if (value && value >= 1) {
-  //   backgroundColor = "#6347EB";
-  // }
-
   return (
     <LinearProgress
       value={value ?? 0}
@@ -37,10 +29,6 @@ const CustomLinearProgress = ({
         ".MuiLinearProgress-barColorSecondary": {
           backgroundColor: "#FF6161",
         },
-        // backgroundColor: backgroundColor,
-        // ".MuiLinearProgress-barColorPrimary": {
-        //   backgroundColor: backgroundColor,
-        // },
         ...sx,
       }}
     />
