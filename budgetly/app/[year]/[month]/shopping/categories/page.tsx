@@ -27,10 +27,6 @@ const Categories = ({ params: { year, month } }: Params) => {
   const router = useRouter();
   const { user } = useAuth();
 
-  console.log({ month, year });
-  console.log({ expenses });
-  console.log("groupedExpenses", groupedExpenses);
-
   const getExpenses = useCallback(async () => {
     const { data: expensesData, error } = await supabase
       .from("expenses")
@@ -50,9 +46,9 @@ const Categories = ({ params: { year, month } }: Params) => {
     const { data: groupedExpensesData, error } = await supabase
       .from("grouped_food_expenses_view")
       .select("*")
-      .eq("profile_id", user?.id);
-
-    //TODO - fixa så att kategorierna endast visar för rätt månad och år
+      .eq("profile_id", user?.id)
+      .eq("month", month)
+      .eq("year", year);
 
     if (error) console.log("error", error);
     else {
