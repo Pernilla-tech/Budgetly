@@ -7,7 +7,6 @@ const inter = Inter({ subsets: ["latin"] });
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import CustomIconButton from "@/components/components/ui/CustomIconButton";
-import { Metadata } from "next";
 
 import { useCallback, useEffect, useState } from "react";
 
@@ -40,11 +39,6 @@ import supabase from "@/components/lib/supabase-client";
 import { Budgets, GroupExpense } from "@/components/types/collection";
 
 import CustomLinearProgress from "@/components/components/ui/CustomLinearProgress";
-
-export const metadata: Metadata = {
-  title: "Budgetly",
-  description: "Keep track of your budget",
-};
 
 type Params = {
   params: {
