@@ -16,7 +16,6 @@ type Params = {
   };
 };
 const Editbudget = ({ params: { month, year } }: Params) => {
-  // const [selectedMonth, setSelectedMonth] = useState(parseInt(month, 10));
   const [selectedMonth, setSelectedMonth] = useState(
     month.toString().padStart(2, "0")
   );
@@ -33,7 +32,7 @@ const Editbudget = ({ params: { month, year } }: Params) => {
       .from("budgets")
       .update({
         budget: budget,
-        month: selectedMonth,
+        month: parseInt(selectedMonth, 10),
         year: selectedYear,
         profile_id: user?.id ?? "",
       })

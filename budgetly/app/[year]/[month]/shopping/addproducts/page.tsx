@@ -76,7 +76,7 @@ const AddProducts = ({ params: { year, month } }: Params) => {
         .from("expenses")
         .insert({
           item: item,
-          month: selectedMonth,
+          month: parseInt(selectedMonth, 10),
           year: selectedYear,
           price: price as unknown as number,
           category: category,
