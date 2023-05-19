@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import styles from "./TabBar.module.css";
+import styles from "./tabbar.module.css";
 
 type Params = {
   params: {
