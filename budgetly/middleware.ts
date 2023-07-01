@@ -10,15 +10,15 @@ export async function middleware(req: NextRequest) {
 
   const supabase = createMiddlewareSupabaseClient<Database>({ req, res });
 
-  // const {
-  //   data: { session },
-  // } = await supabase.auth.getSession();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
-  // if (!session && pathname === "/") {
-  //   const url = new URL(req.url);
-  //   url.pathname = "/login";
-  //   return NextResponse.redirect(url);
-  // }
+  if (!session && pathname === "/") {
+    const url = new URL(req.url);
+    url.pathname = "/login";
+    return NextResponse.redirect(url);
+  }
 
   return res;
 }
