@@ -12,6 +12,7 @@
 
 .expenseCategory p {
   text-transform: capitalize;
+  color: #fff;
 }
 
 .card {

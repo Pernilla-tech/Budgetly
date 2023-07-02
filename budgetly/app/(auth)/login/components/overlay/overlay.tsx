@@ -1,7 +1,6 @@
 import React from "react";
 import { LoginpageSvg } from "@/components/public/LoginpageSvg";
 import styles from "./overlay.module.css";
-import SparklesComponent from "../sparkles/sparkles";
 
 export const Overlay = () => {
   return (
@@ -30,11 +29,11 @@ export const Overlay = () => {
           <div className={styles.description}>
             <h1>Budgetly</h1>
             <p>
-              Budgetly is a user-friendly and intuitive budget app that helps
-              you to manage your finances and expenses in a simple way.
+              {/* Budgetly is a user-friendly and intuitive budget app that helps
+              you to manage your finances and expenses in a simple way. */}
             </p>
 
-            <p>Budgetly will help you take control over your finances.</p>
+            {/* <p>Budgetly will help you take control over your finances.</p> */}
           </div>
         </div>
       </div>
