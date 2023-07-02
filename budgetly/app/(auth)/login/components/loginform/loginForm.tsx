@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import CustomButton from "@/components/components/ui/CustomButton";
 import { LoginpageSvg } from "@/components/public/LoginpageSvg";
+import SparklesComponent from "../sparkles/sparkles";
 
 const LoginForm = () => {
   const { signInWithGoogle, user } = useAuth();
@@ -18,27 +19,9 @@ const LoginForm = () => {
   }, [router, user]);
 
   return (
-    <div className={styles.container}>
-      <div className={styles.info}>
-        <div className={styles.logo}>
-          <LoginpageSvg />
-        </div>
-        <div className={styles.description}>
-          <h1>Welcome to Budgetly</h1>
-          <p>
-            Budgetly is a user-friendly and intuitive budget app that helps you
-            to manage your finances and expenses in a simple way.
-          </p>
-
-          <p>Budgetly will help you take control over your finances.</p>
-        </div>
-      </div>
-
+    <>
       <div className={styles.login}>
-        <span className={styles.description}>
-          <h1>User login</h1>
-        </span>
-
+        <h1>User login</h1>
         <CustomButton
           className={styles.loginbutton}
           text="Login with Google"
@@ -47,7 +30,7 @@ const LoginForm = () => {
           size="large"
         />
       </div>
-    </div>
+    </>
   );
 };
 

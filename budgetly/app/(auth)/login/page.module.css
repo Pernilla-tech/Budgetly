@@ -6,3 +6,8 @@
   justify-content: center;
   background: linear-gradient(to bottom right, #7b61ff, #2b2c4b);
 }
+
+.sparklesWrapper {
+  height: 750px;
+  width: 750px;
+}
