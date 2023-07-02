@@ -3,12 +3,12 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
+  padding-bottom: 1rem;
   width: 100%;
 }
 
 .loginbutton {
-  margin-top: 1rem;
+  margin-top: 2rem;
   padding: 1rem;
   background: linear-gradient(to bottom right, #7b61ff, #61a0ff);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
@@ -25,7 +25,7 @@
 
   .loginbutton {
     width: 50%;
-    margin-top: 1rem;
+    margin-top: 2rem;
   }
 }
 
@@ -39,6 +39,6 @@
 
   .loginbutton {
     width: 50%;
-    margin-top: 1rem;
+    margin-top: 2rem;
   }
 }

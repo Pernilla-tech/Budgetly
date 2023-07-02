@@ -104,6 +104,7 @@
 .belowBudget {
   color: #30c9c9;
 }
+
 .formContainer {
   display: flex;
   flex-direction: column;
@@ -111,14 +112,14 @@
   padding: 1rem;
 }
 
-.formInput {
-  margin: 6px 0;
+.MuiFormControl-root {
   width: 100%;
+  margin-top: 1rem;
 }
 
 .formSelect {
   width: 100%;
-  margin: 6px 0;
+  margin: 1rem 0;
 }
 
 .formSelect svg {
@@ -127,7 +128,7 @@
 
 .formContainer button {
   width: 50%;
-  margin-top: 6px;
+  margin-top: 1rem;
 }
 
 .doughnut {
