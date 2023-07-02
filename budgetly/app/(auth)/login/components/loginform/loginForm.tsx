@@ -5,8 +5,6 @@ import styles from "./loginform.module.css";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import CustomButton from "@/components/components/ui/CustomButton";
-import { LoginpageSvg } from "@/components/public/LoginpageSvg";
-import SparklesComponent from "../sparkles/sparkles";
 
 const LoginForm = () => {
   const { signInWithGoogle, user } = useAuth();
