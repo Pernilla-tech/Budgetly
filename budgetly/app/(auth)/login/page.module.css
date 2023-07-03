@@ -8,6 +8,12 @@
 }
 
 .sparklesWrapper {
-  height: 750px;
+  height: 550px;
   width: 750px;
+}
+
+.logo {
+  margin-top: 4rem;
+  display: flex;
+  max-height: 150px;
 }
