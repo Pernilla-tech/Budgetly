@@ -1,5 +1,6 @@
 import React from "react";
 import { LoginpageSvg } from "@/components/public/LoginpageSvg";
+
 import styles from "./overlay.module.css";
 
 export const Overlay = () => {
@@ -23,9 +24,8 @@ export const Overlay = () => {
         }}
       >
         <div className={styles.info}>
-          <div className={styles.logo}>
-            <LoginpageSvg />
-          </div>
+          <div className={styles.logo}>{<LoginpageSvg />}</div>
+
           <div className={styles.description}>
             <h1>Budgetly</h1>
             <p>
