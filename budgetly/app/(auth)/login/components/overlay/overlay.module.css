@@ -47,12 +47,6 @@
     margin: 0 auto;
   }
 
-  .logo {
-    display: flex;
-    width: 200px;
-    margin-bottom: 2rem;
-  }
-
   .description {
     font-size: 1.25rem;
     line-height: 1.5;
@@ -82,13 +76,6 @@
     justify-content: center;
     height: auto;
     margin: 6rem auto;
-  }
-
-  .logo {
-    margin-top: 1rem;
-    display: flex;
-    width: 200px;
-    margin-bottom: 2rem;
   }
 
   .description {

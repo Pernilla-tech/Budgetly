@@ -8,12 +8,38 @@
 }
 
 .sparklesWrapper {
-  height: 550px;
+  height: 350px;
   width: 750px;
 }
 
 .logo {
-  margin-top: 4rem;
   display: flex;
-  max-height: 150px;
+  justify-content: flex-start;
+  height: 120px;
+  width: 600px;
+  position: absolute;
+  top: 8%;
+  left: 10%;
+}
+
+@media screen and (min-width: 768px) {
+  .logo {
+    display: flex;
+    margin-bottom: 10rem;
+    position: absolute;
+    top: 5%;
+    right: 35%;
+    height: 250px;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1280px) {
+  .logo {
+    display: flex;
+    position: absolute;
+    top: 5%;
+    right: 35%;
+    height: 200px;
+    margin-bottom: 10rem;
+  }
 }
